@@ -1,22 +1,23 @@
 package daj.user.port.out.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthQrDto {
 
-  private Integer id;
+  private final Integer id;
 
-  private String username;
+  private final String username;
 
-  private String password;
+  private final String password;
 
-  private List<UserRole> roles;
+  private final List<UserRole> roles = new ArrayList<UserRole>();
   
 }

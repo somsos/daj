@@ -5,7 +5,7 @@
 Users
 
 - [current] Add roles
-  - [ ] Adding test to check Db is working as expected
+  - [ ] Adding test to check import.sql and Entity models are working as expected
 - [ ] Add register
 
 <!--

@@ -29,7 +29,7 @@ public class JwtServiceTest {
 
   @Test
   void testValidateToken() {
-    final var user = new AuthQrDto(1, "username", "password", null);
+    final var user = new AuthQrDto(1, "username", "password");
     final var token = jwtService.generateToken(user.getId());
     jwtService.validateToken(token, user);
   }

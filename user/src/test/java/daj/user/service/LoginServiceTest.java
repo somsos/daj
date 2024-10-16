@@ -37,7 +37,7 @@ public class LoginServiceTest {
 
   @Test
   void testLogin_successLogin() {
-    final var userInDb = new AuthQrDto(1, "mario1", "mario1p", null);
+    final var userInDb = new AuthQrDto(1, "mario1", "mario1p");
     final var userInput = new LoginRDto("mario1", "mario1p");
     final var tokenToGenerate = "some-token";
 
@@ -70,7 +70,7 @@ public class LoginServiceTest {
   @Test
   void testLogin_failLogin_userPasswordNotMath() {
     final var userInput = new LoginRDto("mario1", "mario1XXX");
-    final var userInDb = new AuthQrDto(1, "mario1", "mario1p", null);
+    final var userInDb = new AuthQrDto(1, "mario1", "mario1p");
     when(this.userReader.getAuthInfoByUsername( any() )).thenReturn(userInDb);
 
     try {
