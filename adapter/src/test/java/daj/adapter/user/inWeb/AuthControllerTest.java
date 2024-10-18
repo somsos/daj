@@ -22,8 +22,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import daj.adapter.user.config.AuthConfig;
 import daj.adapter.user.config.AuthJwtFilter;
 import daj.user.port.in.ILoginInputPort;
+import daj.user.port.in.IRegisterInputPort;
 import daj.user.port.in.dto.LoginRDto;
 import daj.user.port.in.dto.LoginRrDto;
+import daj.user.port.in.dto.RegisterRDto;
+import daj.user.port.in.dto.RegisterRrDto;
 import daj.user.port.out.IUserReaderOutputPort;
 import daj.user.port.out.dto.AuthQrDto;
 import daj.user.service.JwtService;
@@ -44,6 +47,9 @@ public class AuthControllerTest {
   @MockBean
   ILoginInputPort loginInputPort;
 
+  @MockBean
+  IRegisterInputPort registerInputPort;
+
   @Autowired
   ObjectMapper objectMapper;
 
@@ -53,14 +59,28 @@ public class AuthControllerTest {
   
   @Test
   void know_path_protection_from_anonymous() throws Exception {
-    mvc.perform(get(AuthController.IS_LOGGED_PATH).contentType(MediaType.APPLICATION_JSON))
+    mvc.perform(get(AuthController.CHECK_REGISTERED_USER).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isForbidden());
   }
 
   @Test
-  @WithMockUser(username="random",roles={"PUBLIC"})
-  void allowRequestToLogedUser() throws Exception {
-    mvc.perform(get(AuthController.IS_LOGGED_PATH).contentType(MediaType.APPLICATION_JSON))
+  @WithMockUser(username="random",roles={"registered"})
+  void pathSecurityByRole_allowRegisteredUsersToTheyRoutes() throws Exception {
+    mvc.perform(get(AuthController.CHECK_REGISTERED_USER).contentType(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk());
+  }
+
+  @Test
+  @WithMockUser(username="random",roles={"admin_users"})
+  void pathSecurityByRole_allowAdminUserToTheirRoutes() throws Exception {
+    mvc.perform(get(AuthController.CHECK_USERS_ROLE).contentType(MediaType.APPLICATION_JSON))
+      .andExpect(status().isOk());
+  }
+
+  @Test()
+  @WithMockUser(username="random",roles={"admin_products"})
+  void pathSecurityByRole_allowAdminProductsToTheirRoutes() throws Exception {
+    mvc.perform(get(AuthController.CHECK_PRODUCT_ROLE).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isOk());
   }
 
@@ -106,4 +126,41 @@ public class AuthControllerTest {
     ;
     
   }
+
+  @Test
+  void testRegister_success() throws Exception {
+    final var input = new RegisterRDto("mario3", "mario3@email.com", "mario3p");
+    final var output = new RegisterRrDto(1, null);
+
+    when(registerInputPort.register(any())).thenReturn(output);
+
+    final var request = post(AuthController.REGISTER_PATH)
+      .contentType(MediaType.APPLICATION_JSON)
+      .content(objectMapper.writeValueAsString(input));
+
+    mvc.perform(request)
+      .andExpect(status().isCreated())
+      .andExpect(jsonPath("$.id", is(output.getId())))
+    ;
+
+  }
+
+  @Test
+  void testRegister_errorPasswordRequired() throws Exception {
+    final var input = new RegisterRDto("mario3", "mario3@email.com", " ");
+    final var output = new RegisterRrDto(1, null);
+
+    when(registerInputPort.register(any())).thenReturn(output);
+
+    final var request = post(AuthController.REGISTER_PATH)
+      .contentType(MediaType.APPLICATION_JSON)
+      .content(objectMapper.writeValueAsString(input));
+
+    mvc.perform(request)
+      .andExpect(status().isBadRequest())
+      .andExpect(jsonPath("$.password", is("must not be blank")))
+    ;
+
+  }
+
 }

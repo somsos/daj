@@ -4,9 +4,13 @@
 
 Users
 
-- [current] Add roles
-  - [ ] Adding test to check import.sql and Entity models are working as expected
-- [ ] Add register
+- [-] Add roles
+  - [-] Adding test to check import.sql and Entity models are working as expected
+- [current] Add register
+  - [ ] Search roles in JWTFilter
+  - [ ] Check protection by different roles, for example /add-product, /auth/users/all
+- [ ] Add Postgres for development and keep H2 for tests
+- [ ] Understand mapping and find out if there is a simpler way.
 
 <!--
 -->
@@ -18,7 +22,7 @@ Products
 - [ ] get by id
 - [ ] Add image
 
-## Object Naming guidening
+## Object Naming guiding
 
 For Input ports, In this case objects which come or go in the *web* layer
 
@@ -29,5 +33,3 @@ For Output ports, In this case objects which come or go in the *database* layer
 
 - QDto (Query Transfer Object)
 - QrDto (Query Response Data Transfer Object)
-
-"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzI4OTQ4ODE3LCJleHAiOjE3Mjg5NTA2MTd9.3vOdbZ0DEANhAI92_yJlIAfEHY0NUzDX1ivZLkvYXLY"

@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import jakarta.persistence.EntityManager;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 //@ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -46,7 +46,11 @@ public class UserReaderDaoTest {
     final var found = userReaderDao.findAuthById(1);
 
     assertNotNull(found);
-    assertNotNull(found.getRoles());
+    assertEquals(2, found.getRoles().size());
+
+
+    final var found2 = userReaderDao.findAuthById(2);
+    assertEquals(1, found2.getRoles().size());
   }
 
 

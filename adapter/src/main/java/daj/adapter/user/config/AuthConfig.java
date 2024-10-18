@@ -45,9 +45,10 @@ public class AuthConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.POST, "/auth/register", AuthController.LOGIN_PATH).permitAll()
-                .requestMatchers("/auth/user/**").hasAuthority("ROLE_USER")
-                .requestMatchers("/auth/user/admin/**").hasAuthority("ROLE_ADMIN")
+                .requestMatchers(HttpMethod.POST, AuthController.REGISTER_PATH, AuthController.LOGIN_PATH).permitAll()
+                .requestMatchers(AuthController.CHECK_USERS_ROLE).hasAuthority("ROLE_admin_users")
+                .requestMatchers(AuthController.CHECK_PRODUCT_ROLE).hasAuthority("ROLE_admin_products")
+                //.requestMatchers("/auth/user/admin/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
             )
             .sessionManagement(sess -> sess

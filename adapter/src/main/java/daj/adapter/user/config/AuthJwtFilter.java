@@ -11,19 +11,18 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import daj.adapter.user.outDB.entity.RoleEntity;
 import daj.common.error.ErrorResponse;
 import daj.user.port.out.IUserReaderOutputPort;
 import daj.user.port.out.dto.AuthQrDto;
 import daj.user.service.JwtService;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 @Component
 public class AuthJwtFilter implements Filter {
@@ -64,7 +63,8 @@ public class AuthJwtFilter implements Filter {
         }        
 
         // If the token is valid and no authentication is set in the context
-        if (authHeader != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        final var currentSession = SecurityContextHolder.getContext().getAuthentication();
+        if (authHeader != null && currentSession == null) {
 
             Integer idUser = null;
             try {
@@ -73,16 +73,16 @@ public class AuthJwtFilter implements Filter {
                 throw new ErrorResponse("invalid token", 400, "expected sub as integer");
             }
 
-            AuthQrDto authInfo = userReadings.findAuthById(idUser);
+            AuthQrDto authInfoFound = userReadings.findAuthById(idUser);
 
             // Validate token and set authentication
-            boolean validToken = jwtService.validateToken(token, authInfo);
+            boolean validToken = jwtService.validateToken(token, authInfoFound);
 
             if(validToken == false) {
                 throw new ErrorResponse("Invalid token", 400, "validation failed");
             }
             
-            final var authToken = this.fromAuthInfoToAuthToken(authInfo);
+            final var authToken = this.fromAuthInfoToAuthToken(authInfoFound);
             
             authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authToken);
@@ -95,8 +95,9 @@ public class AuthJwtFilter implements Filter {
 
     private UsernamePasswordAuthenticationToken fromAuthInfoToAuthToken(AuthQrDto authInfo) {
 
-      final var role1 = new SimpleGrantedAuthority("public");
-      final var auths = Arrays.asList(role1);
+      final var auths = authInfo.getRoles().stream()
+        .map(r -> new RoleEntity(r.getId(), r.getAuthority(), null))
+        .toList();
 
       final var userDetails = new UsernamePasswordAuthenticationToken(
         authInfo, null, auths);

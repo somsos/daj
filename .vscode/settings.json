@@ -1,7 +1,8 @@
 {
   "java.configuration.updateBuildConfiguration": "interactive",
   "cSpell.words": [
-    "datasource"
+    "datasource",
+    "sess"
   ],
   "java.compile.nullAnalysis.mode": "automatic"
 }

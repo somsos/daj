@@ -23,14 +23,17 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = {
+  @UniqueConstraint(columnNames = { "username" }, name = "username_constraint"),
+  @UniqueConstraint(columnNames = { "email" }, name = "user_email_constraint"),
+})
 @Entity
 @Getter
 @Setter
 @RequiredArgsConstructor
 public class UserEntity {
   
-  @Id
+  @Id()
   @GeneratedValue(strategy=GenerationType.IDENTITY)
   private Integer id;
 
@@ -41,13 +44,15 @@ public class UserEntity {
   @Column(nullable = false)
   private String password;
 
+  @Column(nullable = false, unique = true)
+  private String email;
 
   @Column(name="create_at")
   @Temporal(TemporalType.DATE)
   @CreationTimestamp
   private Date createdAt;
 
-  @ManyToMany(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+  @ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
   @JoinTable(
     name="users_roles",
     joinColumns=@JoinColumn(name="user_id"),
