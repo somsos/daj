@@ -3,13 +3,11 @@ package daj.adapter.user.outDB;
 import java.util.List;
 
 import org.springframework.context.annotation.Primary;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import daj.adapter.user.outDB.entity.RoleEntity;
 import daj.adapter.user.outDB.entity.UserEntity;
 import daj.adapter.user.outDB.repository.RoleRepository;
-import daj.common.error.ErrorResponse;
 import daj.user.port.in.dto.RegisterRDto;
 import daj.user.port.in.dto.RegisterRrDto;
 import daj.user.port.out.IUserWriterOutputPort;
@@ -31,23 +29,10 @@ public class UserWriterDb implements IUserWriterOutputPort {
     final var validRoles = getValidRoles(roles);
     toSave.setRoles(validRoles);
 
-    try {
-      final var saved = repo.save(toSave);
-      final var output = _entityToRegisterRDto(saved);
-      return output;
-    } catch (DataIntegrityViolationException e) {
-      if(e.getMessage().contains("USERNAME NULLS")) {
-        throw new ErrorResponse("Username already in use", 400, "data integrity");
-      }
-
-      if(e.getMessage().contains("EMAIL NULLS")) {
-        throw new ErrorResponse("email already in use", 400, "data integrity");
-      }
-
-      
-
-      throw new ErrorResponse("error saving error", 500, "data integrity");
-    }
+    final var saved = repo.save(toSave);
+    final var output = _entityToRegisterRDto(saved);
+    return output;
+    
   }
 
   private List<RoleEntity> getValidRoles(List<UserRole> rolesToAddToUser) {

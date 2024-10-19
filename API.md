@@ -7,7 +7,7 @@
 ```bash
 curl -X POST -i \
   --header "Content-Type: application/json" \
-  --data '{"username":"mario2","password":"mario2p"}' \
+  --data '{"username":"mario3","password":"mario3p"}' \
   http://localhost:8080/auth/create-token
 ```
 
@@ -16,7 +16,7 @@ curl -X POST -i \
 ```bash
 curl -X POST -i \
   --header "Content-Type: application/json" \
-  --data '{"username":"mario4","password":"mario4p", "email":"mario1@email.com"}' \
+  --data '{"username":"mario3","password":"mario3p", "email":"mario3@email.com"}' \
   http://localhost:8080/auth/register
 ```
 
@@ -29,7 +29,7 @@ token should get a 403
 ```bash
 curl -X GET -i \
   --header "Content-Type: application/json" \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzI5MjExMTg3LCJleHAiOjE3MjkyMTE0ODd9.oZZRJrrniFYlpmiXj2rLdN432v9B5OlfXYapCAs11uo" \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzI5Mjk5MzgwLCJleHAiOjE3MjkyOTk2ODB9.38rtGlTEiNgx2omZvAdPQLmb-wy90JM3I7NVpzzsWIk" \
   http://localhost:8080/auth/is-logged
 ```
 
@@ -38,7 +38,7 @@ curl -X GET -i \
 ```bash
 curl -X GET -i \
   --header "Content-Type: application/json" \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzI5MjExMTg3LCJleHAiOjE3MjkyMTE0ODd9.oZZRJrrniFYlpmiXj2rLdN432v9B5OlfXYapCAs11uo" \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzI5Mjk5MzgwLCJleHAiOjE3MjkyOTk2ODB9.38rtGlTEiNgx2omZvAdPQLmb-wy90JM3I7NVpzzsWIk" \
   http://localhost:8080/auth/check-user-role
 ```
 
@@ -47,6 +47,6 @@ curl -X GET -i \
 ```bash
 curl -X GET -i \
   --header "Content-Type: application/json" \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzI5MjExMTg3LCJleHAiOjE3MjkyMTE0ODd9.oZZRJrrniFYlpmiXj2rLdN432v9B5OlfXYapCAs11uo" \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzI5Mjk5MzgwLCJleHAiOjE3MjkyOTk2ODB9.38rtGlTEiNgx2omZvAdPQLmb-wy90JM3I7NVpzzsWIk" \
   http://localhost:8080/auth/check-product-role
 ```

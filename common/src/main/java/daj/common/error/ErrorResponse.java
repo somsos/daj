@@ -12,5 +12,9 @@ public class ErrorResponse extends RuntimeException {
   public int getHttpStatus() {
     return this.httpStatus;
   }
+
+  public ErrorResponseBody getBody() {
+    return new ErrorResponseBody(this.getMessage(), this.getCause().getMessage());
+  }
   
 }

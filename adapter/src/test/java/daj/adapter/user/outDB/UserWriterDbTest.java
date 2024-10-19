@@ -5,18 +5,55 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.ArrayList;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Import;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
 
-import daj.common.error.ErrorResponse;
+import daj.adapter.user.outDB.entity.RoleEntity;
+import daj.adapter.user.outDB.utils.ErrorConstrainToUserMsg;
 import daj.user.port.in.dto.RegisterRDto;
 import daj.user.port.out.dto.UserRole;
 
 @DataJpaTest
-@Import({UserWriterDb.class})
+@Import({UserWriterDb.class, RoleEntity.class})
+@ActiveProfiles("test")
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class UserWriterDbTest {
+
+  @Container
+  @ServiceConnection
+  static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(
+          "postgres:14-alpine3.16"
+  );
+
+  @BeforeAll
+  static void beforeAll() {
+      postgres.start();
+  }
+
+  @AfterAll
+  static void afterAll() {
+      postgres.stop();
+  }
+
+
+  @DynamicPropertySource
+  static void configureProperties(DynamicPropertyRegistry registry) {
+      registry.add("spring.datasource.url", postgres::getJdbcUrl);
+      registry.add("spring.datasource.username", postgres::getUsername);
+      registry.add("spring.datasource.password", postgres::getPassword);
+  }
 
   @Autowired
   UserWriterDb userWriterDb;
@@ -34,7 +71,7 @@ public class UserWriterDbTest {
     //check
     final var found = userRepository.findByUsername("mario3");
     assertEquals(toRegister.getEmail(), found.getEmail());
-    assertEquals("registered", found.getRoles().get(0).getAuthority());
+    assertEquals("ROLE_registered", found.getRoles().get(0).getAuthority());
 
   }
 
@@ -46,8 +83,9 @@ public class UserWriterDbTest {
     roles.add(new UserRole(-53, null));
     try {
       userWriterDb.register(toRegister, roles);
-    } catch (ErrorResponse e) {
-      assertEquals("Username already in use", e.getMessage());
+    } catch (DataIntegrityViolationException e) {
+      final var errorMsgGot = ErrorConstrainToUserMsg.getUserMsg(e).getMessage();
+      assertEquals(ErrorConstrainToUserMsg.usernameInUse, errorMsgGot);
       return ;
     }
     
@@ -62,8 +100,9 @@ public class UserWriterDbTest {
     roles.add(new UserRole(-53, null));
     try {
       userWriterDb.register(toRegister, roles);
-    } catch (ErrorResponse e) {
-      assertEquals("email already in use", e.getMessage());
+    } catch (DataIntegrityViolationException e) {
+      final var errorMsgGot = ErrorConstrainToUserMsg.getUserMsg(e).getMessage();
+      assertEquals(ErrorConstrainToUserMsg.userEmailInUse, errorMsgGot);
       return ;
     }
     

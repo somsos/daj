@@ -23,10 +23,11 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@Table(name = "users", uniqueConstraints = {
-  @UniqueConstraint(columnNames = { "username" }, name = "username_constraint"),
-  @UniqueConstraint(columnNames = { "email" }, name = "user_email_constraint"),
-})
+@Table(
+  name = "users",
+  uniqueConstraints=
+    @UniqueConstraint(columnNames={"username"}, name="username_constrain" )
+)
 @Entity
 @Getter
 @Setter
