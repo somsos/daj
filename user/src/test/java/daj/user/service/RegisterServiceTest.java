@@ -21,6 +21,8 @@ public class RegisterServiceTest {
 
   @Mock
   IUserWriterOutputPort userDbWriter;
+
+  final private IHasher hasher = new HasherTest();
   
   @Test
   void testRegister_success() {
@@ -33,7 +35,7 @@ public class RegisterServiceTest {
 
     when(userDbWriter.register(any(), any())).thenReturn(new RegisterRrDto(1, rolesOnRegister));
 
-    RegisterService service = new RegisterService(userDbWriter);
+    RegisterService service = new RegisterService(userDbWriter, hasher);
     final RegisterRrDto output = service.register(input);
 
     assertEquals(1, output.getId());

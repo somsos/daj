@@ -1,5 +1,6 @@
-package daj.user.ztemporal;
+package daj.user.testComponents;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import daj.user.port.out.IUserReaderOutputPort;
@@ -10,6 +11,7 @@ import daj.user.port.out.dto.AuthQrDto;
  * running tests (without adapter module),
 */
 
+@Profile("test")
 @Component
 public class StuffToNotFail implements IUserReaderOutputPort {
 

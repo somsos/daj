@@ -29,16 +29,18 @@ public class LoginServiceTest {
   @Mock
   private JwtService jwtService;
 
+  private IHasher hasher = new HasherTest();
+
   private LoginService loginService;
 
   @BeforeEach
   void setUp() throws Exception {
-    this.loginService = new LoginService(userReader, jwtService);
+    this.loginService = new LoginService(userReader, jwtService, hasher);
   }
 
   @Test
   void testLogin_successLogin() {
-    final var userInDb = new AuthQrDto(1, "mario1", "mario1p");
+    final var userInDb = new AuthQrDto(1, "mario1", hasher.encode("mario1p"));
     final var userInput = new LoginRDto("mario1", "mario1p");
     final var tokenToGenerate = "some-token";
 

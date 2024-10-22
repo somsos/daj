@@ -17,6 +17,8 @@ public class LoginService implements ILoginInputPort {
 
   private final JwtService jwtService;
 
+  private final IHasher hasher;
+
   @Override
   public LoginRrDto login(LoginRDto input) {
     final var userAuthInfoFound = userReader.getAuthInfoByUsername(input.getUsername());
@@ -25,7 +27,7 @@ public class LoginService implements ILoginInputPort {
       throw new ErrorResponse("bad credentials", 400, "une");
     }
 
-    if(!input.getPassword().equals(userAuthInfoFound.getPassword())) {
+    if(!hasher.matches(input.getPassword(), userAuthInfoFound.getPassword())) {
       throw new ErrorResponse("bad credentials", 400, "ce");
     }
 
