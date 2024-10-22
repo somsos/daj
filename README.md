@@ -13,6 +13,8 @@
       - [check-product-role](#check-product-role)
     - [Products](#products)
       - [Save](#save)
+      - [Find by id](#find-by-id)
+      - [Delete by id](#delete-by-id)
 
 ## ToDo
 
@@ -27,13 +29,13 @@ Users
 
 - [X] use docker Postgres containers for tests
 
-- [current] Pass Hashing to user module so the check happen inside this module
+- [X] Pass Hashing to user module so the check happen inside this module
 
-- [ ] Add module products
+- [current] Add module products
   - [X] Add product
-  - [ ] Get by ID
-  - [ ] Update
-  - [ ] Delete
+  - [X] Get by ID
+  - [X] Delete
+  - [current] Update
   - [ ] Get products by page
   - [ ] Add image
 
@@ -98,6 +100,8 @@ psql -h 127.0.0.1 -p 5001 -U jab_db_user -d jab_db_test
       - [check-product-role](#check-product-role)
     - [Products](#products)
       - [Save](#save)
+      - [Find by id](#find-by-id)
+      - [Delete by id](#delete-by-id)
 
 ### Auth
 
@@ -157,7 +161,24 @@ curl -X GET -i \
 ```bash
 curl -X POST -i \
   --header "Content-Type: application/json" \
-  --data '{"name":"trompo1","price":111.11, "amount": 10, "description": "Trompo numero 1" }' \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItMTAwIiwiaWF0IjoxNzI5NTU4OTUwLCJleHAiOjE3Mjk1NjAxNTB9.nRj-vwifZA9JuB19o1Pt1KMl3YbfXgSoG0_ve1EOwtY" \
+  --data '{"name":"trompo2","price":20.20, "amount": 20, "description": "Trompo numero 2" }' \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3Mjk2MzcxNDMsImV4cCI6MTcyOTYzODM0M30.9FRkvRIN4DFoCTziG1emctVILMg-Jt-mv7en_srq4JE" \
   http://localhost:8080/products
+```
+
+#### Find by id
+
+```bash
+curl -X GET -i \
+  --header "Content-Type: application/json" \
+  http://localhost:8080/products/1
+```
+
+#### Delete by id
+
+```bash
+curl -X DELETE -i \
+  --header "Content-Type: application/json" \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3Mjk2MzcxNDMsImV4cCI6MTcyOTYzODM0M30.9FRkvRIN4DFoCTziG1emctVILMg-Jt-mv7en_srq4JE" \
+  http://localhost:8080/products/1
 ```

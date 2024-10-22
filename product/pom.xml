@@ -8,6 +8,7 @@
 		<version>3.3.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+	<packaging>jar</packaging>
 	
 	<groupId>daj</groupId>
 	<artifactId>product</artifactId>
@@ -19,6 +20,12 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
+
+		<dependency>
+			<groupId>daj.common</groupId>
+			<artifactId>common</artifactId>
+			<version>0.0.1</version>	
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -44,6 +51,7 @@
 
 	</dependencies>
 
+<!--
 	<build>
 		<plugins>
 			<plugin>
@@ -60,5 +68,6 @@
 			</plugin>
 		</plugins>
 	</build>
+-->
 
 </project>

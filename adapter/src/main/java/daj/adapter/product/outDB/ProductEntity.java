@@ -5,8 +5,7 @@ import java.util.Date;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Range;
 
-import daj.product.port.in.dto.ProductResponseInfo;
-import daj.product.port.in.dto.ProductSaveInfo;
+import daj.product.port.in.dto.IProductAllPublicInfo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,13 +15,15 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity(name = "products")
 @Getter
 @Setter
 @AllArgsConstructor
-public class ProductEntity implements ProductSaveInfo, ProductResponseInfo {
+@NoArgsConstructor
+public class ProductEntity implements IProductAllPublicInfo {
 
   @Id()
   @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -43,7 +44,7 @@ public class ProductEntity implements ProductSaveInfo, ProductResponseInfo {
   @Column(length=256)
   private String description;
 
-  @Column(name="create_at")
+  @Column(name="created_at")
   @Temporal(TemporalType.DATE)
   @CreationTimestamp
   private Date createdAt;

@@ -14,7 +14,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import daj.adapter.product.inWeb.ProductController;
+import daj.adapter.product.inWeb.ProductReaderController;
+import daj.adapter.product.inWeb.ProductWriterController;
 import daj.adapter.user.inWeb.AuthController;
 
 import static daj.adapter.common.AuthConstants.ROLE_PRODUCT;
@@ -49,10 +50,15 @@ public class AuthConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
+                //Annonymous
                 .requestMatchers(HttpMethod.POST, AuthController.REGISTER_PATH, AuthController.LOGIN_PATH).permitAll()
+                .requestMatchers(HttpMethod.GET, ProductWriterController.POINT_PRODUCTS_ID, AuthController.LOGIN_PATH).permitAll()
+                //role user
                 .requestMatchers(HttpMethod.GET, AuthController.CHECK_USERS_ROLE).hasAuthority(R + ADMIN_USER)
+                //role product
                 .requestMatchers(HttpMethod.GET, AuthController.CHECK_PRODUCT_ROLE).hasAuthority(R + ROLE_PRODUCT)
-                .requestMatchers(HttpMethod.POST, ProductController.POINT_PRODUCTS).hasAuthority(R + ROLE_PRODUCT)
+                .requestMatchers(HttpMethod.POST, ProductWriterController.POINT_PRODUCTS).hasAuthority(R + ROLE_PRODUCT)
+                .requestMatchers(HttpMethod.DELETE, ProductWriterController.POINT_PRODUCTS_ID).hasAuthority(R + ROLE_PRODUCT)
                 
                 //.requestMatchers("/auth/user/admin/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()

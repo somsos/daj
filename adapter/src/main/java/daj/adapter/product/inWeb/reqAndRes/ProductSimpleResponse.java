@@ -1,8 +1,6 @@
 package daj.adapter.product.inWeb.reqAndRes;
 
-import java.util.Date;
-
-import daj.product.port.in.dto.ProductResponseInfo;
+import daj.product.port.in.dto.ProductSimpleInfo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,10 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ProductSimpleResponse implements ProductResponseInfo {
+public class ProductSimpleResponse implements ProductSimpleInfo {
 
   public Integer id;
-
-  public Date createdAt;
 
 }
