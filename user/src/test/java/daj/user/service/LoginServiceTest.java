@@ -17,6 +17,7 @@ import daj.user.port.out.IUserReaderOutputPort;
 import daj.user.port.out.dto.AuthQrDto;
 
 import daj.user.port.in.dto.LoginRrDto;
+import daj.common.error.ErrorResponse;
 import daj.user.port.in.dto.LoginRDto;
 
 @ExtendWith(MockitoExtension.class)
@@ -75,7 +76,7 @@ public class LoginServiceTest {
 
     try {
       this.loginService.login(userInput);  
-    } catch (Exception e) {
+    } catch (ErrorResponse e) {
       assertEquals("bad credentials", e.getMessage());
       return ;
     }

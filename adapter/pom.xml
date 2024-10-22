@@ -28,9 +28,16 @@
 	<!-- My Dependencies-->
 	<dependency>
 		<groupId>daj</groupId>
+		<artifactId>product</artifactId>
+		<version>0.0.1</version>
+	</dependency>
+
+	<dependency>
+		<groupId>daj</groupId>
 		<artifactId>user</artifactId>
 		<version>0.0.1</version>
 	</dependency>
+	
 	<dependency>
 		<groupId>daj.common</groupId>
 		<artifactId>common</artifactId>

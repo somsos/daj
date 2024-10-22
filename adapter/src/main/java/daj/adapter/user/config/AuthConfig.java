@@ -16,7 +16,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import daj.adapter.product.inWeb.ProductController;
 import daj.adapter.user.inWeb.AuthController;
+
+import static daj.adapter.common.AuthConstants.ROLE_PRODUCT;
+import static daj.adapter.common.AuthConstants.ADMIN_USER;
 
 @Configuration
 @Primary
@@ -41,13 +45,17 @@ public class AuthConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        final var R = "ROLE_";
         
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.POST, AuthController.REGISTER_PATH, AuthController.LOGIN_PATH).permitAll()
-                .requestMatchers(AuthController.CHECK_USERS_ROLE).hasAuthority("ROLE_admin_users")
-                .requestMatchers(AuthController.CHECK_PRODUCT_ROLE).hasAuthority("ROLE_admin_products")
+                .requestMatchers(HttpMethod.GET, AuthController.CHECK_USERS_ROLE).hasAuthority(R + ADMIN_USER)
+                .requestMatchers(HttpMethod.GET, AuthController.CHECK_PRODUCT_ROLE).hasAuthority(R + ROLE_PRODUCT)
+                .requestMatchers(HttpMethod.POST, ProductController.POINT_PRODUCTS).hasAuthority(R + ROLE_PRODUCT)
+                
                 //.requestMatchers("/auth/user/admin/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
             )

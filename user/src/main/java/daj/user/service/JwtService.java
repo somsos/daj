@@ -8,6 +8,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import daj.common.error.ErrorResponse;
@@ -26,7 +27,8 @@ public class JwtService {
     // environment variables
     public static final String SECRET = "Replacethiswithasecurekeyinarealapplicationideallyfetchedfromenvironmentvariable";
 
-    private static final int EXPIRATION_MIN = 5;
+    @Value("${jwt.expiration-mins}")
+    private int EXPIRATION_MIN = 5;
 
     // Generate token with given user name
     public String generateToken(Integer idUser) {

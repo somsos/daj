@@ -31,6 +31,7 @@ import daj.user.port.out.IUserReaderOutputPort;
 import daj.user.port.out.dto.AuthQrDto;
 import daj.user.service.JwtService;
 
+import static daj.adapter.common.AuthConstants.ROLE_REGISTERED;
 import static org.hamcrest.core.Is.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -64,7 +65,7 @@ public class AuthControllerTest {
   }
 
   @Test
-  @WithMockUser(username="random",roles={"registered"})
+  @WithMockUser(username="random",roles={ROLE_REGISTERED})
   void pathSecurityByRole_allowRegisteredUsersToTheyRoutes() throws Exception {
     mvc.perform(get(AuthController.CHECK_REGISTERED_USER).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isOk());

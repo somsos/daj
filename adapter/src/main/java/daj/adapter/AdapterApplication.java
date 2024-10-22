@@ -5,6 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(
 	scanBasePackages = {
+		"daj.adapter.product",
+		"daj.adapter.common",
+		"daj.product.service",
 		"daj.user.service",
 		"daj.adapter.user",
 		"daj.adapter.errorHandler"

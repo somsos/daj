@@ -25,7 +25,7 @@ public class LoginService implements ILoginInputPort {
       throw new ErrorResponse("bad credentials", 400, "une");
     }
 
-    if(!input.getPassword().equals(input.getPassword())) {
+    if(!input.getPassword().equals(userAuthInfoFound.getPassword())) {
       throw new ErrorResponse("bad credentials", 400, "ce");
     }
 

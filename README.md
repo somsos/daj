@@ -11,21 +11,27 @@ Users
 
 - [-] Add roles
   - [-] Adding test to check import.sql and Entity models are working as expected
+
 - [-] Add register
   - [-] Search roles in JWTFilter
   - [-] Check protection by different roles, for example /add-product, /auth/users/all
-- [current] use docker Postgres containers for tests
+
+- [X] use docker Postgres containers for tests
+
+- [current] Pass Hashing to user module so the check happen inside this module
+
+- [ ] Add module products
+  - [X] Add product
+  - [ ] Get by ID
+  - [ ] Update
+  - [ ] Delete
+  - [ ] Get products by page
+  - [ ] Add image
+
 - [ ] Understand mapping and find out if there is a simpler way.
 
 <!--
 -->
-
-Products
-
-- [ ] Add
-- [ ] get by page
-- [ ] get by id
-- [ ] Add image
 
 ## Object Naming guiding
 
@@ -36,7 +42,7 @@ For Input ports, In this case objects which come or go in the *web* layer
 
 For Output ports, In this case objects which come or go in the *database* layer
 
-- QDto (Query Transfer Object)
+- QDto (Query Data Transfer Object)
 - QrDto (Query Response Data Transfer Object)
 
 ## Database
