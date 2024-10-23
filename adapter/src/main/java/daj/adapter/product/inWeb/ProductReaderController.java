@@ -6,10 +6,13 @@ import daj.adapter.product.utils.ProductConstants;
 import daj.common.error.ErrorResponse;
 import daj.product.port.in.IProductReadInputPort;
 import daj.product.port.in.dto.IProductAllPublicInfo;
+import daj.product.port.in.dto.ProductAllPublicInfo;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
@@ -29,5 +32,12 @@ public class ProductReaderController {
   }
   
 
+  @GetMapping(ProductWriterController.POINT_PRODUCTS_BY_PAGE)
+  public Page<ProductAllPublicInfo> findAll(
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "10") int size) {
+        
+    return productReaderInputPort.getProductsByPage(page, size);
+  }
 
 }

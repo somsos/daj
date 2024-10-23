@@ -16,34 +16,67 @@
       - [Find by id](#find-by-id)
       - [Delete by id](#delete-by-id)
       - [Update by id](#update-by-id)
+      - [Find by page](#find-by-page)
   - [Errors](#errors)
+    - [Don't use Interfaces in Controllers or repositories](#dont-use-interfaces-in-controllers-or-repositories)
 
 ## ToDo
 
 Users
 
-- [-] Add roles
-  - [-] Adding test to check import.sql and Entity models are working as expected
+- [X] Add roles
+  - [X] Adding test to check import.sql and Entity models are working as expected
 
-- [-] Add register
-  - [-] Search roles in JWTFilter
-  - [-] Check protection by different roles, for example /add-product, /auth/users/all
+- [X] Add register
+  - [X] Search roles in JWTFilter
+  - [X] Check protection by different roles, for example /add-product, /auth/users/all
 
 - [X] use docker Postgres containers for tests
 
 - [X] Pass Hashing to user module so the check happen inside this module
+
+- [ ] Fixes
+  - [ ] Show error to user when hit with two slashes ex. 'http://localhost:8080//products'
 
 - [current] Add module products
   - [X] Add product
   - [X] Get by ID
   - [X] Delete
   - [X] Update
-  - [current] Get products by page
+  - [X] Get products by page
   - [ ] Add image
 
 - [ ] Understand mapping and find out if there is a simpler way.
 
+- [ ] Documentation
+  - [ ] Include Architecture diagram to repository
+
+- [ ] Create template from this project
+  - [ ] Create essay
+    - [ ] Explain Architecture
+    - [ ] Explain how it works
+    - [ ] Explain what is required
+    - [ ] Explain how to use
+    - [ ] Start a new project using this template following the steps of 'how to use'
+
+- [ ] Frontend
+  - [ ] Create angular project
+
 <!--
+
+########################################################################
+########################################################################
+########################################################################
+
+-->
+____
+
+<!--
+
+########################################################################
+########################################################################
+########################################################################
+
 -->
 
 ## Object Naming guiding
@@ -57,6 +90,16 @@ For Output ports, In this case objects which come or go in the *database* layer
 
 - QDto (Query Data Transfer Object)
 - QrDto (Query Response Data Transfer Object)
+
+____
+
+<!--
+
+########################################################################
+########################################################################
+########################################################################
+
+-->
 
 ## Database
 
@@ -79,6 +122,8 @@ Conectar a db
 psql -h 127.0.0.1 -p 5001 -U jab_db_user -d jab_db_test
 ```
 
+____
+
 <!--
 
 ########################################################################
@@ -88,24 +133,6 @@ psql -h 127.0.0.1 -p 5001 -U jab_db_user -d jab_db_test
 -->
 
 ## API
-
-- [README](#readme)
-  - [ToDo](#todo)
-  - [Object Naming guiding](#object-naming-guiding)
-  - [Database](#database)
-  - [API](#api)
-    - [Auth](#auth)
-      - [Login](#login)
-      - [Register](#register)
-      - [is-logged](#is-logged)
-      - [check-user-role](#check-user-role)
-      - [check-product-role](#check-product-role)
-    - [Products](#products)
-      - [Save](#save)
-      - [Find by id](#find-by-id)
-      - [Delete by id](#delete-by-id)
-      - [Update by id](#update-by-id)
-  - [Errors](#errors)
 
 ### Auth
 
@@ -158,6 +185,8 @@ curl -X GET -i \
   http://localhost:8080/auth/check-product-role
 ```
 
+____
+
 ### Products
 
 #### Save
@@ -197,6 +226,16 @@ curl -X PUT -i \
   http://localhost:8080/products/1
 ```
 
+#### Find by page
+
+```shell
+curl -X GET -i \
+  --header "Content-Type: application/json" \
+  "http://localhost:8080/products/page?page=1&size=5"
+```
+
+____
+
 <!--
 
 ########################################################################
@@ -207,4 +246,12 @@ curl -X PUT -i \
 
 ## Errors
 
+### Don't use Interfaces in Controllers or repositories
+
+Spring use default classes (created with no-args-constructor) for its internals,
+so if we use interfaces and can'r create the Request/Response/Entity will throw
+this error.
+
+```r
 Could not resolve parameter [1] in public daj.product.port.in.dto.ProductSaveInfo daj.adapter.product.inWeb.ProductWriterController.update(java.lang.Integer,daj.product.port.in.dto.ProductSaveInfo): Type definition error: [simple type, class daj.product.port.in.dto.ProductSaveInfo]
+```

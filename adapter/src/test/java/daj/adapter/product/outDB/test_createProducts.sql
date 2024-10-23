@@ -1,0 +1,21 @@
+
+INSERT INTO products(id, name, price, amount, description, created_at) VALUES(1, 'Ceramic Mug', 11.99, 50, 'A stylish ceramic mug for your favorite beverages.', '2024-01-10');
+INSERT INTO products(id, name, price, amount, description, created_at) VALUES(2, 'Stainless Steel Water Bottle', 15.50, 30, 'Keep your drinks cold or hot with this durable water bottle.', '2024-01-11');
+INSERT INTO products(id, name, price, amount, description, created_at) VALUES(3, 'Bluetooth Speaker', 29.99, 20, 'Portable speaker with excellent sound quality.', '2024-01-12');
+INSERT INTO products(id, name, price, amount, description, created_at) VALUES(4, 'Yoga Mat', 24.99, 40, 'Eco-friendly yoga mat for your fitness routine.', '2024-01-13');
+INSERT INTO products(id, name, price, amount, description, created_at) VALUES(5, 'Desk Organizer', 19.99, 15, 'Keep your workspace tidy with this desk organizer.', '2024-01-14');
+INSERT INTO products(id, name, price, amount, description, created_at) VALUES(6, 'Wireless Earbuds', 49.99, 25, 'Experience true wireless freedom with these earbuds.', '2024-01-15');
+INSERT INTO products(id, name, price, amount, description, created_at) VALUES(7, 'Backpack', 39.99, 100, 'Spacious and stylish backpack for everyday use.', '2024-01-16');
+INSERT INTO products(id, name, price, amount, description, created_at) VALUES(8, 'LED Desk Lamp', 34.99, 35, 'Brighten your workspace with this adjustable desk lamp.', '2024-01-17');
+INSERT INTO products(id, name, price, amount, description, created_at) VALUES(9, 'Notebooks Set', 12.50, 60, 'A set of colorful notebooks for school or office use.', '2024-01-18');
+INSERT INTO products(id, name, price, amount, description, created_at) VALUES(10, 'Cooking Utensils Set', 19.99, 15, 'Essential kitchen tools for every home chef.', '2024-01-19');
+INSERT INTO products(id, name, price, amount, description, created_at) VALUES(11, 'Wall Art Print', 25.00, 71, 'Beautiful art print to decorate your space.', '2024-01-20');
+INSERT INTO products(id, name, price, amount, description, created_at) VALUES(12, 'Portable Charger', 29.99, 22, 'Never run out of battery with this portable charger.', '2024-01-21');
+INSERT INTO products(id, name, price, amount, description, created_at) VALUES(13, 'Fitness Tracker', 49.99, 40, 'Monitor your health and fitness with this tracker.', '2024-01-22');
+INSERT INTO products(id, name, price, amount, description, created_at) VALUES(14, 'Coffee Maker', 89.99, 60, 'Brew your perfect cup of coffee every morning.', '2024-01-23');
+INSERT INTO products(id, name, price, amount, description, created_at) VALUES(15, 'Smartphone Stand', 14.99, 18, 'Adjustable stand for your smartphone or tablet.', '2024-01-24');
+INSERT INTO products(id, name, price, amount, description, created_at) VALUES(16, 'Pet Bed', 34.99, 10, 'Cozy bed for your furry friend.', '2024-01-25');
+INSERT INTO products(id, name, price, amount, description, created_at) VALUES(17, 'Potted Plant', 16.99, 12, 'Bring life to your home with this lovely potted plant.', '2024-01-26');
+INSERT INTO products(id, name, price, amount, description, created_at) VALUES(18, 'Travel Pillow', 19.99, 25, 'Comfortable pillow for your travels.', '2024-01-27');
+INSERT INTO products(id, name, price, amount, description, created_at) VALUES(19, 'Skincare Set', 39.99, 35, 'Complete set for glowing skin.', '2024-01-28');
+INSERT INTO products(id, name, price, amount, description, created_at) VALUES(20, 'Board Game', 29.99, 15, 'Fun board game for family and friends.', '2024-01-29');

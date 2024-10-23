@@ -31,7 +31,7 @@ public class ProductEntity implements IProductAllPublicInfo {
   private Integer id;
 
 
-  @Column(unique=true, length=20, nullable=false)
+  @Column(unique=true, length=70, nullable=false)
   private String name;
 
   @Column(nullable=false)

@@ -26,6 +26,7 @@ public class ProductWriterController {
 
   public static final String POINT_PRODUCTS = "/products";
   public static final String POINT_PRODUCTS_ID = POINT_PRODUCTS + "/{id}";
+  public static final String POINT_PRODUCTS_BY_PAGE = "/products/page";
 
   private final IProductWriteInputPort writerIP;
   

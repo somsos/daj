@@ -26,4 +26,17 @@ public class ProductReaderDbAdapterTest {
     assertEquals("trompo1", found.getName());
   }
 
+  @Test
+  @Sql("test_createProducts.sql")
+  void testFindByPage() {
+    final var sizeWanted = 5;
+    final var pageFound = productReader.findByPage(3, sizeWanted);
+
+    assertEquals(sizeWanted, pageFound.getContent().size());
+    assertEquals(20, pageFound.getTotalElements());
+    assertEquals(4, pageFound.getTotalPages());
+    assertEquals("Pet Bed", pageFound.getContent().get(pageFound.getContent().size() - 5).getName());
+    assertEquals("Board Game", pageFound.getContent().get(pageFound.getContent().size()-1).getName());
+  }
+
 }
