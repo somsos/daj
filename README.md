@@ -15,6 +15,8 @@
       - [Save](#save)
       - [Find by id](#find-by-id)
       - [Delete by id](#delete-by-id)
+      - [Update by id](#update-by-id)
+  - [Errors](#errors)
 
 ## ToDo
 
@@ -35,8 +37,8 @@ Users
   - [X] Add product
   - [X] Get by ID
   - [X] Delete
-  - [current] Update
-  - [ ] Get products by page
+  - [X] Update
+  - [current] Get products by page
   - [ ] Add image
 
 - [ ] Understand mapping and find out if there is a simpler way.
@@ -102,6 +104,8 @@ psql -h 127.0.0.1 -p 5001 -U jab_db_user -d jab_db_test
       - [Save](#save)
       - [Find by id](#find-by-id)
       - [Delete by id](#delete-by-id)
+      - [Update by id](#update-by-id)
+  - [Errors](#errors)
 
 ### Auth
 
@@ -161,8 +165,8 @@ curl -X GET -i \
 ```bash
 curl -X POST -i \
   --header "Content-Type: application/json" \
-  --data '{"name":"trompo2","price":20.20, "amount": 20, "description": "Trompo numero 2" }' \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3Mjk2MzcxNDMsImV4cCI6MTcyOTYzODM0M30.9FRkvRIN4DFoCTziG1emctVILMg-Jt-mv7en_srq4JE" \
+  --data '{"name":"trompo1","price":10.10, "amount": 10, "description": "Trompo numero 1" }' \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3Mjk2NDE0MDQsImV4cCI6MTcyOTY0MjYwNH0.9hdlYD1QlqzI8ZOspkz3ZpVSo80CeexJ6SU1-KPMu_8" \
   http://localhost:8080/products
 ```
 
@@ -179,6 +183,28 @@ curl -X GET -i \
 ```bash
 curl -X DELETE -i \
   --header "Content-Type: application/json" \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3Mjk2MzcxNDMsImV4cCI6MTcyOTYzODM0M30.9FRkvRIN4DFoCTziG1emctVILMg-Jt-mv7en_srq4JE" \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3Mjk2NDE0MDQsImV4cCI6MTcyOTY0MjYwNH0.9hdlYD1QlqzI8ZOspkz3ZpVSo80CeexJ6SU1-KPMu_8" \
   http://localhost:8080/products/1
 ```
+
+#### Update by id
+
+```bash
+curl -X PUT -i \
+  --header "Content-Type: application/json" \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3Mjk2NDE0MDQsImV4cCI6MTcyOTY0MjYwNH0.9hdlYD1QlqzI8ZOspkz3ZpVSo80CeexJ6SU1-KPMu_8" \
+  --data '{ "description": "Trompo numero 1111" }' \
+  http://localhost:8080/products/1
+```
+
+<!--
+
+########################################################################
+########################################################################
+########################################################################
+
+-->
+
+## Errors
+
+Could not resolve parameter [1] in public daj.product.port.in.dto.ProductSaveInfo daj.adapter.product.inWeb.ProductWriterController.update(java.lang.Integer,daj.product.port.in.dto.ProductSaveInfo): Type definition error: [simple type, class daj.product.port.in.dto.ProductSaveInfo]

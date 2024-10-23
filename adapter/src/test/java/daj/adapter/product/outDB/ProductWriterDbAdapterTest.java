@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
+import daj.adapter.product.inWeb.reqAndRes.ProductsUpdateRequest;
 import daj.adapter.product.utils.ProductConstants;
 import daj.adapter.product.utils.ProductUtilBeans;
 import daj.common.error.ErrorResponse;
@@ -20,7 +21,7 @@ import daj.product.port.out.IProductWriterOutputPort;
 
 @ActiveProfiles("test")
 @DataJpaTest
-@Import({ProductWriterDBAdapter.class, ProductUtilBeans.class})
+@Import({ProductWriterDBAdapter.class, ProductUtilBeans.class, ProductReaderDbAdapter.class, ProductReaderDbAdapter.class})
 public class ProductWriterDbAdapterTest {
 
   @Autowired
@@ -59,6 +60,26 @@ public class ProductWriterDbAdapterTest {
            "Not found exception expected"
     );
     assertEquals(ProductConstants.NOT_FOUND, ex.getMessage());
+  }
+
+
+
+  @Test
+  @Sql("test_createProduct.sql")
+  void testUpdate() {
+    var newInfo = new ProductsUpdateRequest("someName1", 10.10f, 10, null);
+    Integer id = 1;
+    productDBAdapter.update(id, newInfo);
+
+    final ProductEntity found = repo.findById(1).orElse(null);
+    assertEquals(id, found.getId());
+    assertEquals(newInfo.getAmount(), found.getAmount());
+    //nulls must be keep the same value
+    assertEquals("description1", found.getDescription());
+    assertEquals(newInfo.getName(), found.getName());
+    assertEquals(newInfo.getPrice(), found.getPrice());
+
+
   }
 
 }

@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Range;
 
 import daj.product.port.in.dto.IProductAllPublicInfo;
+import daj.product.port.in.dto.ProductSaveInfo;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -48,5 +49,28 @@ public class ProductEntity implements IProductAllPublicInfo {
   @Temporal(TemporalType.DATE)
   @CreationTimestamp
   private Date createdAt;
+
+  @Override
+  public IProductAllPublicInfo overwrite(ProductSaveInfo newInfo) {
+    final var merged = new ProductEntity(this.id, this.name, this.price, this.amount, this.description, this.createdAt);
+
+    if (newInfo.getAmount() != null) {
+      merged.setAmount(newInfo.getAmount());
+    }
+
+    if (newInfo.getDescription() != null) {
+      merged.setDescription(newInfo.getDescription());
+    }
+
+    if (newInfo.getName() != null) {
+      merged.setName(newInfo.getName());
+    }
+
+    if (newInfo.getPrice() != null) {
+      merged.setPrice(newInfo.getPrice());
+    }
+
+    return merged;
+  }
   
 }

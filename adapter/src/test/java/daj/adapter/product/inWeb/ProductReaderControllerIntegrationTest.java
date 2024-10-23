@@ -12,10 +12,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import daj.adapter.product.outDB.ProductEntity;
 import daj.adapter.product.outDB.ProductReaderDbAdapter;
+import daj.adapter.product.utils.ProductConstants;
 import daj.adapter.user.config.AuthConfig;
 import daj.adapter.user.config.AuthJwtFilter;
 import daj.product.port.out.IProductReaderOutputPort;
@@ -27,6 +29,7 @@ import daj.user.service.JwtService;
   ProductReaderController.class, AuthConfig.class, AuthJwtFilter.class,
   JwtService.class, ProductReaderService.class, ProductReaderDbAdapter.class
 })
+@ActiveProfiles("test")
 public class ProductReaderControllerIntegrationTest {
 
   @MockBean
@@ -54,14 +57,13 @@ public class ProductReaderControllerIntegrationTest {
 
   @Test
   void testFindById_fail_notFound() throws Exception {
-    when(repo.findById(1)).thenReturn(null);
-
     final var req = get(ProductWriterController.POINT_PRODUCTS + "/1");
+    when(repo.findById(1)).thenReturn(null);
     
     final var resp = mvc.perform(req);
 
     resp.andExpect(status().isNotFound())
-      .andExpect(jsonPath("$.message", is("Product not found")));
+      .andExpect(jsonPath("$.message", is(ProductConstants.NOT_FOUND)));
   }
 
 }

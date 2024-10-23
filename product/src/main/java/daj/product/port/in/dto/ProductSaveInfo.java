@@ -12,6 +12,16 @@ public interface ProductSaveInfo {
 
   String getDescription();
 
+  //
+
+  void setName(String n);
+  
+  void setPrice(Float p);
+  
+  void setAmount(Integer a);
+
+  void setDescription(String d);
+
 }
 
 /*

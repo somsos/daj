@@ -14,7 +14,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import daj.adapter.product.inWeb.ProductReaderController;
 import daj.adapter.product.inWeb.ProductWriterController;
 import daj.adapter.user.inWeb.AuthController;
 
@@ -59,6 +58,7 @@ public class AuthConfig {
                 .requestMatchers(HttpMethod.GET, AuthController.CHECK_PRODUCT_ROLE).hasAuthority(R + ROLE_PRODUCT)
                 .requestMatchers(HttpMethod.POST, ProductWriterController.POINT_PRODUCTS).hasAuthority(R + ROLE_PRODUCT)
                 .requestMatchers(HttpMethod.DELETE, ProductWriterController.POINT_PRODUCTS_ID).hasAuthority(R + ROLE_PRODUCT)
+                .requestMatchers(HttpMethod.PUT, ProductWriterController.POINT_PRODUCTS_ID).hasAuthority(R + ROLE_PRODUCT)
                 
                 //.requestMatchers("/auth/user/admin/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()

@@ -1,4 +1,4 @@
-package daj.adapter.product.inWeb.reqAndRes;
+package daj.product.port.in.dto;
 
 import java.util.Date;
 
@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import daj.product.port.in.dto.IProductAllPublicInfo;
 
 @Getter
 @Setter
@@ -26,5 +24,11 @@ public class ProductAllPublicInfo implements IProductAllPublicInfo {
   private String description;
 
   private Date createdAt;
+
+  @Override
+  public IProductAllPublicInfo overwrite(ProductSaveInfo newInfo) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'overwrite'");
+  }
   
 }

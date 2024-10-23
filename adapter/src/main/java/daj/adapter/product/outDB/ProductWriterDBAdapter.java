@@ -2,11 +2,10 @@ package daj.adapter.product.outDB;
 
 import org.springframework.stereotype.Component;
 
+import daj.product.port.in.dto.IProductAllPublicInfo;
 import daj.product.port.in.dto.ProductSaveInfo;
 import daj.adapter.product.inWeb.reqAndRes.ProductSimpleResponse;
-import daj.adapter.product.utils.ProductConstants;
 import daj.adapter.product.utils.ProductMapper;
-import daj.common.error.ErrorResponse;
 import daj.product.port.in.dto.ProductSimpleInfo;
 import daj.product.port.out.IProductWriterOutputPort;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +18,8 @@ public class ProductWriterDBAdapter implements IProductWriterOutputPort {
 
   private final ProductMapper productMapper;
 
+  private final ProductReaderDbAdapter reader;
+
   @Override
   public ProductSimpleInfo save(ProductSaveInfo input) {
     final var casted = productMapper.saveRequestToEntity(input);
@@ -29,12 +30,18 @@ public class ProductWriterDBAdapter implements IProductWriterOutputPort {
 
   @Override
   public ProductSimpleInfo delete(Integer toDel) {
-    var found = this.repo.findById(toDel).orElse(null);
-    if(found == null) {
-      throw new ErrorResponse(ProductConstants.NOT_FOUND, 404, "not_found");
-    }
+    reader.findById(toDel);
     this.repo.deleteById(toDel);
     return new ProductSimpleResponse(toDel);
   }
+
+  @Override
+  public IProductAllPublicInfo update(Integer id, ProductSaveInfo newInfo) {
+    final var inDB = reader.findById(id);
+    final var merged = (ProductEntity)inDB.overwrite(newInfo);
+    final IProductAllPublicInfo updated = this.repo.save(merged);
+    return updated;
+  }
+  
   
 }
