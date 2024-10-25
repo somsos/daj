@@ -21,8 +21,8 @@ public class ProductReaderDbAdapterTest {
   
   @Test
   @Sql("test_createProduct.sql")
-  void testFindById() {
-    var found = productReader.findById(1);
+  void test_findByIdOrThrow() {
+    var found = productReader.findByIdOrThrow(1);
     assertEquals("trompo1", found.getName());
   }
 

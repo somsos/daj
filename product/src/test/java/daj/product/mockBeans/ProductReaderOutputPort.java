@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import daj.product.port.in.dto.IProductAllPublicInfo;
 import daj.product.port.in.dto.ProductAllPublicInfo;
+import daj.product.port.in.dto.RProductImage;
 import daj.product.port.out.IProductReaderOutputPort;
 
 @Profile("test")
@@ -13,7 +14,7 @@ import daj.product.port.out.IProductReaderOutputPort;
 public class ProductReaderOutputPort implements IProductReaderOutputPort {
 
   @Override
-  public IProductAllPublicInfo findById(Integer input) {
+  public IProductAllPublicInfo findByIdOrThrow(Integer input) {
     throw new UnsupportedOperationException("Unimplemented method 'findById'");
   }
 
@@ -21,6 +22,12 @@ public class ProductReaderOutputPort implements IProductReaderOutputPort {
   public Page<ProductAllPublicInfo> findByPage(int page, int size) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'getProductsByPage'");
+  }
+
+  @Override
+  public RProductImage findImageByName(Integer id) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'findImageByName'");
   }
   
 }

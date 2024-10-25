@@ -1,7 +1,9 @@
-package daj.adapter.product.outDB;
+package daj.adapter.product.outDB.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import daj.adapter.product.outDB.entity.ProductEntity;
 
 
 @Repository

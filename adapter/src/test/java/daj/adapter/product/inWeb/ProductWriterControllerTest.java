@@ -4,9 +4,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static daj.adapter.common.AuthConstants.ROLE_REGISTERED;
 import static daj.adapter.common.AuthConstants.ROLE_PRODUCT;
@@ -30,6 +33,7 @@ import daj.adapter.user.config.AuthConfig;
 import daj.adapter.user.config.AuthJwtFilter;
 import daj.product.port.in.IProductWriteInputPort;
 import daj.product.port.in.dto.ProductAllPublicInfo;
+import daj.product.port.in.dto.RProductImage;
 import daj.user.port.out.IUserReaderOutputPort;
 import daj.user.service.JwtService;
 
@@ -37,7 +41,7 @@ import daj.user.service.JwtService;
 public class ProductWriterControllerTest {
 
   @MockBean
-  IProductWriteInputPort writerInputPort;
+  IProductWriteInputPort writerIP;
 
   @Autowired
   ObjectMapper objectMapper;
@@ -54,14 +58,14 @@ public class ProductWriterControllerTest {
 
   @Test
   void testSave_mustBeProtected_FromAnonymousUsers() throws Exception {
-    mvc.perform(post(ProductWriterController.POINT_PRODUCTS).contentType(MediaType.APPLICATION_JSON))
+    mvc.perform(post(ProductWebConstants.POINT_PRODUCTS).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isForbidden());
   }
 
   @Test
   @WithMockUser(username="mario1",roles={ROLE_REGISTERED})
   void testSave_mustBeProtected_FromRegisteredUsers() throws Exception {
-    mvc.perform(post(ProductWriterController.POINT_PRODUCTS).contentType(MediaType.APPLICATION_JSON))
+    mvc.perform(post(ProductWebConstants.POINT_PRODUCTS).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isForbidden());
   }
 
@@ -71,10 +75,10 @@ public class ProductWriterControllerTest {
 
     //Scenario
     final var input = new ProductsSaveRequest("trompo1", 10.10f, 10, "description1");
-    final var output = new ProductSimpleResponse(1);
-    final var request = post(ProductWriterController.POINT_PRODUCTS).contentType(MediaType.APPLICATION_JSON)
+    final var output = new ProductSimpleResponse(1, null);
+    final var request = post(ProductWebConstants.POINT_PRODUCTS).contentType(MediaType.APPLICATION_JSON)
     .content(objectMapper.writeValueAsString(input));
-    when(writerInputPort.save(any())).thenReturn(output);
+    when(writerIP.save(any())).thenReturn(output);
 
     //Test
     mvc.perform(request)
@@ -89,10 +93,10 @@ public class ProductWriterControllerTest {
 
     //Scenario
     final var input = new ProductsSaveRequest(" ", 10.10f, 10, "description1");
-    final var output = new ProductSimpleResponse(1);
-    final var request = post(ProductWriterController.POINT_PRODUCTS).contentType(MediaType.APPLICATION_JSON)
+    final var output = new ProductSimpleResponse(1, null);
+    final var request = post(ProductWebConstants.POINT_PRODUCTS).contentType(MediaType.APPLICATION_JSON)
     .content(objectMapper.writeValueAsString(input));
-    when(writerInputPort.save(any())).thenReturn(output);
+    when(writerIP.save(any())).thenReturn(output);
 
     //Test
     mvc.perform(request)
@@ -105,14 +109,14 @@ public class ProductWriterControllerTest {
   // ############# Delete
   @Test
   void testDelete_mustBeProtected_FromAnonymousUsers() throws Exception {
-    mvc.perform(delete(ProductWriterController.POINT_PRODUCTS + "/1").contentType(MediaType.APPLICATION_JSON))
+    mvc.perform(delete(ProductWebConstants.POINT_PRODUCTS + "/1").contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isForbidden());
   }
 
   @Test
   @WithMockUser(username="mario1",roles={ROLE_REGISTERED})
   void testDelete_mustBeProtected_FromRegisteredUsers() throws Exception {
-    mvc.perform(delete(ProductWriterController.POINT_PRODUCTS + "/1").contentType(MediaType.APPLICATION_JSON))
+    mvc.perform(delete(ProductWebConstants.POINT_PRODUCTS + "/1").contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isForbidden());
   }
 
@@ -121,16 +125,16 @@ public class ProductWriterControllerTest {
   void testDelete_success() throws Exception {
 
     //Scenario
-    final var request = delete(ProductWriterController.POINT_PRODUCTS_ID.replace("{id}", "1"))
+    final var request = delete(ProductWebConstants.POINT_PRODUCTS_ID.replace("{id}", "1"))
       .contentType(MediaType.APPLICATION_JSON);
 
-    final var output = new ProductSimpleResponse(1);
+    final var output = new ProductSimpleResponse(1, null);
     
-    when(writerInputPort.delete(1)).thenReturn(output);
+    when(writerIP.delete(1)).thenReturn(output);
 
     //Test
     mvc.perform(request)
-      .andExpect(status().isOk())
+      .andExpect(status().is(HttpStatus.ACCEPTED.value()))
       .andExpect(jsonPath("$.id", is(output.getId())))
     ;
   }
@@ -139,7 +143,7 @@ public class ProductWriterControllerTest {
   // ############# Update
   @Test
   void testUpdate_mustBeProtected_FromAnonymousUsers() throws Exception {
-    final var point = ProductWriterController.POINT_PRODUCTS_ID.replace("{id}", "1");
+    final var point = ProductWebConstants.POINT_PRODUCTS_ID.replace("{id}", "1");
     mvc.perform(put(point).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isForbidden());
   }
@@ -147,7 +151,7 @@ public class ProductWriterControllerTest {
   @Test
   @WithMockUser(username="mario1",roles={ROLE_REGISTERED})
   void testUpdate_mustBeProtected_FromRegisteredUsers() throws Exception {
-    final var point = ProductWriterController.POINT_PRODUCTS_ID.replace("{id}", "1");
+    final var point = ProductWebConstants.POINT_PRODUCTS_ID.replace("{id}", "1");
     mvc.perform(put(point).contentType(MediaType.APPLICATION_JSON))
       .andExpect(status().isForbidden());
   }
@@ -159,20 +163,57 @@ public class ProductWriterControllerTest {
     //Scenario
     final var input = new ProductsSaveRequest("trompo100", 100.10f, 100, "description100");
     final var output = new ProductAllPublicInfo(1, "trompo11", 101.101f, 101, "description101", new Date());
-    final var point = ProductWriterController.POINT_PRODUCTS_ID.replace("{id}", "1");
+    final var point = ProductWebConstants.POINT_PRODUCTS_ID.replace("{id}", "1");
     final var request = put(point)
       .contentType(MediaType.APPLICATION_JSON)
       .content(objectMapper.writeValueAsString(input));
       ;
-    when(writerInputPort.update(any(), any())).thenReturn(output);
+    when(writerIP.update(any(), any())).thenReturn(output);
 
     //Test
     mvc.perform(request)
-      .andExpect(status().isOk())
+      .andExpect(status().is(HttpStatus.ACCEPTED.value()))
       .andExpect(jsonPath("$.id", is(output.getId())))
       .andExpect(jsonPath("$.name", is(output.getName())))
     ;
   }
+
+
+  //Upload image product
+  @Test
+  void test_uploadImage_mustBeProtected_FromAnonymousUsers() throws Exception {
+    final var endpoint = ProductWebConstants.POINT_PRODUCTS_IMAGE.replace("{id}", "1");
+    mvc.perform(post(endpoint).contentType(MediaType.APPLICATION_JSON))
+      .andExpect(status().isForbidden());
+  }
+
+  @Test
+  @WithMockUser(username="mario1",roles={ROLE_REGISTERED})
+  void test_uploadImage_mustBeProtected_FromRegisteredUsers() throws Exception {
+    final var endpoint = ProductWebConstants.POINT_PRODUCTS_IMAGE.replace("{id}", "1");
+    mvc.perform(post(endpoint).contentType(MediaType.APPLICATION_JSON))
+      .andExpect(status().isForbidden());
+  }
+
+  @Test
+  @WithMockUser(username="mario1",roles={ROLE_PRODUCT})
+  void test_uploadImage_success() throws Exception {
+    final var image = new MockMultipartFile("image", "filename.png", MediaType.IMAGE_PNG.getType(), "soma_data".getBytes());
+    final var endpoint = ProductWebConstants.POINT_PRODUCTS_IMAGE.replace("{id}", "1");
+    final var request = MockMvcRequestBuilders.multipart(endpoint).file(image);
+
+    final var outPut = new RProductImage(1, image.getName(), image.getContentType(), image.getBytes(), null);
+    when(writerIP.saveImage(any())).thenReturn(outPut);
+
+    mvc.perform(request)
+      .andExpect(status().is(HttpStatus.CREATED.value()))
+      .andExpect(jsonPath("$.id", is(outPut.getId())))
+    ;
+
+  }
+
+
+  
 
 
 }

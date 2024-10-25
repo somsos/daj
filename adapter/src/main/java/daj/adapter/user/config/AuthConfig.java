@@ -14,7 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import daj.adapter.product.inWeb.ProductWriterController;
+import daj.adapter.product.inWeb.ProductWebConstants;
 import daj.adapter.user.inWeb.AuthController;
 
 import static daj.adapter.common.AuthConstants.ROLE_PRODUCT;
@@ -49,16 +49,26 @@ public class AuthConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                //Annonymous
+                
+            //Annonymous
                 .requestMatchers(HttpMethod.POST, AuthController.REGISTER_PATH, AuthController.LOGIN_PATH).permitAll()
-                .requestMatchers(HttpMethod.GET, ProductWriterController.POINT_PRODUCTS_ID, AuthController.LOGIN_PATH).permitAll()
-                //role user
+                .requestMatchers(HttpMethod.GET,
+                        ProductWebConstants.POINT_PRODUCTS_IMAGE_ID,
+                        ProductWebConstants.POINT_PRODUCTS_ID,
+                        AuthController.LOGIN_PATH
+                    ).permitAll()
+                
+                    //role user
                 .requestMatchers(HttpMethod.GET, AuthController.CHECK_USERS_ROLE).hasAuthority(R + ADMIN_USER)
+
                 //role product
                 .requestMatchers(HttpMethod.GET, AuthController.CHECK_PRODUCT_ROLE).hasAuthority(R + ROLE_PRODUCT)
-                .requestMatchers(HttpMethod.POST, ProductWriterController.POINT_PRODUCTS).hasAuthority(R + ROLE_PRODUCT)
-                .requestMatchers(HttpMethod.DELETE, ProductWriterController.POINT_PRODUCTS_ID).hasAuthority(R + ROLE_PRODUCT)
-                .requestMatchers(HttpMethod.PUT, ProductWriterController.POINT_PRODUCTS_ID).hasAuthority(R + ROLE_PRODUCT)
+                .requestMatchers(HttpMethod.POST,
+                        ProductWebConstants.POINT_PRODUCTS_IMAGE,
+                        ProductWebConstants.POINT_PRODUCTS
+                    ).hasAuthority(R + ROLE_PRODUCT)
+                .requestMatchers(HttpMethod.DELETE, ProductWebConstants.POINT_PRODUCTS_ID).hasAuthority(R + ROLE_PRODUCT)
+                .requestMatchers(HttpMethod.PUT, ProductWebConstants.POINT_PRODUCTS_ID).hasAuthority(R + ROLE_PRODUCT)
                 
                 //.requestMatchers("/auth/user/admin/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()

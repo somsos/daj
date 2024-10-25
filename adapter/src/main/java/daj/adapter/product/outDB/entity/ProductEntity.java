@@ -1,17 +1,20 @@
-package daj.adapter.product.outDB;
+package daj.adapter.product.outDB.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Range;
 
 import daj.product.port.in.dto.IProductAllPublicInfo;
 import daj.product.port.in.dto.ProductSaveInfo;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
@@ -50,9 +53,12 @@ public class ProductEntity implements IProductAllPublicInfo {
   @CreationTimestamp
   private Date createdAt;
 
+  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<ProductImageEntity> images;
+
   @Override
   public IProductAllPublicInfo overwrite(ProductSaveInfo newInfo) {
-    final var merged = new ProductEntity(this.id, this.name, this.price, this.amount, this.description, this.createdAt);
+    final var merged = new ProductEntity(this.id, this.name, this.price, this.amount, this.description, this.createdAt, this.images);
 
     if (newInfo.getAmount() != null) {
       merged.setAmount(newInfo.getAmount());

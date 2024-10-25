@@ -4,6 +4,8 @@
   - [ToDo](#todo)
   - [Object Naming guiding](#object-naming-guiding)
   - [Database](#database)
+  - [Errors](#errors)
+    - [Don't use Interfaces in Controllers or repositories](#dont-use-interfaces-in-controllers-or-repositories)
   - [API](#api)
     - [Auth](#auth)
       - [Login](#login)
@@ -17,8 +19,9 @@
       - [Delete by id](#delete-by-id)
       - [Update by id](#update-by-id)
       - [Find by page](#find-by-page)
-  - [Errors](#errors)
-    - [Don't use Interfaces in Controllers or repositories](#dont-use-interfaces-in-controllers-or-repositories)
+      - [Upload image](#upload-image)
+      - [See image](#see-image)
+  - [Quick notes](#quick-notes)
 
 ## ToDo
 
@@ -44,7 +47,12 @@ Users
   - [X] Delete
   - [X] Update
   - [X] Get products by page
-  - [ ] Add image
+  - [Current] Product images
+    - [X] Upload
+    - [X] Show image by id image
+    - [Current] Get images by product id
+    - [ ] delete image by id
+    - [ ] check delete images when product is deleted
 
 - [ ] Understand mapping and find out if there is a simpler way.
 
@@ -131,6 +139,28 @@ ____
 ########################################################################
 
 -->
+
+## Errors
+
+### Don't use Interfaces in Controllers or repositories
+
+Spring use default classes (created with no-args-constructor) for its internals,
+so if we use interfaces and can'r create the Request/Response/Entity will throw
+this error.
+
+```r
+Could not resolve parameter [1] in public daj.product.port.in.dto.ProductSaveInfo daj.adapter.product.inWeb.ProductWriterController.update(java.lang.Integer,daj.product.port.in.dto.ProductSaveInfo): Type definition error: [simple type, class daj.product.port.in.dto.ProductSaveInfo]
+```
+
+<!--
+
+########################################################################
+########################################################################
+########################################################################
+
+-->
+
+____
 
 ## API
 
@@ -234,6 +264,21 @@ curl -X GET -i \
   "http://localhost:8080/products/page?page=1&size=5"
 ```
 
+#### Upload image
+
+```shell
+curl -v \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3Mjk4MTA3MDUsImV4cCI6MTcyOTgxMTkwNX0.ZP591UGBK3mCg5wC8qG_5tYyL52SXiHMN6RJWtoQ9yE" \
+  -F image=@./temporal/small_blue.png  \
+  http://localhost:8080/products/1/image
+```
+
+#### See image
+
+```shell
+curl -X -i GET http://localhost:8080/products/image/1
+```
+
 ____
 
 <!--
@@ -244,14 +289,4 @@ ____
 
 -->
 
-## Errors
-
-### Don't use Interfaces in Controllers or repositories
-
-Spring use default classes (created with no-args-constructor) for its internals,
-so if we use interfaces and can'r create the Request/Response/Entity will throw
-this error.
-
-```r
-Could not resolve parameter [1] in public daj.product.port.in.dto.ProductSaveInfo daj.adapter.product.inWeb.ProductWriterController.update(java.lang.Integer,daj.product.port.in.dto.ProductSaveInfo): Type definition error: [simple type, class daj.product.port.in.dto.ProductSaveInfo]
-```
+## Quick notes

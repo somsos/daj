@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import daj.product.port.in.IProductWriteInputPort;
 import daj.product.port.in.dto.ProductSimpleInfo;
+import daj.product.port.in.dto.RProductImage;
 import daj.product.port.in.dto.IProductAllPublicInfo;
 import daj.product.port.in.dto.ProductSaveInfo;
 import daj.product.port.out.IProductWriterOutputPort;
@@ -31,6 +32,12 @@ public class ProductWriterService implements IProductWriteInputPort {
   public IProductAllPublicInfo update(Integer id, ProductSaveInfo newInfo) {
     final var updated = productOutP.update(id, newInfo);
     return updated;
+  }
+
+  @Override
+  public RProductImage saveImage(RProductImage imageEntity) {
+    final RProductImage saved = productOutP.saveImage(imageEntity);
+    return saved;
   }
   
 }

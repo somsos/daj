@@ -1,6 +1,7 @@
 package daj.product.port.in;
 
 import daj.product.port.in.dto.ProductSimpleInfo;
+import daj.product.port.in.dto.RProductImage;
 import daj.product.port.in.dto.IProductAllPublicInfo;
 import daj.product.port.in.dto.ProductSaveInfo;
 
@@ -11,5 +12,7 @@ public interface IProductWriteInputPort {
   ProductSimpleInfo delete(Integer id);
 
   IProductAllPublicInfo update(Integer id, ProductSaveInfo newInfo);
+
+  RProductImage saveImage(RProductImage imageEntity);
 
 }

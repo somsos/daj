@@ -20,8 +20,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-import daj.adapter.product.outDB.ProductEntity;
 import daj.adapter.product.outDB.ProductReaderDbAdapter;
+import daj.adapter.product.outDB.entity.ProductEntity;
 import daj.adapter.product.utils.ProductConstants;
 import daj.adapter.user.config.AuthConfig;
 import daj.adapter.user.config.AuthJwtFilter;
@@ -53,10 +53,10 @@ public class ProductReaderControllerIntegrationTest {
 
   @Test
   void testFindById_success() throws Exception {
-    final var output = new ProductEntity(1, "trompo1", 11.11f, 11, "des1", new Date());
+    final var output = new ProductEntity(1, "trompo1", 11.11f, 11, "des1", new Date(), null);
     when(productReaderInputPort.getById(1)).thenReturn(output);
 
-    final var point = ProductWriterController.POINT_PRODUCTS_ID.replace("{id}", "1");
+    final var point = ProductWebConstants.POINT_PRODUCTS_ID.replace("{id}", "1");
     final var req = get(point);
     
     final var resp = mvc.perform(req);
@@ -67,9 +67,9 @@ public class ProductReaderControllerIntegrationTest {
 
 
   @Test
-  void testFindById_fail_notFound() throws Exception {
-    final var req = get(ProductWriterController.POINT_PRODUCTS + "/1");
-    when(repo.findById(1)).thenReturn(null);
+  void testFindByIdOrThrow_fail_notFound() throws Exception {
+    final var req = get(ProductWebConstants.POINT_PRODUCTS + "/1");
+    when(repo.findByIdOrThrow(1)).thenReturn(null);
     
     final var resp = mvc.perform(req);
 
@@ -89,7 +89,7 @@ public class ProductReaderControllerIntegrationTest {
     when(productReaderInputPort.getProductsByPage(0, 10)).thenReturn(pageFound);
 
     // Perform the GET request
-    mvc.perform(get(ProductWriterController.POINT_PRODUCTS_BY_PAGE)
+    mvc.perform(get(ProductWebConstants.POINT_PRODUCTS_BY_PAGE)
         .param("page", "0")
         .param("size", "10")
         .contentType(MediaType.APPLICATION_JSON))
@@ -99,5 +99,16 @@ public class ProductReaderControllerIntegrationTest {
         .andExpect(jsonPath("$.content[1].name").value("Product 2"))
     ;
   }
+
+  //See image product
+  @Test
+  void test_uploadImage_mustFail_imageNotFound() throws Exception {
+    final var endpoint = ProductWebConstants.POINT_PRODUCTS_IMAGE_ID.replace("{id}", "777");
+    mvc.perform(get(endpoint).contentType(MediaType.APPLICATION_JSON))
+      .andExpect(status().isNotFound())
+      .andExpect(jsonPath("$.message", is(ProductWebConstants.ERROR_IMAGE_NOT_FOUND)))
+    ;
+  }
+  
 
 }

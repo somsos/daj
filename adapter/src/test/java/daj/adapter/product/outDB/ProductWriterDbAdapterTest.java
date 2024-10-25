@@ -13,6 +13,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
 import daj.adapter.product.inWeb.reqAndRes.ProductsUpdateRequest;
+import daj.adapter.product.outDB.entity.ProductEntity;
+import daj.adapter.product.outDB.repository.ProductRepository;
 import daj.adapter.product.utils.ProductConstants;
 import daj.adapter.product.utils.ProductUtilBeans;
 import daj.common.error.ErrorResponse;
@@ -32,10 +34,8 @@ public class ProductWriterDbAdapterTest {
   
   @Test
   void testSave() {
-    var input = new ProductEntity(null, "trompo1", 10.10f, 10, "description1", null);
+    var input = new ProductEntity(null, "trompo1", 10.10f, 10, "description1", null, null);
     productDBAdapter.save(input);
-
-
     final ProductEntity found = repo.findByName(input.getName());
     assertNotNull(found.getCreatedAt());
 
@@ -78,8 +78,6 @@ public class ProductWriterDbAdapterTest {
     assertEquals("description1", found.getDescription());
     assertEquals(newInfo.getName(), found.getName());
     assertEquals(newInfo.getPrice(), found.getPrice());
-
-
   }
 
 }
