@@ -6,8 +6,7 @@ import daj.adapter.product.utils.ProductConstants;
 import daj.common.error.ErrorResponse;
 import daj.common.utils.ImageUtility;
 import daj.product.port.in.IProductReadInputPort;
-import daj.product.port.in.dto.IProductAllPublicInfo;
-import daj.product.port.in.dto.ProductAllPublicInfo;
+import daj.product.port.in.dto.ProductModel;
 import daj.product.port.in.dto.RProductImage;
 import io.jsonwebtoken.io.IOException;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +27,8 @@ public class ProductReaderController {
 
   
   @GetMapping(ProductWebConstants.POINT_PRODUCTS_ID)
-  public IProductAllPublicInfo findById(@PathVariable("id") Integer id) {
-    final var found = readerIP.getById(id);
+  public ProductModel findDetailsById(@PathVariable("id") Integer id) {
+    final var found = readerIP.findDetailsById(id);
     if(found == null) {
       throw new ErrorResponse(ProductConstants.NOT_FOUND, 404, "not_found");
     }
@@ -38,7 +37,7 @@ public class ProductReaderController {
   
 
   @GetMapping(ProductWebConstants.POINT_PRODUCTS_BY_PAGE)
-  public Page<ProductAllPublicInfo> findAll(
+  public Page<ProductModel> findAll(
       @RequestParam(defaultValue = "0") int page,
       @RequestParam(defaultValue = "10") int size) {
         

@@ -21,23 +21,26 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import static org.hamcrest.Matchers.hasSize;
+
 import java.util.Date;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import daj.adapter.product.inWeb.reqAndRes.ProductSimpleResponse;
-import daj.adapter.product.inWeb.reqAndRes.ProductsSaveRequest;
+import daj.adapter.product.inWeb.reqAndResp.ProductSaveRequest;
+import daj.adapter.product.inWeb.reqAndResp.ProductUpdateRequest;
+import daj.adapter.product.utils.ProductUtilBeans;
 import daj.adapter.user.config.AuthConfig;
 import daj.adapter.user.config.AuthJwtFilter;
 import daj.product.port.in.IProductWriteInputPort;
-import daj.product.port.in.dto.ProductAllPublicInfo;
+import daj.product.port.in.dto.ProductModel;
 import daj.product.port.in.dto.RProductImage;
 import daj.user.port.out.IUserReaderOutputPort;
 import daj.user.service.JwtService;
 
-@WebMvcTest({ ProductWriterController.class, AuthConfig.class, AuthJwtFilter.class, JwtService.class })
+@WebMvcTest({ ProductWriterController.class, AuthConfig.class, AuthJwtFilter.class, JwtService.class, ProductUtilBeans.class })
 public class ProductWriterControllerTest {
 
   @MockBean
@@ -53,9 +56,9 @@ public class ProductWriterControllerTest {
   IUserReaderOutputPort userDbReader;
   
 
+
+
   // ############# Save
-
-
   @Test
   void testSave_mustBeProtected_FromAnonymousUsers() throws Exception {
     mvc.perform(post(ProductWebConstants.POINT_PRODUCTS).contentType(MediaType.APPLICATION_JSON))
@@ -73,9 +76,10 @@ public class ProductWriterControllerTest {
   @WithMockUser(username="mario1",roles={ROLE_PRODUCT})
   void testSave_success() throws Exception {
 
-    //Scenario
-    final var input = new ProductsSaveRequest("trompo1", 10.10f, 10, "description1");
-    final var output = new ProductSimpleResponse(1, null);
+    //Scenario null, "trompo1", 10.10f, 10, "description1", null, null
+    final var input = ProductSaveRequest.builder().name("trompo1").price(10.1f).description("description1").amount(10).build();
+
+    final var output = new ProductModel(1, null, null, null, null, null, null);
     final var request = post(ProductWebConstants.POINT_PRODUCTS).contentType(MediaType.APPLICATION_JSON)
     .content(objectMapper.writeValueAsString(input));
     when(writerIP.save(any())).thenReturn(output);
@@ -92,8 +96,8 @@ public class ProductWriterControllerTest {
   void testSave_mustNotAccept_RequestsWithoutName() throws Exception {
 
     //Scenario
-    final var input = new ProductsSaveRequest(" ", 10.10f, 10, "description1");
-    final var output = new ProductSimpleResponse(1, null);
+    final var input = new ProductModel(null, " ", 1.10f, 10, "description1", null, null);
+    final var output = new ProductModel(1, null, null, null, null, null, null);
     final var request = post(ProductWebConstants.POINT_PRODUCTS).contentType(MediaType.APPLICATION_JSON)
     .content(objectMapper.writeValueAsString(input));
     when(writerIP.save(any())).thenReturn(output);
@@ -101,7 +105,17 @@ public class ProductWriterControllerTest {
     //Test
     mvc.perform(request)
       .andExpect(status().isBadRequest())
-      //.andExpect(jsonPath("$.name", is("must not be blank")))
+      .andExpect(jsonPath("$.causes", hasSize(3)))
+      
+      .andExpect(jsonPath("$.causes[0].path", is("name")))
+      .andExpect(jsonPath("$.causes[0].message", is("length must be between 4 and 64")))
+
+      .andExpect(jsonPath("$.causes[1].path", is("name")))
+      .andExpect(jsonPath("$.causes[1].message", is("must not be blank")))
+      
+      .andExpect(jsonPath("$.causes[2].path", is("price")))
+      .andExpect(jsonPath("$.causes[2].message", is("must be between 10 and 100000")))
+
     ;
   }
 
@@ -128,7 +142,7 @@ public class ProductWriterControllerTest {
     final var request = delete(ProductWebConstants.POINT_PRODUCTS_ID.replace("{id}", "1"))
       .contentType(MediaType.APPLICATION_JSON);
 
-    final var output = new ProductSimpleResponse(1, null);
+      final var output = new ProductModel(1, null, null, null, null, null, null);
     
     when(writerIP.delete(1)).thenReturn(output);
 
@@ -160,9 +174,10 @@ public class ProductWriterControllerTest {
   @WithMockUser(username="mario1",roles={ROLE_PRODUCT})
   void testUpdate_success() throws Exception {
 
-    //Scenario
-    final var input = new ProductsSaveRequest("trompo100", 100.10f, 100, "description100");
-    final var output = new ProductAllPublicInfo(1, "trompo11", 101.101f, 101, "description101", new Date());
+    //Scenario ("trompo100", 100.10f, 100, "description100");
+    final var input = ProductUpdateRequest.builder().name("trompo100")
+      .price(100.10f).amount(100).description("description100").build();
+    final var output = new ProductModel(1, "trompo11", 101.101f, 101, "description101", new Date(), null);
     final var point = ProductWebConstants.POINT_PRODUCTS_ID.replace("{id}", "1");
     final var request = put(point)
       .contentType(MediaType.APPLICATION_JSON)
@@ -177,6 +192,27 @@ public class ProductWriterControllerTest {
       .andExpect(jsonPath("$.name", is(output.getName())))
     ;
   }
+
+  @Test
+  @WithMockUser(username="mario1",roles={ROLE_PRODUCT})
+  void testUpdate_success_updateOnlyOneField() throws Exception {
+    final var input = ProductUpdateRequest.builder().amount(101).build();
+    final var output = new ProductModel(1, "trompo11", 101.100f, 101, "description101", new Date(), null);
+    final var point = ProductWebConstants.POINT_PRODUCTS_ID.replace("{id}", "1");
+    final var request = put(point)
+      .contentType(MediaType.APPLICATION_JSON)
+      .content(objectMapper.writeValueAsString(input));
+      ;
+    when(writerIP.update(any(), any())).thenReturn(output);
+
+    //Test
+    mvc.perform(request)
+      .andExpect(status().is(HttpStatus.ACCEPTED.value()))
+      .andExpect(jsonPath("$.id", is(output.getId())))
+      .andExpect(jsonPath("$.amount", is(output.getAmount())))
+    ;
+  }
+
 
 
   //Upload image product

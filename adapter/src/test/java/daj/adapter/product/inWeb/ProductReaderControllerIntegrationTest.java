@@ -21,12 +21,11 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import daj.adapter.product.outDB.ProductReaderDbAdapter;
-import daj.adapter.product.outDB.entity.ProductEntity;
 import daj.adapter.product.utils.ProductConstants;
 import daj.adapter.user.config.AuthConfig;
 import daj.adapter.user.config.AuthJwtFilter;
 import daj.product.port.in.IProductReadInputPort;
-import daj.product.port.in.dto.ProductAllPublicInfo;
+import daj.product.port.in.dto.ProductModel;
 import daj.product.port.out.IProductReaderOutputPort;
 import daj.product.service.ProductReaderService;
 import daj.user.port.out.IUserReaderOutputPort;
@@ -53,8 +52,8 @@ public class ProductReaderControllerIntegrationTest {
 
   @Test
   void testFindById_success() throws Exception {
-    final var output = new ProductEntity(1, "trompo1", 11.11f, 11, "des1", new Date(), null);
-    when(productReaderInputPort.getById(1)).thenReturn(output);
+    final var output = new ProductModel(1, "trompo1", 11.11f, 11, "des1", new Date(), null);
+    when(productReaderInputPort.findDetailsById(1)).thenReturn(output);
 
     final var point = ProductWebConstants.POINT_PRODUCTS_ID.replace("{id}", "1");
     final var req = get(point);
@@ -69,7 +68,7 @@ public class ProductReaderControllerIntegrationTest {
   @Test
   void testFindByIdOrThrow_fail_notFound() throws Exception {
     final var req = get(ProductWebConstants.POINT_PRODUCTS + "/1");
-    when(repo.findByIdOrThrow(1)).thenReturn(null);
+    when(repo.findDetailsById(1)).thenReturn(null);
     
     final var resp = mvc.perform(req);
 
@@ -80,12 +79,12 @@ public class ProductReaderControllerIntegrationTest {
   @Test
   void testGetAllProducts() throws Exception {
     // Mock the product response
-    ProductAllPublicInfo product1 = new ProductAllPublicInfo(1, "Product 1", 10.0f, 100, "Description 1", new Date());
-    ProductAllPublicInfo product2 = new ProductAllPublicInfo(2, "Product 2", 20.0f, 200, "Description 2", new Date());
-    List<ProductAllPublicInfo> products = Arrays.asList(product1, product2);
+    ProductModel product1 = new ProductModel(1, "Product 1", 10.0f, 100, "Description 1", new Date(), null);
+    ProductModel product2 = new ProductModel(2, "Product 2", 20.0f, 200, "Description 2", new Date(), null);
+    List<ProductModel> products = Arrays.asList(product1, product2);
 
     // Mock the behavior of the service
-    final Page<ProductAllPublicInfo> pageFound = new PageImpl<>(products);
+    final Page<ProductModel> pageFound = new PageImpl<>(products);
     when(productReaderInputPort.getProductsByPage(0, 10)).thenReturn(pageFound);
 
     // Perform the GET request

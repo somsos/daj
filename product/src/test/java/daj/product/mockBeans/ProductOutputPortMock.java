@@ -3,10 +3,8 @@ package daj.product.mockBeans;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import daj.product.port.in.dto.ProductSimpleInfo;
+import daj.product.port.in.dto.ProductModel;
 import daj.product.port.in.dto.RProductImage;
-import daj.product.port.in.dto.IProductAllPublicInfo;
-import daj.product.port.in.dto.ProductSaveInfo;
 import daj.product.port.out.IProductWriterOutputPort;
 
 @Profile("test")
@@ -14,23 +12,22 @@ import daj.product.port.out.IProductWriterOutputPort;
 public class ProductOutputPortMock implements IProductWriterOutputPort {
 
   @Override
-  public ProductSimpleInfo save(ProductSaveInfo input) {
+  public ProductModel save(ProductModel input) {
     throw new UnsupportedOperationException("Unimplemented method 'save'");
   }
 
   @Override
-  public ProductSimpleInfo delete(Integer toDel) {
+  public ProductModel delete(Integer toDel) {
     throw new UnsupportedOperationException("Unimplemented method 'delete'");
   }
 
   @Override
-  public IProductAllPublicInfo update(Integer id, ProductSaveInfo newInfo) {
+  public ProductModel update(Integer id, ProductModel newInfo) {
     throw new UnsupportedOperationException("Unimplemented method 'update'");
   }
 
   @Override
   public RProductImage saveImage(RProductImage imageEntity) {
-    // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'saveImage'");
   }
   

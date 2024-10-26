@@ -1,27 +1,23 @@
 package daj.adapter.product.utils;
 
-import java.util.List;
-
 import org.mapstruct.Mapper;
 
-import daj.adapter.product.inWeb.reqAndRes.ProductSimpleResponse;
+import daj.adapter.product.inWeb.reqAndResp.ProductSaveRequest;
+import daj.adapter.product.inWeb.reqAndResp.ProductUpdateRequest;
 import daj.adapter.product.outDB.entity.ProductEntity;
-import daj.adapter.product.outDB.entity.ProductImageEntity;
-import daj.product.port.in.dto.ProductAllPublicInfo;
-import daj.product.port.in.dto.ProductSaveInfo;
-import daj.product.port.in.dto.RProductImage;
+import daj.product.port.in.dto.ProductModel;
+
 
 @Mapper
 public interface ProductMapper {
-  
-  ProductEntity saveRequestToEntity(ProductSaveInfo source);
 
-  ProductSimpleResponse entityToSimpleResponse(ProductEntity source);
+  ProductModel entityToModel(ProductEntity source);
 
-  List<ProductAllPublicInfo> entitiesToAllPublicInfos(List<ProductEntity> source);
+  ProductEntity modelToEntity(ProductModel source);
 
-  ProductImageEntity RProductImageToEntity(RProductImage rProductImage);
+  //user input
+  ProductEntity saveRequestToEntity(ProductSaveRequest source);
 
-  RProductImage entityToModel(ProductImageEntity saved);
+  ProductEntity updateRequestToEntity(ProductUpdateRequest source);
 
 }

@@ -11,5 +11,10 @@ public class ProductUtilBeans {
   public ProductMapper productMapper() {
     return Mappers.getMapper(ProductMapper.class);
   }
-  
+
+  @Bean
+  public ProductImageMapper productImageMapper() {
+    return Mappers.getMapper(ProductImageMapper.class);
+  }
+
 }

@@ -77,7 +77,7 @@ public class AuthConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
 //            .authenticationProvider(authenticationProvider())
-            .addFilterBefore(new FilterErrorHandler(), UsernamePasswordAuthenticationFilter.class)
+//            .addFilterBefore(new FilterErrorHandler(), UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

@@ -8,13 +8,21 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.log4j.Log4j2;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import daj.adapter.user.outDB.entity.RoleEntity;
 import daj.common.error.ErrorResponse;
@@ -25,6 +33,7 @@ import daj.user.service.JwtService;
 import java.io.IOException;
 
 @Component
+@Log4j2
 public class AuthJwtFilter implements Filter {
 
     @Autowired
@@ -48,10 +57,24 @@ public class AuthJwtFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest requestArg, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        
-        // Retrieve the Authorization header
+    public void doFilter(ServletRequest requestArg, ServletResponse responseArg, FilterChain filterChain) throws IOException, ServletException {
         final var request = (HttpServletRequest) requestArg;
+        final var response = (HttpServletResponse) responseArg;
+        
+        try {
+            this.jwtValidation(request, response, filterChain);
+        } catch (ErrorResponse ex) {
+            this.respondUserError(response, ex);
+            return ;
+        } catch (Exception e) {
+            this.respondeUnknownError(response, e);
+            return ;
+        }
+
+        filterChain.doFilter(request, response);
+    }
+
+    private void jwtValidation(HttpServletRequest request, ServletResponse response, FilterChain filterChain) {
         String authHeader = request.getHeader("Authorization");
         String token = null;
         String idUserInput = null;
@@ -88,9 +111,6 @@ public class AuthJwtFilter implements Filter {
             SecurityContextHolder.getContext().setAuthentication(authToken);
             
         }
-
-        // Continue the filter chain
-        filterChain.doFilter(request, response);
     }
 
     private UsernamePasswordAuthenticationToken fromAuthInfoToAuthToken(AuthQrDto authInfo) {
@@ -105,5 +125,43 @@ public class AuthJwtFilter implements Filter {
         return userDetails;
     
     }
+
+    private void respondUserError(HttpServletResponse response, ErrorResponse ex) {
+        Map<String, String> errorDetails = new HashMap<>();
+        errorDetails.put("message", ex.getMessage());
+        errorDetails.put("cause", ex.getCause().getLocalizedMessage());
+        log.warn("handled in FilterErrorHandler.respondUserError: " + ex.getMessage());
+        this.sendResponse(response, errorDetails, ex.getHttpStatus());
+    }
+
+  private void respondeUnknownError(HttpServletResponse response, Exception e) {
+    Map<String, String> errorDetails = new HashMap<>();
+    errorDetails.put("message", "Internal error, try later or contact admins");
+    errorDetails.put("cause", e.getLocalizedMessage().replace("\"", ""));
+    errorDetails.put("exType", e.getClass().getName());
+    log.warn("handled in FilterErrorHandler.respondeUnknownError: " + e.getMessage());
+    this.sendResponse(response, errorDetails, 500);
+  }
+
+  private void sendResponse(HttpServletResponse response, Map<String, String> body, int status) {
+
+    response.setStatus(status);
+    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+
+    try {
+      final var mapper = new ObjectMapper();
+      response.getWriter().write(mapper.writeValueAsString(body));
+    } catch (Exception e) {
+      final String message = "Internal error, try later or contact admins";
+      final String cause = "Error converting filter error to json";
+      final String json = String.format("{\"cause\":\"%s\",\"message\":\"%s\"}", cause, message);
+      try {
+        response.getWriter().write(json);
+      } catch (IOException e1) {
+        throw new RuntimeException("Fatal as-cd-vf-5t-kj");
+      }
+    }
+
+  }
 
 }

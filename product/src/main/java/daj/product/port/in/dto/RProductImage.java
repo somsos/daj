@@ -17,6 +17,6 @@ public class RProductImage {
 
   private byte[] image;
 
-  private IProductAllPublicInfo product;
+  private ProductModel product;
   
 }

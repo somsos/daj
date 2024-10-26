@@ -3,15 +3,14 @@ package daj.adapter.product.inWeb;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import daj.adapter.product.inWeb.reqAndRes.ProductSimpleResponse;
-import daj.adapter.product.inWeb.reqAndRes.ProductsSaveRequest;
-import daj.adapter.product.inWeb.reqAndRes.ProductsUpdateRequest;
-import daj.adapter.product.outDB.entity.ProductEntity;
+import daj.adapter.product.inWeb.reqAndResp.ProductActionResponse;
+import daj.adapter.product.inWeb.reqAndResp.ProductSaveRequest;
+import daj.adapter.product.inWeb.reqAndResp.ProductUpdateRequest;
 import daj.adapter.product.outDB.entity.ProductImageEntity;
+import daj.adapter.product.utils.ProductMapper;
 import daj.common.utils.ImageUtility;
 import daj.product.port.in.IProductWriteInputPort;
-import daj.product.port.in.dto.IProductAllPublicInfo;
-import daj.product.port.in.dto.ProductSimpleInfo;
+import daj.product.port.in.dto.ProductModel;
 import daj.product.port.in.dto.RProductImage;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -33,34 +32,39 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequiredArgsConstructor
 public class ProductWriterController {
 
-  
-
   private final IProductWriteInputPort writerIP;
+
+  private final ProductMapper mapper;
   
   @PostMapping("/products")
   @ResponseStatus(HttpStatus.CREATED)
-  public ProductSimpleInfo save(@Valid @RequestBody ProductsSaveRequest input) {
-    final var response = writerIP.save(input);
+  public ProductActionResponse save(@Valid @RequestBody ProductSaveRequest input) {
+    final ProductModel mapped = mapper.saveRequestToEntity(input);
+    final var saved = writerIP.save(mapped);
+    final var response = new ProductActionResponse(saved.getId(), "product saved");
     return response;
   }
 
   @DeleteMapping(ProductWebConstants.POINT_PRODUCTS_ID)
   @ResponseStatus(HttpStatus.ACCEPTED)
-  public ProductSimpleInfo delete(@PathVariable Integer id) {
-    final ProductSimpleInfo deleted = writerIP.delete(id);
-    return deleted;
+  public ProductActionResponse delete(@PathVariable Integer id) {
+    final ProductModel deleted = writerIP.delete(id);
+
+    final var response = new ProductActionResponse(deleted.getId(), "product saved");
+    return response;
   }
 
   @PutMapping(ProductWebConstants.POINT_PRODUCTS_ID)
   @ResponseStatus(HttpStatus.ACCEPTED)
-  public IProductAllPublicInfo update(@PathVariable("id") Integer id, @Valid @RequestBody ProductsUpdateRequest input) {
-    final IProductAllPublicInfo newInfo = writerIP.update(id, input);
+  public ProductModel update(@PathVariable("id") Integer id, @Valid @RequestBody ProductUpdateRequest input) {
+    final ProductModel mapped = mapper.updateRequestToEntity(input);
+    final ProductModel newInfo = writerIP.update(id, mapped);
     return newInfo;
   }
 
   @PostMapping(ProductWebConstants.POINT_PRODUCTS_IMAGE)
   @ResponseStatus(HttpStatus.CREATED)
-  public ProductSimpleResponse uploadImage(@PathVariable("id") Integer id, @RequestParam("image") MultipartFile file) throws IOException {
+  public ProductActionResponse uploadImage(@PathVariable("id") Integer id, @RequestParam("image") MultipartFile file) throws IOException {
     final var imageFile = ImageUtility.compressImage(file.getBytes());
     
     var imageName = "defaultName";
@@ -73,14 +77,14 @@ public class ProductWriterController {
     imageEntity.setType(file.getContentType());
     imageEntity.setImage(imageFile);
     
-    ProductEntity product = new ProductEntity();
+    ProductModel product = new ProductModel();
     product.setId(id);
     imageEntity.setProduct(product);
 
     final RProductImage imageSaved = writerIP.saveImage(imageEntity);
 
-    final var response = new ProductSimpleResponse(imageSaved.getId(), "Image uploaded: " + imageName);
-      
+    final var response = new ProductActionResponse(imageSaved.getId(), "product image saved");
+
     return response;
   }
 

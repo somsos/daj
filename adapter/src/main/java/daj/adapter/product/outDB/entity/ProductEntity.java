@@ -6,8 +6,7 @@ import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Range;
 
-import daj.product.port.in.dto.IProductAllPublicInfo;
-import daj.product.port.in.dto.ProductSaveInfo;
+import daj.product.port.in.dto.ProductModel;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,7 +26,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductEntity implements IProductAllPublicInfo {
+public class ProductEntity extends ProductModel {
 
   @Id()
   @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -56,8 +55,7 @@ public class ProductEntity implements IProductAllPublicInfo {
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<ProductImageEntity> images;
 
-  @Override
-  public IProductAllPublicInfo overwrite(ProductSaveInfo newInfo) {
+  public ProductEntity overwrite(ProductModel newInfo) {
     final var merged = new ProductEntity(this.id, this.name, this.price, this.amount, this.description, this.createdAt, this.images);
 
     if (newInfo.getAmount() != null) {

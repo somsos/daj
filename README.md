@@ -149,7 +149,7 @@ so if we use interfaces and can'r create the Request/Response/Entity will throw
 this error.
 
 ```r
-Could not resolve parameter [1] in public daj.product.port.in.dto.ProductSaveInfo daj.adapter.product.inWeb.ProductWriterController.update(java.lang.Integer,daj.product.port.in.dto.ProductSaveInfo): Type definition error: [simple type, class daj.product.port.in.dto.ProductSaveInfo]
+Could not resolve parameter [1] in public daj.product.port.in.dto.ProductModel daj.adapter.product.inWeb.ProductWriterController.update(java.lang.Integer,daj.product.port.in.dto.ProductModel): Type definition error: [simple type, class daj.product.port.in.dto.ProductModel]
 ```
 
 <!--
@@ -225,7 +225,7 @@ ____
 curl -X POST -i \
   --header "Content-Type: application/json" \
   --data '{"name":"trompo1","price":10.10, "amount": 10, "description": "Trompo numero 1" }' \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3Mjk2NDE0MDQsImV4cCI6MTcyOTY0MjYwNH0.9hdlYD1QlqzI8ZOspkz3ZpVSo80CeexJ6SU1-KPMu_8" \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3Mjk5NzI2MDEsImV4cCI6MTcyOTk3MzgwMX0.rROTaMKMlKp-tJdQD8hSE9VzXpeJ7hDDiTlgeZrKh5E" \
   http://localhost:8080/products
 ```
 

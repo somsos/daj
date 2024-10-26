@@ -12,13 +12,12 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
-import daj.adapter.product.inWeb.reqAndRes.ProductsUpdateRequest;
 import daj.adapter.product.outDB.entity.ProductEntity;
 import daj.adapter.product.outDB.repository.ProductRepository;
 import daj.adapter.product.utils.ProductConstants;
 import daj.adapter.product.utils.ProductUtilBeans;
 import daj.common.error.ErrorResponse;
-import daj.product.port.in.dto.ProductSimpleInfo;
+import daj.product.port.in.dto.ProductModel;
 import daj.product.port.out.IProductWriterOutputPort;
 
 @ActiveProfiles("test")
@@ -34,18 +33,17 @@ public class ProductWriterDbAdapterTest {
   
   @Test
   void testSave() {
-    var input = new ProductEntity(null, "trompo1", 10.10f, 10, "description1", null, null);
+    var input = new ProductModel(null, "trompo1", 10.10f, 10, "description1", null, null);
     productDBAdapter.save(input);
     final ProductEntity found = repo.findByName(input.getName());
     assertNotNull(found.getCreatedAt());
-
   }
 
   @Test
   @Sql("test_createProduct.sql")
   void testDelete() {
     Integer toDel = 1;
-    ProductSimpleInfo deleted = productDBAdapter.delete(toDel);
+    ProductModel deleted = productDBAdapter.delete(toDel);
     assertEquals(toDel, deleted.getId());
 
     final ProductEntity found = repo.findById(toDel).orElse(null);
@@ -67,7 +65,7 @@ public class ProductWriterDbAdapterTest {
   @Test
   @Sql("test_createProduct.sql")
   void testUpdate() {
-    var newInfo = new ProductsUpdateRequest("someName1", 10.10f, 10, null);
+    var newInfo = new ProductModel(null, "someName1", 10.10f, 10, null, null, null);
     Integer id = 1;
     productDBAdapter.update(id, newInfo);
 
