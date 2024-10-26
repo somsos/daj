@@ -3,14 +3,14 @@ package daj.adapter.product.utils;
 import org.mapstruct.Mapper;
 
 import daj.adapter.product.outDB.entity.ProductImageEntity;
-import daj.product.port.in.dto.RProductImage;
+import daj.product.port.in.dto.ProductImageModel;
 
 
 @Mapper
 public interface ProductImageMapper {
 
-  ProductImageEntity modelToEntity(RProductImage source);
+  ProductImageEntity modelToEntity(ProductImageModel source);
 
-  RProductImage entityToModel(ProductImageEntity source);
+  ProductImageModel entityToModel(ProductImageEntity source);
   
 }

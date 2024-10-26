@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import daj.product.port.in.IProductReadInputPort;
 import daj.product.port.in.dto.ProductModel;
-import daj.product.port.in.dto.RProductImage;
+import daj.product.port.in.dto.ProductImageModel;
 import daj.product.port.out.IProductReaderOutputPort;
 import lombok.RequiredArgsConstructor;
 
@@ -28,8 +28,8 @@ public class ProductReaderService implements IProductReadInputPort {
   }
 
   @Override
-  public RProductImage findImageByName(Integer id) {
-    final RProductImage found = readerDB.findImageByName(id);
+  public ProductImageModel findImageByName(Integer id) {
+    final ProductImageModel found = readerDB.findImageByName(id);
     return found;
   }
   

@@ -36,7 +36,7 @@ import daj.adapter.user.config.AuthConfig;
 import daj.adapter.user.config.AuthJwtFilter;
 import daj.product.port.in.IProductWriteInputPort;
 import daj.product.port.in.dto.ProductModel;
-import daj.product.port.in.dto.RProductImage;
+import daj.product.port.in.dto.ProductImageModel;
 import daj.user.port.out.IUserReaderOutputPort;
 import daj.user.service.JwtService;
 
@@ -238,7 +238,7 @@ public class ProductWriterControllerTest {
     final var endpoint = ProductWebConstants.POINT_PRODUCTS_IMAGE.replace("{id}", "1");
     final var request = MockMvcRequestBuilders.multipart(endpoint).file(image);
 
-    final var outPut = new RProductImage(1, image.getName(), image.getContentType(), image.getBytes(), null);
+    final var outPut = new ProductImageModel(1, image.getName(), image.getContentType(), image.getBytes(), null);
     when(writerIP.saveImage(any())).thenReturn(outPut);
 
     mvc.perform(request)

@@ -1,6 +1,6 @@
 package daj.adapter.product.outDB.entity;
 
-import daj.product.port.in.dto.RProductImage;
+import daj.product.port.in.dto.ProductImageModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "image")
 @NoArgsConstructor
-public class ProductImageEntity extends RProductImage {
+public class ProductImageEntity extends ProductImageModel {
 
   @Id
 	@Column(name = "id")

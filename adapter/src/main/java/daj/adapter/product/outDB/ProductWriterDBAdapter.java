@@ -9,7 +9,7 @@ import daj.adapter.product.outDB.repository.ImageProductRepository;
 import daj.adapter.product.outDB.repository.ProductRepository;
 import daj.adapter.product.utils.ProductImageMapper;
 import daj.adapter.product.utils.ProductMapper;
-import daj.product.port.in.dto.RProductImage;
+import daj.product.port.in.dto.ProductImageModel;
 import daj.product.port.out.IProductWriterOutputPort;
 import lombok.RequiredArgsConstructor;
 
@@ -52,7 +52,7 @@ public class ProductWriterDBAdapter implements IProductWriterOutputPort {
   }
 
   @Override
-  public RProductImage saveImage(RProductImage rProductImage) {
+  public ProductImageModel saveImage(ProductImageModel rProductImage) {
     //Check if exists
     final var productInDB = reader.findByIdOrThrow(rProductImage.getProduct().getId());
 
@@ -61,7 +61,7 @@ public class ProductWriterDBAdapter implements IProductWriterOutputPort {
 
     final ProductImageEntity toSave = imageMapper.modelToEntity(rProductImage);
     final ProductImageEntity saved = imageRepo.save(toSave);
-    final RProductImage output = imageMapper.entityToModel(saved);
+    final ProductImageModel output = imageMapper.entityToModel(saved);
     return output;
   }
   

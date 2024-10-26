@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RProductImage {
+public class ProductImageModel {
 
   private Integer id;
 

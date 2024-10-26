@@ -11,7 +11,7 @@ import daj.adapter.product.utils.ProductMapper;
 import daj.common.utils.ImageUtility;
 import daj.product.port.in.IProductWriteInputPort;
 import daj.product.port.in.dto.ProductModel;
-import daj.product.port.in.dto.RProductImage;
+import daj.product.port.in.dto.ProductImageModel;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -81,7 +81,7 @@ public class ProductWriterController {
     product.setId(id);
     imageEntity.setProduct(product);
 
-    final RProductImage imageSaved = writerIP.saveImage(imageEntity);
+    final ProductImageModel imageSaved = writerIP.saveImage(imageEntity);
 
     final var response = new ProductActionResponse(imageSaved.getId(), "product image saved");
 

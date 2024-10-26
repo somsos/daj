@@ -7,7 +7,7 @@ import daj.common.error.ErrorResponse;
 import daj.common.utils.ImageUtility;
 import daj.product.port.in.IProductReadInputPort;
 import daj.product.port.in.dto.ProductModel;
-import daj.product.port.in.dto.RProductImage;
+import daj.product.port.in.dto.ProductImageModel;
 import io.jsonwebtoken.io.IOException;
 import lombok.RequiredArgsConstructor;
 
@@ -47,7 +47,7 @@ public class ProductReaderController {
   @GetMapping(ProductWebConstants.POINT_PRODUCTS_IMAGE_ID)
   public ResponseEntity<byte[]> getImage(@PathVariable Integer id) throws IOException {
 
-    final RProductImage image = readerIP.findImageByName(id);
+    final ProductImageModel image = readerIP.findImageByName(id);
 
     if(image == null) {
       throw new ErrorResponse(ProductWebConstants.ERROR_IMAGE_NOT_FOUND, 404, "not_found");

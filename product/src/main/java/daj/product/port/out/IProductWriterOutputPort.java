@@ -1,7 +1,7 @@
 package daj.product.port.out;
 
 import daj.product.port.in.dto.ProductModel;
-import daj.product.port.in.dto.RProductImage;
+import daj.product.port.in.dto.ProductImageModel;
 
 public interface IProductWriterOutputPort {
   
@@ -11,6 +11,6 @@ public interface IProductWriterOutputPort {
 
   public ProductModel update(Integer id, ProductModel newInfo);
 
-  public RProductImage saveImage(RProductImage imageEntity);
+  public ProductImageModel saveImage(ProductImageModel imageEntity);
 
 }

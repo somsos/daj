@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 import daj.product.port.in.IProductWriteInputPort;
 import daj.product.port.in.dto.ProductModel;
-import daj.product.port.in.dto.RProductImage;
+import daj.product.port.in.dto.ProductImageModel;
 import daj.product.port.out.IProductWriterOutputPort;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,8 +34,8 @@ public class ProductWriterService implements IProductWriteInputPort {
   }
 
   @Override
-  public RProductImage saveImage(RProductImage imageEntity) {
-    final RProductImage saved = productOutP.saveImage(imageEntity);
+  public ProductImageModel saveImage(ProductImageModel imageEntity) {
+    final ProductImageModel saved = productOutP.saveImage(imageEntity);
     return saved;
   }
   

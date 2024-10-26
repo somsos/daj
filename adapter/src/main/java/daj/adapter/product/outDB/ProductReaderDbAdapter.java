@@ -7,7 +7,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import daj.product.port.in.dto.ProductModel;
-import daj.product.port.in.dto.RProductImage;
+import daj.product.port.in.dto.ProductImageModel;
 
 import org.springframework.stereotype.Component;
 
@@ -58,9 +58,9 @@ public class ProductReaderDbAdapter implements IProductReaderOutputPort {
   }
 
   @Override
-  public RProductImage findImageByName(Integer id) {
+  public ProductImageModel findImageByName(Integer id) {
     final ProductImageEntity found = imageRepo.findById(id).orElse(null);
-    final RProductImage output = imageMapper.entityToModel(found);
+    final ProductImageModel output = imageMapper.entityToModel(found);
     return output;
   }
   
