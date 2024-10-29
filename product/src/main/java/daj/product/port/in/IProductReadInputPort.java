@@ -10,8 +10,8 @@ public interface IProductReadInputPort {
   
   ProductModel findDetailsById(Integer id);
 
-  Page<ProductModel> getProductsByPage(int page, int size);
+  Page<ProductModel> findByPage(int page, int size);
 
-  ProductImageModel findImageByName(@NotNull Integer id);
+  ProductImageModel findImageById(@NotNull Integer id);
 
 }

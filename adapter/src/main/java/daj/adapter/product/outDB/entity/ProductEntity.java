@@ -26,7 +26,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductEntity extends ProductModel {
+public class ProductEntity {
 
   @Id()
   @GeneratedValue(strategy=GenerationType.IDENTITY)

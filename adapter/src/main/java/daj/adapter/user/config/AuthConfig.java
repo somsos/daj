@@ -51,7 +51,11 @@ public class AuthConfig {
             .authorizeHttpRequests(auth -> auth
                 
             //Annonymous
-                .requestMatchers(HttpMethod.POST, AuthController.REGISTER_PATH, AuthController.LOGIN_PATH).permitAll()
+                .requestMatchers(HttpMethod.POST,
+                    AuthController.REGISTER_PATH,
+                    AuthController.LOGIN_PATH
+                    ).permitAll()
+                
                 .requestMatchers(HttpMethod.GET,
                         ProductWebConstants.POINT_PRODUCTS_IMAGE_ID,
                         ProductWebConstants.POINT_PRODUCTS_ID,

@@ -19,3 +19,14 @@ We use these 3 endpoints
 3, Register a new user with `/auth/register` and hit the 3 endpoints
 
 - Only `/auth/is-logged` should get a 200 response the others an 403
+
+<!-- 
+
+######################################################################
+######################################################################
+
+-->
+
+## Check products with images functionality
+
+1, Log with a user with products role

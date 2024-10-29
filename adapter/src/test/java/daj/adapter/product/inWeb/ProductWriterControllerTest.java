@@ -79,7 +79,7 @@ public class ProductWriterControllerTest {
     //Scenario null, "trompo1", 10.10f, 10, "description1", null, null
     final var input = ProductSaveRequest.builder().name("trompo1").price(10.1f).description("description1").amount(10).build();
 
-    final var output = new ProductModel(1, null, null, null, null, null, null);
+    final var output = new ProductModel(1, null, null, null, null, null, null, null);
     final var request = post(ProductWebConstants.POINT_PRODUCTS).contentType(MediaType.APPLICATION_JSON)
     .content(objectMapper.writeValueAsString(input));
     when(writerIP.save(any())).thenReturn(output);
@@ -96,8 +96,8 @@ public class ProductWriterControllerTest {
   void testSave_mustNotAccept_RequestsWithoutName() throws Exception {
 
     //Scenario
-    final var input = new ProductModel(null, " ", 1.10f, 10, "description1", null, null);
-    final var output = new ProductModel(1, null, null, null, null, null, null);
+    final var input = new ProductModel(null, " ", 1.10f, 10, "description1", null, null, null);
+    final var output = new ProductModel(1, null, null, null, null, null, null, null);
     final var request = post(ProductWebConstants.POINT_PRODUCTS).contentType(MediaType.APPLICATION_JSON)
     .content(objectMapper.writeValueAsString(input));
     when(writerIP.save(any())).thenReturn(output);
@@ -142,7 +142,7 @@ public class ProductWriterControllerTest {
     final var request = delete(ProductWebConstants.POINT_PRODUCTS_ID.replace("{id}", "1"))
       .contentType(MediaType.APPLICATION_JSON);
 
-      final var output = new ProductModel(1, null, null, null, null, null, null);
+      final var output = new ProductModel(1, null, null, null, null, null, null, null);
     
     when(writerIP.delete(1)).thenReturn(output);
 
@@ -177,7 +177,7 @@ public class ProductWriterControllerTest {
     //Scenario ("trompo100", 100.10f, 100, "description100");
     final var input = ProductUpdateRequest.builder().name("trompo100")
       .price(100.10f).amount(100).description("description100").build();
-    final var output = new ProductModel(1, "trompo11", 101.101f, 101, "description101", new Date(), null);
+    final var output = new ProductModel(1, "trompo11", 101.101f, 101, "description101", new Date(), null, null);
     final var point = ProductWebConstants.POINT_PRODUCTS_ID.replace("{id}", "1");
     final var request = put(point)
       .contentType(MediaType.APPLICATION_JSON)
@@ -197,7 +197,7 @@ public class ProductWriterControllerTest {
   @WithMockUser(username="mario1",roles={ROLE_PRODUCT})
   void testUpdate_success_updateOnlyOneField() throws Exception {
     final var input = ProductUpdateRequest.builder().amount(101).build();
-    final var output = new ProductModel(1, "trompo11", 101.100f, 101, "description101", new Date(), null);
+    final var output = new ProductModel(1, "trompo11", 101.100f, 101, "description101", new Date(), null, null);
     final var point = ProductWebConstants.POINT_PRODUCTS_ID.replace("{id}", "1");
     final var request = put(point)
       .contentType(MediaType.APPLICATION_JSON)

@@ -1,5 +1,6 @@
 package daj.adapter.product.inWeb;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -22,9 +23,11 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import daj.adapter.product.outDB.ProductReaderDbAdapter;
 import daj.adapter.product.utils.ProductConstants;
+import daj.adapter.product.utils.ProductUtilBeans;
 import daj.adapter.user.config.AuthConfig;
 import daj.adapter.user.config.AuthJwtFilter;
 import daj.product.port.in.IProductReadInputPort;
+import daj.product.port.in.dto.ProductImageModel;
 import daj.product.port.in.dto.ProductModel;
 import daj.product.port.out.IProductReaderOutputPort;
 import daj.product.service.ProductReaderService;
@@ -33,7 +36,8 @@ import daj.user.service.JwtService;
 
 @WebMvcTest({
   ProductReaderController.class, AuthConfig.class, AuthJwtFilter.class,
-  JwtService.class, ProductReaderService.class, ProductReaderDbAdapter.class
+  JwtService.class, ProductReaderService.class, ProductReaderDbAdapter.class,
+  ProductUtilBeans.class
 })
 @ActiveProfiles("test")
 public class ProductReaderControllerIntegrationTest {
@@ -52,7 +56,12 @@ public class ProductReaderControllerIntegrationTest {
 
   @Test
   void testFindById_success() throws Exception {
-    final var output = new ProductModel(1, "trompo1", 11.11f, 11, "des1", new Date(), null);
+    final var output = new ProductModel(1, "Product 1", 10.0f, 100, "Description 1", new Date(), null, null);
+    final var image1P1 = new ProductImageModel(1, null, null, null, null);
+    final var image2P1 = new ProductImageModel(2, null, null, null, null);
+    List<ProductImageModel> product1Images = Arrays.asList(image1P1, image2P1);
+    output.setImages(product1Images);
+    
     when(productReaderInputPort.findDetailsById(1)).thenReturn(output);
 
     final var point = ProductWebConstants.POINT_PRODUCTS_ID.replace("{id}", "1");
@@ -61,7 +70,12 @@ public class ProductReaderControllerIntegrationTest {
     final var resp = mvc.perform(req);
 
     resp.andExpect(status().isOk())
-      .andExpect(jsonPath("$.id", is(output.getId())));
+      .andExpect(jsonPath("$.id", is(output.getId())))
+      .andExpect(jsonPath("$.name").value("Product 1"))
+      .andExpect(jsonPath("$.images", hasSize(2)))
+      .andExpect(jsonPath("$.images[0]", is(1)))      
+    ;
+      
   }
 
 
@@ -77,15 +91,20 @@ public class ProductReaderControllerIntegrationTest {
   }
 
   @Test
-  void testGetAllProducts() throws Exception {
+  void testFindByPage() throws Exception {
     // Mock the product response
-    ProductModel product1 = new ProductModel(1, "Product 1", 10.0f, 100, "Description 1", new Date(), null);
-    ProductModel product2 = new ProductModel(2, "Product 2", 20.0f, 200, "Description 2", new Date(), null);
+    final var product1 = new ProductModel(1, "Product 1", 10.0f, 100, "Description 1", new Date(), null, null);
+    final var image1P1 = new ProductImageModel(1, null, null, null, null);
+    final var image2P1 = new ProductImageModel(2, null, null, null, null);
+    List<ProductImageModel> product1Images = Arrays.asList(image1P1, image2P1);
+    product1.setImages(product1Images);
+
+    final var product2 = new ProductModel(2, "Product 2", 20.0f, 200, "Description 2", new Date(), null, null);
     List<ProductModel> products = Arrays.asList(product1, product2);
 
     // Mock the behavior of the service
     final Page<ProductModel> pageFound = new PageImpl<>(products);
-    when(productReaderInputPort.getProductsByPage(0, 10)).thenReturn(pageFound);
+    when(productReaderInputPort.findByPage(0, 10)).thenReturn(pageFound);
 
     // Perform the GET request
     mvc.perform(get(ProductWebConstants.POINT_PRODUCTS_BY_PAGE)
@@ -94,7 +113,10 @@ public class ProductReaderControllerIntegrationTest {
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.content.length()").value(2))
+        .andExpect(jsonPath("$.content[0].id", is(1)))
         .andExpect(jsonPath("$.content[0].name").value("Product 1"))
+        .andExpect(jsonPath("$.content[0].images", hasSize(2)))
+        .andExpect(jsonPath("$.content[0].images[1]", is(2)))
         .andExpect(jsonPath("$.content[1].name").value("Product 2"))
     ;
   }

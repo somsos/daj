@@ -6,7 +6,6 @@ import org.springframework.web.multipart.MultipartFile;
 import daj.adapter.product.inWeb.reqAndResp.ProductActionResponse;
 import daj.adapter.product.inWeb.reqAndResp.ProductSaveRequest;
 import daj.adapter.product.inWeb.reqAndResp.ProductUpdateRequest;
-import daj.adapter.product.outDB.entity.ProductImageEntity;
 import daj.adapter.product.utils.ProductMapper;
 import daj.common.utils.ImageUtility;
 import daj.product.port.in.IProductWriteInputPort;
@@ -72,12 +71,12 @@ public class ProductWriterController {
       imageName = file.getOriginalFilename();
     }
     
-    final var imageEntity = new ProductImageEntity();
+    final var imageEntity = new ProductImageModel();
     imageEntity.setName(imageName);
     imageEntity.setType(file.getContentType());
     imageEntity.setImage(imageFile);
     
-    ProductModel product = new ProductModel();
+    final var product = new ProductModel();
     product.setId(id);
     imageEntity.setProduct(product);
 

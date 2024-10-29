@@ -22,14 +22,14 @@ public class ProductReaderService implements IProductReadInputPort {
   }
 
   @Override
-  public Page<ProductModel> getProductsByPage(int page, int size) {
+  public Page<ProductModel> findByPage(int page, int size) {
     final var pageFound = readerDB.findByPage(page, size);
     return pageFound;
   }
 
   @Override
-  public ProductImageModel findImageByName(Integer id) {
-    final ProductImageModel found = readerDB.findImageByName(id);
+  public ProductImageModel findImageById(Integer id) {
+    final ProductImageModel found = readerDB.findImageById(id);
     return found;
   }
   

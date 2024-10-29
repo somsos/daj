@@ -50,8 +50,8 @@ Users
   - [Current] Product images
     - [X] Upload
     - [X] Show image by id image
-    - [Current] Get images by product id
-    - [ ] delete image by id
+    - [X] Get images by product id
+    - [Current] delete image by id
     - [ ] check delete images when product is deleted
 
 - [ ] Understand mapping and find out if there is a simpler way.
@@ -225,14 +225,14 @@ ____
 curl -X POST -i \
   --header "Content-Type: application/json" \
   --data '{"name":"trompo1","price":10.10, "amount": 10, "description": "Trompo numero 1" }' \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3Mjk5NzI2MDEsImV4cCI6MTcyOTk3MzgwMX0.rROTaMKMlKp-tJdQD8hSE9VzXpeJ7hDDiTlgeZrKh5E" \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3Mjk5OTQ0NzIsImV4cCI6MTcyOTk5NTY3Mn0.Tzll8jaRMbqMTHHvh6SJkuc7MtnY4d_219a5KC1p244" \
   http://localhost:8080/products
 ```
 
 #### Find by id
 
 ```bash
-curl -X GET -i \
+curl -i -X GET \
   --header "Content-Type: application/json" \
   http://localhost:8080/products/1
 ```
@@ -268,7 +268,7 @@ curl -X GET -i \
 
 ```shell
 curl -v \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3Mjk4MTA3MDUsImV4cCI6MTcyOTgxMTkwNX0.ZP591UGBK3mCg5wC8qG_5tYyL52SXiHMN6RJWtoQ9yE" \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3Mjk5OTQ0NzIsImV4cCI6MTcyOTk5NTY3Mn0.Tzll8jaRMbqMTHHvh6SJkuc7MtnY4d_219a5KC1p244" \
   -F image=@./temporal/small_blue.png  \
   http://localhost:8080/products/1/image
 ```

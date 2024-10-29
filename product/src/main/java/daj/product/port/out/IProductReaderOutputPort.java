@@ -11,6 +11,6 @@ public interface IProductReaderOutputPort {
 
   Page<ProductModel> findByPage(int page, int size);
 
-  ProductImageModel findImageByName(Integer id);
+  ProductImageModel findImageById(Integer id);
 
 }

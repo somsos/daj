@@ -1,9 +1,7 @@
 package daj.product.port.in.dto;
 
 import java.util.Date;
-
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,16 +18,15 @@ public class ProductModel {
 
   private String name;
 
-  @Range(min = 10, max = 100000)
   private Float price;
 
-  @Range(min = 1, max = 100000)
   private Integer amount;
 
-  @Length(min = 4, max = 64)
   private String description;
 
   private Date createdAt;
+
+  private List<ProductImageModel> images;
 
   private ProductModelSource source;
   

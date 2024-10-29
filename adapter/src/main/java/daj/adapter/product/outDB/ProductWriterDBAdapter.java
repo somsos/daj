@@ -39,7 +39,7 @@ public class ProductWriterDBAdapter implements IProductWriterOutputPort {
   public ProductModel delete(Integer toDel) {
     reader.findByIdOrThrow(toDel);
     this.repo.deleteById(toDel);
-    final var output = new ProductModel(1, null, null, null, null, null, null);
+    final var output = new ProductModel(1, null, null, null, null, null, null, null);
     return output;
   }
 
@@ -47,17 +47,20 @@ public class ProductWriterDBAdapter implements IProductWriterOutputPort {
   public ProductModel update(Integer id, ProductModel newInfo) {
     final var inDB = reader.findByIdOrThrow(id);
     final var merged = inDB.overwrite(newInfo);
-    final ProductModel updated = this.repo.save(merged);
-    return updated;
+
+    final ProductEntity updated = this.repo.save(merged);
+    final ProductModel output = mapper.entityToModel(updated);
+    return output;
   }
 
   @Override
   public ProductImageModel saveImage(ProductImageModel rProductImage) {
     //Check if exists
-    final var productInDB = reader.findByIdOrThrow(rProductImage.getProduct().getId());
+    final ProductEntity productInDB = reader.findByIdOrThrow(rProductImage.getProduct().getId());
 
     // save
-    rProductImage.setProduct(productInDB);
+    final ProductModel pm = mapper.entityToModel(productInDB);
+    rProductImage.setProduct(pm);
 
     final ProductImageEntity toSave = imageMapper.modelToEntity(rProductImage);
     final ProductImageEntity saved = imageRepo.save(toSave);

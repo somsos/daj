@@ -1,6 +1,5 @@
 package daj.adapter.product.outDB.entity;
 
-import daj.product.port.in.dto.ProductImageModel;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,44 +8,35 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Table(name = "image")
+@Table(name = "product_images")
 @NoArgsConstructor
-public class ProductImageEntity extends ProductImageModel {
+@AllArgsConstructor
+@Getter
+@Setter
+public class ProductImageEntity {
 
   @Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Override
-  public Integer getId() {
-    return super.getId();
-  }
+  private Integer id;
 
-	@Column(length = 64)
-	@Override
-  public String getName() {
-    return super.getName();
-  }
+  @Column(length = 64)
+  private String name;
 
-	@Column(length = 64)
-	@Override
-  public String getType() {
-    return super.getType();
-  }
+  @Column(length = 32)
+  private String type;
 
-	@Column(unique = false, nullable = false, length = 100000)
-	@Override
-  public byte[] getImage() {
-    return super.getImage();
-  }
+  @Column(unique = false, nullable = false, length = 100000)
+  private byte[] image;
 
-  @Override
   @ManyToOne
   @JoinColumn(name = "id_product", nullable = false)
-  public ProductEntity getProduct() {
-    return (ProductEntity)super.getProduct();
-  }
+  private ProductEntity product;
   
 }

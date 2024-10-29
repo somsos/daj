@@ -23,7 +23,7 @@ public class ProductReaderOutputPort implements IProductReaderOutputPort {
   }
 
   @Override
-  public ProductImageModel findImageByName(Integer id) {
+  public ProductImageModel findImageById(Integer id) {
     throw new UnsupportedOperationException("Unimplemented method 'findImageByName'");
   }
   

@@ -45,20 +45,35 @@ public class ProductReaderDbAdapter implements IProductReaderOutputPort {
 
   @Override
   public ProductModel findDetailsById(Integer id) {
-    var found = this.findByIdOrThrow(id);
-    return found;
+    ProductEntity found = this.findByIdOrThrow(id);
+    List<ProductImageEntity> images = imageRepo.findByProductId(found.getId());
+
+    final ProductModel output = mapper.entityToModel(found);
+    List<ProductImageModel> imagesOut = images.stream().map(e -> imageMapper.entityToModel(e)).toList();
+    output.setImages(imagesOut);
+    return output;
   }
 
   @Override
   public Page<ProductModel> findByPage(int page, int size) {
     final var pageFound = repo.findAll(PageRequest.of(page, size));
-    final List<ProductModel> contentMapped = pageFound.getContent().stream().map(e -> { return mapper.entityToModel(e); }).toList();
+    final List<ProductModel> contentMapped = mapper.listEntitiesToModels(pageFound.getContent());
+
+    contentMapped.forEach(pm -> {
+      final var pe = pageFound.getContent().stream().filter(e -> e.getId() == pm.getId()).findFirst().orElse(null);
+      if(pe != null) {
+        List<ProductImageModel> imagesOut = pe.getImages().stream().map(e -> imageMapper.entityToModel(e)).toList();
+        pm.setImages(imagesOut);  
+      }
+    });
+    
+    
     final var pageMapped = new PageImpl<>(contentMapped, pageFound.getPageable(), pageFound.getSize());
     return pageMapped;
   }
 
   @Override
-  public ProductImageModel findImageByName(Integer id) {
+  public ProductImageModel findImageById(Integer id) {
     final ProductImageEntity found = imageRepo.findById(id).orElse(null);
     final ProductImageModel output = imageMapper.entityToModel(found);
     return output;

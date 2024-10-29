@@ -33,7 +33,7 @@ public class ProductWriterDbAdapterTest {
   
   @Test
   void testSave() {
-    var input = new ProductModel(null, "trompo1", 10.10f, 10, "description1", null, null);
+    var input = new ProductModel(null, "trompo1", 10.10f, 10, "description1", null, null, null);
     productDBAdapter.save(input);
     final ProductEntity found = repo.findByName(input.getName());
     assertNotNull(found.getCreatedAt());
@@ -65,7 +65,7 @@ public class ProductWriterDbAdapterTest {
   @Test
   @Sql("test_createProduct.sql")
   void testUpdate() {
-    var newInfo = new ProductModel(null, "someName1", 10.10f, 10, null, null, null);
+    var newInfo = new ProductModel(null, "someName1", 10.10f, 10, null, null, null, null);
     Integer id = 1;
     productDBAdapter.update(id, newInfo);
 

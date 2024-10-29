@@ -25,7 +25,7 @@ public class ProductMapperTest {
   public void castEntityToModel() {
     final var mapper = Mappers.getMapper(ProductMapper.class);
     final var entitySource = new ProductEntity(1, null, null, null, null, null, null);
-    final ProductModel modelTarget = mapper.modelToEntity(entitySource);
+    final ProductModel modelTarget = mapper.entityToModel(entitySource);
 
     assertEquals(entitySource.getId(), modelTarget.getId());
 
