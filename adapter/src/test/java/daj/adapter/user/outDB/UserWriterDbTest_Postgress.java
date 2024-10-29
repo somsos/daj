@@ -29,7 +29,7 @@ import daj.user.port.out.dto.UserRole;
 @Import({UserWriterDb.class, RoleEntity.class})
 @ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class UserWriterDbTest {
+public class UserWriterDbTest_Postgress {
 
   @Container
   @ServiceConnection
@@ -108,5 +108,7 @@ public class UserWriterDbTest {
     
     fail("exception expected");
   }
+
+
 
 }

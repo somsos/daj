@@ -1,15 +1,20 @@
 package daj.adapter.product.outDB;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
+import daj.adapter.product.outDB.repository.ProductRepository;
+import daj.adapter.product.utils.ProductConstants;
 import daj.adapter.product.utils.ProductUtilBeans;
+import daj.common.error.ErrorResponse;
 
 @ActiveProfiles("test")
 @DataJpaTest
@@ -18,6 +23,12 @@ public class ProductReaderDbAdapterTest {
 
   @Autowired
   ProductReaderDbAdapter productReader;
+
+  @Autowired
+  ProductRepository repo;
+
+  @Autowired
+  private JdbcTemplate jdbcTemplate;
   
   @Test
   @Sql("test_createProduct.sql")
@@ -44,11 +55,38 @@ public class ProductReaderDbAdapterTest {
     var firstProductFirstImage = firstProduct.getImages().get(0);
     assertEquals(Integer.valueOf(1), firstProductFirstImage.getId());
 
+    //Note: the product id 20 is deleted so it should not return product id 20
+    assertEquals(Integer.valueOf(21), lastProduct.getId());
     assertEquals(2, lastProduct.getImages().size());
     var firstProductLastImage = lastProduct.getImages().get(lastProduct.getImages().size()-1);
     assertEquals(Integer.valueOf(6), firstProductLastImage.getId());
 
     assertEquals("Board Game", lastProduct.getName());
+  }
+
+
+  @Test
+  @Sql("test_createDeletedProduct.sql")
+  void testFindByIdOrThrow_mustNotReturnProductsMarkedAsDeleted() {
+    var ex = assertThrows(ErrorResponse.class,
+      () -> productReader.findByIdOrThrow(1),
+      "Not found exception expected"
+    );
+    assertEquals(ProductConstants.NOT_FOUND, ex.getMessage());
+  }
+
+  @Test
+  @Sql("test_createProduct.sql")
+  void testDelete_mustJustMarkTheUserAsDeleted() {
+    var mustExist = repo.findById(1).orElse(null);
+    assertEquals(Integer.valueOf(1), mustExist.getId());
+    repo.deleteById(1);
+
+    var mustExistMarkedAsDeleted = jdbcTemplate.queryForObject("select id from products;", Integer.class);
+    assertEquals(Integer.valueOf(1), mustExistMarkedAsDeleted);
+
+    var mustBeNull = repo.findById(1).orElse(null);
+    assertEquals(null, mustBeNull);
   }
 
 }

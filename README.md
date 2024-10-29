@@ -17,6 +17,7 @@
       - [Save](#save)
       - [Find by id](#find-by-id)
       - [Delete by id](#delete-by-id)
+    - [Product image](#product-image)
       - [Update by id](#update-by-id)
       - [Find by page](#find-by-page)
       - [Upload image](#upload-image)
@@ -48,12 +49,13 @@ Users
   - [X] Delete
   - [X] Update
   - [X] Get products by page
-  - [Current] Product images
+  - [X] Product images
     - [X] Upload
     - [X] Show image by id image
     - [X] Get images by product id
     - [X] delete image by id
-    - [Current] check delete images when product is deleted
+    - [X] check delete images when product is deleted
+  - [Current] don't delete, mark as deleted
 
 - [ ] Understand mapping and find out if there is a simpler way.
 
@@ -243,9 +245,11 @@ curl -i -X GET \
 ```bash
 curl -X DELETE -i \
   --header "Content-Type: application/json" \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3Mjk2NDE0MDQsImV4cCI6MTcyOTY0MjYwNH0.9hdlYD1QlqzI8ZOspkz3ZpVSo80CeexJ6SU1-KPMu_8" \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAyNDAwNDQsImV4cCI6MTczMDI0MTI0NH0.f90AeE6fyAPSEc0ktAqCKJ2gax7LisFKkiL3IAKoc-s" \
   http://localhost:8080/products/1
 ```
+
+### Product image
 
 #### Update by id
 
@@ -284,7 +288,7 @@ curl -i -X GET http://localhost:8080/products/image/1
 
 ```shell
 curl -i -X DELETE \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAxNjgzNTMsImV4cCI6MTczMDE2OTU1M30.Lt4nfnYvS9oU51ISWE54Eqb6-Yv3AOutL5xwHqYGviI" \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAyNDE1MTQsImV4cCI6MTczMDI0MjcxNH0.oEmixuUzk1sEMssqr6R2EYk_prAzpEcEscxJQkXRVAs" \
   http://localhost:8080/products/image/1
 ```
 
