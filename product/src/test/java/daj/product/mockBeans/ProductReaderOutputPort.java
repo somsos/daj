@@ -5,7 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import daj.product.port.in.dto.ProductModel;
-import daj.product.port.in.dto.ProductImageModel;
 import daj.product.port.out.IProductReaderOutputPort;
 
 @Profile("test")
@@ -22,9 +21,6 @@ public class ProductReaderOutputPort implements IProductReaderOutputPort {
     throw new UnsupportedOperationException("Unimplemented method 'getProductsByPage'");
   }
 
-  @Override
-  public ProductImageModel findImageById(Integer id) {
-    throw new UnsupportedOperationException("Unimplemented method 'findImageByName'");
-  }
+  
   
 }

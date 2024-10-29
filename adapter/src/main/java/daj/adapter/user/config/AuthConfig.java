@@ -63,7 +63,9 @@ public class AuthConfig {
                     ).permitAll()
                 
                     //role user
-                .requestMatchers(HttpMethod.GET, AuthController.CHECK_USERS_ROLE).hasAuthority(R + ADMIN_USER)
+                .requestMatchers(HttpMethod.GET,
+                        AuthController.CHECK_USERS_ROLE
+                    ).hasAuthority(R + ADMIN_USER)
 
                 //role product
                 .requestMatchers(HttpMethod.GET, AuthController.CHECK_PRODUCT_ROLE).hasAuthority(R + ROLE_PRODUCT)
@@ -71,8 +73,16 @@ public class AuthConfig {
                         ProductWebConstants.POINT_PRODUCTS_IMAGE,
                         ProductWebConstants.POINT_PRODUCTS
                     ).hasAuthority(R + ROLE_PRODUCT)
-                .requestMatchers(HttpMethod.DELETE, ProductWebConstants.POINT_PRODUCTS_ID).hasAuthority(R + ROLE_PRODUCT)
-                .requestMatchers(HttpMethod.PUT, ProductWebConstants.POINT_PRODUCTS_ID).hasAuthority(R + ROLE_PRODUCT)
+                
+                .requestMatchers(HttpMethod.DELETE,
+                        ProductWebConstants.POINT_PRODUCTS_ID,
+                        ProductWebConstants.POINT_PRODUCTS_IMAGE_ID
+                    ).hasAuthority(R + ROLE_PRODUCT)
+                
+                
+                .requestMatchers(HttpMethod.PUT,
+                        ProductWebConstants.POINT_PRODUCTS_ID
+                    ).hasAuthority(R + ROLE_PRODUCT)
                 
                 //.requestMatchers("/auth/user/admin/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()

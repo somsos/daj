@@ -72,11 +72,4 @@ public class ProductReaderDbAdapter implements IProductReaderOutputPort {
     return pageMapped;
   }
 
-  @Override
-  public ProductImageModel findImageById(Integer id) {
-    final ProductImageEntity found = imageRepo.findById(id).orElse(null);
-    final ProductImageModel output = imageMapper.entityToModel(found);
-    return output;
-  }
-  
 }

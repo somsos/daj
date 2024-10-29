@@ -6,16 +6,11 @@ import daj.adapter.product.inWeb.reqAndResp.ProductDetailsResponse;
 import daj.adapter.product.utils.ProductConstants;
 import daj.adapter.product.utils.ProductMapper;
 import daj.common.error.ErrorResponse;
-import daj.common.utils.ImageUtility;
 import daj.product.port.in.IProductReadInputPort;
-import daj.product.port.in.dto.ProductImageModel;
-import io.jsonwebtoken.io.IOException;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,21 +44,6 @@ public class ProductReaderController {
     final var contentMapped = mapper.listModelsToDetails(pageFound.getContent());
     final var pageResponse = new PageImpl<ProductDetailsResponse>(contentMapped, pageFound.getPageable(), pageFound.getSize());
     return pageResponse;
-  }
-
-  @GetMapping(ProductWebConstants.POINT_PRODUCTS_IMAGE_ID)
-  public ResponseEntity<byte[]> getImage(@PathVariable Integer id) throws IOException {
-
-    final ProductImageModel image = readerIP.findImageById(id);
-
-    if(image == null) {
-      throw new ErrorResponse(ProductWebConstants.ERROR_IMAGE_NOT_FOUND, 404, "not_found");
-    }
-
-    return ResponseEntity
-      .ok()
-      .contentType(MediaType.valueOf(image.getType()))
-      .body(ImageUtility.decompressImage(image.getImage()));
   }
 
 }

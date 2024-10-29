@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import daj.product.port.in.dto.ProductModel;
-import daj.product.port.in.dto.ProductImageModel;
 import daj.product.port.out.IProductWriterOutputPort;
 
 @Profile("test")
@@ -26,9 +25,6 @@ public class ProductOutputPortMock implements IProductWriterOutputPort {
     throw new UnsupportedOperationException("Unimplemented method 'update'");
   }
 
-  @Override
-  public ProductImageModel saveImage(ProductImageModel imageEntity) {
-    throw new UnsupportedOperationException("Unimplemented method 'saveImage'");
-  }
+  
   
 }

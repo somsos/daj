@@ -21,6 +21,7 @@
       - [Find by page](#find-by-page)
       - [Upload image](#upload-image)
       - [See image](#see-image)
+      - [delete image](#delete-image)
   - [Quick notes](#quick-notes)
 
 ## ToDo
@@ -51,8 +52,8 @@ Users
     - [X] Upload
     - [X] Show image by id image
     - [X] Get images by product id
-    - [Current] delete image by id
-    - [ ] check delete images when product is deleted
+    - [X] delete image by id
+    - [Current] check delete images when product is deleted
 
 - [ ] Understand mapping and find out if there is a simpler way.
 
@@ -276,7 +277,15 @@ curl -v \
 #### See image
 
 ```shell
-curl -X -i GET http://localhost:8080/products/image/1
+curl -i -X GET http://localhost:8080/products/image/1
+```
+
+#### delete image
+
+```shell
+curl -i -X DELETE \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAxNjgzNTMsImV4cCI6MTczMDE2OTU1M30.Lt4nfnYvS9oU51ISWE54Eqb6-Yv3AOutL5xwHqYGviI" \
+  http://localhost:8080/products/image/1
 ```
 
 ____

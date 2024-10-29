@@ -15,7 +15,7 @@ public interface ProductImageMapper {
 
   ProductImageEntity modelToEntity(ProductImageModel source);
 
-  @Mapping(ignore = true, target = "image")
+  //@Mapping(ignore = true, target = "image")
   ProductImageModel entityToModel(ProductImageEntity source);
   
   //make a recoursion error

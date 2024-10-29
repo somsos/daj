@@ -6,10 +6,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static daj.adapter.common.AuthConstants.ROLE_REGISTERED;
 import static daj.adapter.common.AuthConstants.ROLE_PRODUCT;
@@ -36,7 +34,6 @@ import daj.adapter.user.config.AuthConfig;
 import daj.adapter.user.config.AuthJwtFilter;
 import daj.product.port.in.IProductWriteInputPort;
 import daj.product.port.in.dto.ProductModel;
-import daj.product.port.in.dto.ProductImageModel;
 import daj.user.port.out.IUserReaderOutputPort;
 import daj.user.service.JwtService;
 
@@ -212,44 +209,6 @@ public class ProductWriterControllerTest {
       .andExpect(jsonPath("$.amount", is(output.getAmount())))
     ;
   }
-
-
-
-  //Upload image product
-  @Test
-  void test_uploadImage_mustBeProtected_FromAnonymousUsers() throws Exception {
-    final var endpoint = ProductWebConstants.POINT_PRODUCTS_IMAGE.replace("{id}", "1");
-    mvc.perform(post(endpoint).contentType(MediaType.APPLICATION_JSON))
-      .andExpect(status().isForbidden());
-  }
-
-  @Test
-  @WithMockUser(username="mario1",roles={ROLE_REGISTERED})
-  void test_uploadImage_mustBeProtected_FromRegisteredUsers() throws Exception {
-    final var endpoint = ProductWebConstants.POINT_PRODUCTS_IMAGE.replace("{id}", "1");
-    mvc.perform(post(endpoint).contentType(MediaType.APPLICATION_JSON))
-      .andExpect(status().isForbidden());
-  }
-
-  @Test
-  @WithMockUser(username="mario1",roles={ROLE_PRODUCT})
-  void test_uploadImage_success() throws Exception {
-    final var image = new MockMultipartFile("image", "filename.png", MediaType.IMAGE_PNG.getType(), "soma_data".getBytes());
-    final var endpoint = ProductWebConstants.POINT_PRODUCTS_IMAGE.replace("{id}", "1");
-    final var request = MockMvcRequestBuilders.multipart(endpoint).file(image);
-
-    final var outPut = new ProductImageModel(1, image.getName(), image.getContentType(), image.getBytes(), null);
-    when(writerIP.saveImage(any())).thenReturn(outPut);
-
-    mvc.perform(request)
-      .andExpect(status().is(HttpStatus.CREATED.value()))
-      .andExpect(jsonPath("$.id", is(outPut.getId())))
-    ;
-
-  }
-
-
-  
 
 
 }
