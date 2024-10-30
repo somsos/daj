@@ -9,10 +9,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRrDto {
-  
-  private Integer id;
+public class UserRoleDto {
 
-  private String token;
+  private Integer id;
+  
+  private String authority;
   
 }

@@ -17,8 +17,8 @@
       - [Save](#save)
       - [Find by id](#find-by-id)
       - [Delete by id](#delete-by-id)
-    - [Product image](#product-image)
       - [Update by id](#update-by-id)
+    - [Product image](#product-image)
       - [Find by page](#find-by-page)
       - [Upload image](#upload-image)
       - [See image](#see-image)
@@ -55,12 +55,18 @@ Users
     - [X] Get images by product id
     - [X] delete image by id
     - [X] check delete images when product is deleted
-  - [Current] don't delete, mark as deleted
+  - [X] don't delete, mark as deleted
 
-- [ ] Understand mapping and find out if there is a simpler way.
+- [X] Understand mapping and find out if there is a simpler way.
 
-- [ ] Documentation
-  - [ ] Include Architecture diagram to repository
+- [Current] Documentation
+  - [X] Include Architecture diagram to repository
+  - [Current] Sincronice Diagram with project folder structure
+    - [Current] Separate Request/Response objects and keep just DTO in user domain module
+    - [ ] In domain modules make changes to see clear what part is public and what one is private
+    - [ ] **IMPORTANT** Add ArchUnit tests, to check that the adapter just access to the public part of the domain module
+    - [ ] Export diagram from .drawio to .png (and that it looks fine)
+    - [ ] Check what other diagrams should be useful
 
 - [ ] Create template from this project
   - [ ] Create essay
@@ -174,7 +180,7 @@ ____
 ```bash
 curl -X POST -i \
   --header "Content-Type: application/json" \
-  --data '{"username":"mario3","password":"mario3p"}' \
+  --data '{"username":"mario2","password":"mario2p"}' \
   http://localhost:8080/auth/create-token
 ```
 
@@ -196,7 +202,7 @@ token should get a 403
 ```bash
 curl -X GET -i \
   --header "Content-Type: application/json" \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzI5Mjk5MzgwLCJleHAiOjE3MjkyOTk2ODB9.38rtGlTEiNgx2omZvAdPQLmb-wy90JM3I7NVpzzsWIk" \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAzMzEzNDYsImV4cCI6MTczMDMzMjU0Nn0.PpD7b6-8iwOCWNzgBw1-TCItZ6uKqgOXFGq2zCBEVhs" \
   http://localhost:8080/auth/is-logged
 ```
 
@@ -205,7 +211,7 @@ curl -X GET -i \
 ```bash
 curl -X GET -i \
   --header "Content-Type: application/json" \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzI5Mjk5MzgwLCJleHAiOjE3MjkyOTk2ODB9.38rtGlTEiNgx2omZvAdPQLmb-wy90JM3I7NVpzzsWIk" \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAzMzEzNDYsImV4cCI6MTczMDMzMjU0Nn0.PpD7b6-8iwOCWNzgBw1-TCItZ6uKqgOXFGq2zCBEVhs" \
   http://localhost:8080/auth/check-user-role
 ```
 
@@ -214,7 +220,7 @@ curl -X GET -i \
 ```bash
 curl -X GET -i \
   --header "Content-Type: application/json" \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzI5Mjk5MzgwLCJleHAiOjE3MjkyOTk2ODB9.38rtGlTEiNgx2omZvAdPQLmb-wy90JM3I7NVpzzsWIk" \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAzMzEzNDYsImV4cCI6MTczMDMzMjU0Nn0.PpD7b6-8iwOCWNzgBw1-TCItZ6uKqgOXFGq2zCBEVhs" \
   http://localhost:8080/auth/check-product-role
 ```
 
@@ -228,7 +234,7 @@ ____
 curl -X POST -i \
   --header "Content-Type: application/json" \
   --data '{"name":"trompo1","price":10.10, "amount": 10, "description": "Trompo numero 1" }' \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3Mjk5OTQ0NzIsImV4cCI6MTcyOTk5NTY3Mn0.Tzll8jaRMbqMTHHvh6SJkuc7MtnY4d_219a5KC1p244" \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAzMzEzNDYsImV4cCI6MTczMDMzMjU0Nn0.PpD7b6-8iwOCWNzgBw1-TCItZ6uKqgOXFGq2zCBEVhs" \
   http://localhost:8080/products
 ```
 
@@ -245,21 +251,21 @@ curl -i -X GET \
 ```bash
 curl -X DELETE -i \
   --header "Content-Type: application/json" \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAyNDAwNDQsImV4cCI6MTczMDI0MTI0NH0.f90AeE6fyAPSEc0ktAqCKJ2gax7LisFKkiL3IAKoc-s" \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAzMzEzNDYsImV4cCI6MTczMDMzMjU0Nn0.PpD7b6-8iwOCWNzgBw1-TCItZ6uKqgOXFGq2zCBEVhs" \
   http://localhost:8080/products/1
 ```
-
-### Product image
 
 #### Update by id
 
 ```bash
 curl -X PUT -i \
   --header "Content-Type: application/json" \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3Mjk2NDE0MDQsImV4cCI6MTcyOTY0MjYwNH0.9hdlYD1QlqzI8ZOspkz3ZpVSo80CeexJ6SU1-KPMu_8" \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAzMzEzNDYsImV4cCI6MTczMDMzMjU0Nn0.PpD7b6-8iwOCWNzgBw1-TCItZ6uKqgOXFGq2zCBEVhs" \
   --data '{ "description": "Trompo numero 1111" }' \
   http://localhost:8080/products/1
 ```
+
+### Product image
 
 #### Find by page
 
@@ -273,7 +279,7 @@ curl -X GET -i \
 
 ```shell
 curl -v \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3Mjk5OTQ0NzIsImV4cCI6MTcyOTk5NTY3Mn0.Tzll8jaRMbqMTHHvh6SJkuc7MtnY4d_219a5KC1p244" \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAzMzEzNDYsImV4cCI6MTczMDMzMjU0Nn0.PpD7b6-8iwOCWNzgBw1-TCItZ6uKqgOXFGq2zCBEVhs" \
   -F image=@./temporal/small_blue.png  \
   http://localhost:8080/products/1/image
 ```
@@ -288,7 +294,7 @@ curl -i -X GET http://localhost:8080/products/image/1
 
 ```shell
 curl -i -X DELETE \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAyNDE1MTQsImV4cCI6MTczMDI0MjcxNH0.oEmixuUzk1sEMssqr6R2EYk_prAzpEcEscxJQkXRVAs" \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAzMzEzNDYsImV4cCI6MTczMDMzMjU0Nn0.PpD7b6-8iwOCWNzgBw1-TCItZ6uKqgOXFGq2zCBEVhs" \
   http://localhost:8080/products/image/1
 ```
 
@@ -303,3 +309,8 @@ ____
 -->
 
 ## Quick notes
+
+Change from Model to DTO, because since the point of view of Domain the object that
+comes and goes to the adapter is just to transport the info, what it goes more
+with the definition od DTO, and it keeps things more simple to understand
+(check the `Figure 9.3` of `Get Your Hands Dirty on Clean Architecture`)

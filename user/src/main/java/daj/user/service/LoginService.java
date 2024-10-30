@@ -4,8 +4,7 @@ import org.springframework.stereotype.Service;
 
 import daj.common.error.ErrorResponse;
 import daj.user.port.in.ILoginInputPort;
-import daj.user.port.in.dto.LoginRrDto;
-import daj.user.port.in.dto.LoginRDto;
+import daj.user.port.in.dto.UserDto;
 import daj.user.port.out.IUserReaderOutputPort;
 import lombok.AllArgsConstructor;
 
@@ -20,7 +19,7 @@ public class LoginService implements ILoginInputPort {
   private final IHasher hasher;
 
   @Override
-  public LoginRrDto login(LoginRDto input) {
+  public UserDto login(UserDto input) {
     final var userAuthInfoFound = userReader.getAuthInfoByUsername(input.getUsername());
 
     if(userAuthInfoFound == null) {
@@ -33,7 +32,9 @@ public class LoginService implements ILoginInputPort {
 
     final String token = jwtService.generateToken(userAuthInfoFound.getId());
 
-    final var output = new LoginRrDto(userAuthInfoFound.getId(), token);
+    final var output = new UserDto();
+    output.setId(userAuthInfoFound.getId());
+    output.setToken(token);
     return output;
   }
   

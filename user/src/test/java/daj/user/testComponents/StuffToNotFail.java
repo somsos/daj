@@ -3,8 +3,8 @@ package daj.user.testComponents;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import daj.user.port.in.dto.UserDto;
 import daj.user.port.out.IUserReaderOutputPort;
-import daj.user.port.out.dto.AuthQrDto;
 
 
 /*This class is just to temporally satisfy Components when this module, is
@@ -16,12 +16,12 @@ import daj.user.port.out.dto.AuthQrDto;
 public class StuffToNotFail implements IUserReaderOutputPort {
 
   @Override
-  public AuthQrDto getAuthInfoByUsername(String username) {
+  public UserDto getAuthInfoByUsername(String username) {
     throw new UnsupportedOperationException("Unimplemented method 'getAuthInfoByUsername'");
   }
 
   @Override
-  public AuthQrDto findAuthById(Integer userId) {
+  public UserDto findAuthById(Integer userId) {
     throw new UnsupportedOperationException("Unimplemented method 'findAuthById'");
   }
 

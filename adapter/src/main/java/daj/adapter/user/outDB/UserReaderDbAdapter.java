@@ -1,35 +1,37 @@
 package daj.adapter.user.outDB;
 
-import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
-import daj.adapter.user.mapper.UserDBMapper;
 import daj.adapter.user.outDB.entity.UserEntity;
+import daj.adapter.user.outDB.repository.UserRepository;
+import daj.adapter.user.outDB.utils.IUserMapper;
+import daj.user.port.in.dto.UserDto;
 import daj.user.port.out.IUserReaderOutputPort;
-import daj.user.port.out.dto.AuthQrDto;
 import lombok.AllArgsConstructor;
 
 @Primary
 @Component
 @AllArgsConstructor
-public class UserReaderDao implements IUserReaderOutputPort {
+public class UserReaderDbAdapter implements IUserReaderOutputPort {
 
   private final UserRepository repo;
 
-  private static final UserDBMapper mapper = Mappers.getMapper(UserDBMapper.class);
+  private final IUserMapper mapper;
 
   @Override
-  public AuthQrDto getAuthInfoByUsername(String username) {
+  public UserDto getAuthInfoByUsername(String username) {
     final UserEntity found = repo.findByUsername(username);
-    final AuthQrDto foundMapped = mapper.UserAuthInfoToUserAuthInfo(found);
+  
+    final UserDto foundMapped = mapper.entityToDto(found);
     return foundMapped;
   }
 
   @Override
-  public AuthQrDto findAuthById(Integer userId) {
+  public UserDto findAuthById(Integer userId) {
     final UserEntity found = repo.findById(userId).orElse(null);
-    final AuthQrDto foundMapped = mapper.UserAuthInfoToUserAuthInfo(found);
+    
+    final UserDto foundMapped = mapper.entityToDto(found);
     return foundMapped;
   }
   

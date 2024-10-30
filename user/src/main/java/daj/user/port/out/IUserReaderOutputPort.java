@@ -1,11 +1,11 @@
 package daj.user.port.out;
 
-import daj.user.port.out.dto.AuthQrDto;
+import daj.user.port.in.dto.UserDto;
 
 public interface IUserReaderOutputPort {
   
-  AuthQrDto getAuthInfoByUsername(String username);
+  UserDto getAuthInfoByUsername(String username);
 
-  AuthQrDto findAuthById(Integer userId);
+  UserDto findAuthById(Integer userId);
 
 }

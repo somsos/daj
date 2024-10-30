@@ -22,14 +22,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import daj.adapter.user.config.AuthConfig;
 import daj.adapter.user.config.AuthJwtFilter;
+import daj.adapter.user.inWeb.reqAndResp.LoginRequest;
+import daj.adapter.user.inWeb.reqAndResp.RegisterRequest;
+import daj.adapter.user.outDB.utils.UserUtilBeans;
 import daj.user.port.in.ILoginInputPort;
 import daj.user.port.in.IRegisterInputPort;
-import daj.user.port.in.dto.LoginRDto;
-import daj.user.port.in.dto.LoginRrDto;
-import daj.user.port.in.dto.RegisterRDto;
-import daj.user.port.in.dto.RegisterRrDto;
+import daj.user.port.in.dto.UserDto;
 import daj.user.port.out.IUserReaderOutputPort;
-import daj.user.port.out.dto.AuthQrDto;
 import daj.user.service.JwtService;
 
 import static daj.adapter.common.AuthConstants.ROLE_REGISTERED;
@@ -40,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 //import jakarta.security.auth.message.config.AuthConfig;
 
 //@Import({AuthConfig.class})
-@WebMvcTest({AuthConfig.class, AuthJwtFilter.class, JwtService.class, AuthController.class})
+@WebMvcTest({AuthConfig.class, AuthJwtFilter.class, JwtService.class, AuthController.class, UserUtilBeans.class})
 @ActiveProfiles("test")
 public class AuthControllerTest {
 
@@ -111,9 +110,15 @@ public class AuthControllerTest {
   void testLogin_success() throws Exception {
     
     //scenario
-    final LoginRDto input = new LoginRDto("mario1", "mario1p");
-    final AuthQrDto userInDb = new AuthQrDto(1, "mario1", "mario1p");
-    final LoginRrDto output = new LoginRrDto(1, "some-token");
+    final var input = new LoginRequest("mario1", "mario1p");
+    final var userInDb = new UserDto();
+    userInDb.setId(1);
+    userInDb.setUsername("mario1");
+    userInDb.setPassword("mario1p");
+
+    final var output = new UserDto();
+    userInDb.setId(1);
+    userInDb.setToken("some-token");
     
     final var request = post(AuthController.LOGIN_PATH).contentType(MediaType.APPLICATION_JSON)
     .content(objectMapper.writeValueAsString(input));
@@ -132,8 +137,11 @@ public class AuthControllerTest {
 
   @Test
   void testRegister_success() throws Exception {
-    final var input = new RegisterRDto("mario3", "mario3@email.com", "mario3p");
-    final var output = new RegisterRrDto(1, null);
+    final var input = new RegisterRequest("mario3", "mario3@email.com", "mario3p");
+
+
+    final var output = new UserDto();
+    output.setId(1);
 
     when(registerInputPort.register(any())).thenReturn(output);
 
@@ -150,8 +158,9 @@ public class AuthControllerTest {
 
   @Test
   void testRegister_errorPasswordRequired() throws Exception {
-    final var input = new RegisterRDto("mario3", "mario3@email.com", " ");
-    final var output = new RegisterRrDto(1, null);
+    final var input = new RegisterRequest("mario3", "mario3@email.com", " ");
+    final var output = new UserDto();
+    output.setId(1);
 
     when(registerInputPort.register(any())).thenReturn(output);
 

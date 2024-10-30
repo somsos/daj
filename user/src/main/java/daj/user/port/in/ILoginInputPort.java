@@ -1,10 +1,9 @@
 package daj.user.port.in;
 
-import daj.user.port.in.dto.LoginRrDto;
-import daj.user.port.in.dto.LoginRDto;
+import daj.user.port.in.dto.UserDto;
 
 public interface ILoginInputPort {
 
-  LoginRrDto login(LoginRDto input);
+  UserDto login(UserDto input);
   
 }

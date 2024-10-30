@@ -26,8 +26,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import daj.adapter.user.outDB.entity.RoleEntity;
 import daj.common.error.ErrorResponse;
+import daj.user.port.in.dto.UserDto;
 import daj.user.port.out.IUserReaderOutputPort;
-import daj.user.port.out.dto.AuthQrDto;
 import daj.user.service.JwtService;
 
 import java.io.IOException;
@@ -96,7 +96,7 @@ public class AuthJwtFilter implements Filter {
                 throw new ErrorResponse("invalid token", 400, "expected sub as integer");
             }
 
-            AuthQrDto authInfoFound = userReadings.findAuthById(idUser);
+            UserDto authInfoFound = userReadings.findAuthById(idUser);
 
             // Validate token and set authentication
             boolean validToken = jwtService.validateToken(token, authInfoFound);
@@ -113,7 +113,7 @@ public class AuthJwtFilter implements Filter {
         }
     }
 
-    private UsernamePasswordAuthenticationToken fromAuthInfoToAuthToken(AuthQrDto authInfo) {
+    private UsernamePasswordAuthenticationToken fromAuthInfoToAuthToken(UserDto authInfo) {
 
       final var auths = authInfo.getRoles().stream()
         .map(r -> new RoleEntity(r.getId(), r.getAuthority(), null))

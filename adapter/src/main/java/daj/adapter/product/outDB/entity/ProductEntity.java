@@ -3,6 +3,7 @@ package daj.adapter.product.outDB.entity;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
@@ -60,6 +61,7 @@ public class ProductEntity {
   private List<ProductImageEntity> images;
 
   @Column(name="deleted_at", nullable = true)
+  @ColumnDefault("null")
   @Temporal(TemporalType.DATE)
   private Date deletedAt;
 

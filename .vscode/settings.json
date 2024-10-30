@@ -4,7 +4,9 @@
     "datasource",
     "hasher",
     "Hasher",
+    "mapstruct",
     "postgres",
+    "Replacethiswithasecurekeyinarealapplicationideallyfetchedfromenvironmentvariable",
     "sess"
   ],
   "java.compile.nullAnalysis.mode": "automatic"

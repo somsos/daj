@@ -1,6 +1,5 @@
 package daj.adapter.user.inWeb;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,15 +7,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import daj.adapter.user.inWeb.reqAndResp.LoginRequest;
+import daj.adapter.user.inWeb.reqAndResp.LoginResponse;
+import daj.adapter.user.inWeb.reqAndResp.RegisterRequest;
+import daj.adapter.user.inWeb.reqAndResp.RegisterResponse;
+import daj.adapter.user.outDB.utils.IUserMapper;
 import daj.user.port.in.ILoginInputPort;
 import daj.user.port.in.IRegisterInputPort;
-import daj.user.port.in.dto.LoginRDto;
-import daj.user.port.in.dto.LoginRrDto;
-import daj.user.port.in.dto.RegisterRDto;
-import daj.user.port.in.dto.RegisterRrDto;
+import daj.user.port.in.dto.UserDto;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 
 @RestController
+@AllArgsConstructor
 public class AuthController {
   
   public static final String LOGIN_PATH = "/auth/create-token";
@@ -26,22 +29,27 @@ public class AuthController {
   public static final String CHECK_USERS_ROLE = "/auth/check-user-role";
   public static final String CHECK_PRODUCT_ROLE = "/auth/check-product-role";
 
-  @Autowired
-  private ILoginInputPort loginPortInput;
+  
+  final private ILoginInputPort loginPortInput;
 
-  @Autowired
-  IRegisterInputPort registerInputPort;
+  final private IRegisterInputPort registerInputPort;
+
+  final private IUserMapper mapper;
 
   @PostMapping(LOGIN_PATH)
-  public LoginRrDto login(@Valid @RequestBody LoginRDto input) {
-    LoginRrDto output = loginPortInput.login(input);
+  public LoginResponse login(@Valid @RequestBody LoginRequest input) {
+    final UserDto inputMapped = mapper.loginRequestToDto(input);
+    final UserDto logged = loginPortInput.login(inputMapped);
+    final LoginResponse output = mapper.dtoToLoginResponse(logged);
     return output;
   }
 
   @PostMapping(REGISTER_PATH)
   @ResponseStatus(HttpStatus.CREATED)
-  public RegisterRrDto register(@Valid @RequestBody RegisterRDto input) {
-    var output = registerInputPort.register(input);
+  public RegisterResponse register(@Valid @RequestBody RegisterRequest input) {
+    final UserDto inputMapped = mapper.registerRequestToDto(input);
+    final UserDto registered = registerInputPort.register(inputMapped);
+    final RegisterResponse output = mapper.dtoToRegisterResponse(registered);
     return output;
   }
 

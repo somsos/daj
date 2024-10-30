@@ -21,15 +21,16 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 
 import daj.adapter.user.outDB.entity.RoleEntity;
+import daj.adapter.user.outDB.repository.UserRepository;
 import daj.adapter.user.outDB.utils.ErrorConstrainToUserMsg;
-import daj.user.port.in.dto.RegisterRDto;
-import daj.user.port.out.dto.UserRole;
+import daj.user.port.in.dto.UserDto;
+import daj.user.port.in.dto.UserRoleDto;
 
 @DataJpaTest
-@Import({UserWriterDb.class, RoleEntity.class})
+@Import({UserWriterDbAdapter.class, RoleEntity.class})
 @ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class UserWriterDbTest_Postgress {
+public class UserWriterDbAdapterTest_Postgress {
 
   @Container
   @ServiceConnection
@@ -56,16 +57,20 @@ public class UserWriterDbTest_Postgress {
   }
 
   @Autowired
-  UserWriterDb userWriterDb;
+  UserWriterDbAdapter userWriterDb;
 
   @Autowired
   private UserRepository userRepository;
 
   @Test
   void testRegister_success() {
-    final var toRegister = new RegisterRDto("mario3", "mario3@email.com", "mario3Pass");
-    final var roles = new ArrayList<UserRole>();
-    roles.add(new UserRole(-53, null));
+    final var toRegister = new UserDto();
+    toRegister.setUsername("mario3");
+    toRegister.setEmail("mario3@email.com");
+    toRegister.setPassword("mario3Pass");
+
+    final var roles = new ArrayList<UserRoleDto>();
+    roles.add(new UserRoleDto(-53, null));
     userWriterDb.register(toRegister, roles);
 
     //check
@@ -78,9 +83,14 @@ public class UserWriterDbTest_Postgress {
 
   @Test
   void testRegister_repeatedUser() {
-    final var toRegister = new RegisterRDto("mario1", "mario1@email.com", "mario1p");
-    final var roles = new ArrayList<UserRole>();
-    roles.add(new UserRole(-53, null));
+    final var toRegister = new UserDto();
+    final var roles = new ArrayList<UserRoleDto>();
+    roles.add(new UserRoleDto(-53, null));
+    toRegister.setUsername("mario3");
+    toRegister.setEmail("mario3@email.com");
+    toRegister.setPassword("mario3Pass");
+    toRegister.setRoles(roles);
+
     try {
       userWriterDb.register(toRegister, roles);
     } catch (DataIntegrityViolationException e) {
@@ -95,9 +105,14 @@ public class UserWriterDbTest_Postgress {
 
   @Test
   void testRegister_repeatedEmail() {
-    final var toRegister = new RegisterRDto("marioXXX", "mario1@email.com", "marioXXp");
-    final var roles = new ArrayList<UserRole>();
-    roles.add(new UserRole(-53, null));
+    final var toRegister = new UserDto();
+    final var roles = new ArrayList<UserRoleDto>();
+    roles.add(new UserRoleDto(-53, null));
+    toRegister.setUsername("marioXXX");
+    toRegister.setEmail("mario1@email.com");
+    toRegister.setPassword("marioXXp");
+    toRegister.setRoles(roles);
+
     try {
       userWriterDb.register(toRegister, roles);
     } catch (DataIntegrityViolationException e) {

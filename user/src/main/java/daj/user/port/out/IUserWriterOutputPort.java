@@ -2,12 +2,11 @@ package daj.user.port.out;
 
 import java.util.List;
 
-import daj.user.port.in.dto.RegisterRDto;
-import daj.user.port.in.dto.RegisterRrDto;
-import daj.user.port.out.dto.UserRole;
+import daj.user.port.in.dto.UserDto;
+import daj.user.port.in.dto.UserRoleDto;
 
 public interface IUserWriterOutputPort {
   
-  RegisterRrDto register(RegisterRDto toRegister, List<UserRole> roles);
+  UserDto register(UserDto toRegister, List<UserRoleDto> roles);
 
 }

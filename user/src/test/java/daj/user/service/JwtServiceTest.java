@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import daj.user.port.out.dto.AuthQrDto;
+import daj.user.port.in.dto.UserDto;
 
 @ExtendWith(MockitoExtension.class)
 public class JwtServiceTest {
@@ -29,7 +29,10 @@ public class JwtServiceTest {
 
   @Test
   void testValidateToken() {
-    final var user = new AuthQrDto(1, "username", "password");
+    final var user = new UserDto();
+    user.setId(1);
+    user.setUsername("username");
+    user.setPassword("password");
     final var token = jwtService.generateToken(user.getId());
     jwtService.validateToken(token, user);
   }

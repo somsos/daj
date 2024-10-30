@@ -10,15 +10,16 @@ import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
-import daj.adapter.user.outDB.entity.RoleEntity;
+import daj.adapter.user.outDB.repository.UserRepository;
+import daj.adapter.user.outDB.utils.UserUtilBeans;
 
 @DataJpaTest
-@Import({UserWriterDb.class, RoleEntity.class})
+@Import({UserWriterDbAdapter.class, UserUtilBeans.class})
 @ActiveProfiles("test")
-public class UserWriterDbTest_H2 {
+public class UserWriterDbAdapterTest_H2 {
 
   @Autowired
-  UserWriterDb userOP;
+  UserWriterDbAdapter userOP;
 
   @Autowired
   private UserRepository repo;

@@ -13,12 +13,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import daj.user.port.in.dto.UserDto;
 import daj.user.port.out.IUserReaderOutputPort;
-import daj.user.port.out.dto.AuthQrDto;
-
-import daj.user.port.in.dto.LoginRrDto;
 import daj.common.error.ErrorResponse;
-import daj.user.port.in.dto.LoginRDto;
 
 @ExtendWith(MockitoExtension.class)
 public class LoginServiceTest {
@@ -40,14 +37,21 @@ public class LoginServiceTest {
 
   @Test
   void testLogin_successLogin() {
-    final var userInDb = new AuthQrDto(1, "mario1", hasher.encode("mario1p"));
-    final var userInput = new LoginRDto("mario1", "mario1p");
+    final var userInDb = new UserDto();
+    userInDb.setId(1);
+    userInDb.setUsername("mario1");
+    userInDb.setPassword(hasher.encode("mario1p"));
+
+    final var userInput = new UserDto();
+    userInput.setUsername("mario1");
+    userInput.setPassword("mario1p");
+
     final var tokenToGenerate = "some-token";
 
     when(this.userReader.getAuthInfoByUsername( any() )).thenReturn(userInDb);
     when(this.jwtService.generateToken(any())).thenReturn(tokenToGenerate);
     
-    final LoginRrDto output = this.loginService.login(userInput);
+    final UserDto output = this.loginService.login(userInput);
 
     Mockito.verify(jwtService, times(1)).generateToken(userInDb.getId());
     assertEquals(userInDb.getId(), output.getId());
@@ -57,7 +61,10 @@ public class LoginServiceTest {
 
   @Test
   void testLogin_failLogin_userNotFound() {
-    final var userInput = new LoginRDto("mario1", "mario1p");
+    final var userInput = new UserDto();
+    userInput.setUsername("mario1");
+    userInput.setPassword("mario1p");
+
     when(this.userReader.getAuthInfoByUsername( any() )).thenReturn(null);
 
     try {
@@ -72,8 +79,15 @@ public class LoginServiceTest {
 
   @Test
   void testLogin_failLogin_userPasswordNotMath() {
-    final var userInput = new LoginRDto("mario1", "mario1XXX");
-    final var userInDb = new AuthQrDto(1, "mario1", "mario1p");
+    final var userInput = new UserDto();
+    userInput.setUsername("mario1");
+    userInput.setPassword("mario1XXX");
+
+    final var userInDb = new UserDto();
+    userInput.setId(1);
+    userInput.setUsername("mario1");
+    userInput.setPassword("mario1p");
+
     when(this.userReader.getAuthInfoByUsername( any() )).thenReturn(userInDb);
 
     try {

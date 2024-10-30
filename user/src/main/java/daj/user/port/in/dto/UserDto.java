@@ -1,7 +1,7 @@
 package daj.user.port.in.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,14 +11,18 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRDto {
-  
-  @NotBlank
-  @Size(min = 3, max = 16)
+public class UserDto {
+
+  private Integer id;
+
   private String username;
 
-  @NotBlank
-  @Size(min = 3, max = 16)
+  private String email;
+
   private String password;
+
+  private String token;
+
+ private List<UserRoleDto> roles;
   
 }

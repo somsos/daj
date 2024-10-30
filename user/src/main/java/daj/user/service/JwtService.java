@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import daj.common.error.ErrorResponse;
-import daj.user.port.out.dto.AuthQrDto;
+import daj.user.port.in.dto.UserDto;
 
 import java.security.Key;
 import java.util.Date;
@@ -45,7 +45,7 @@ public class JwtService {
         
     }
 
-    public Boolean validateToken(String token, AuthQrDto userDetails) {
+    public Boolean validateToken(String token, UserDto userDetails) {
         try {
             final String username = extractUsername(token);
             final Boolean valid = (username.equals(userDetails.getId() + "") && !isTokenExpired(token));

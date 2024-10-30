@@ -43,7 +43,7 @@ public class ProductWriterController {
   public ProductActionResponse delete(@PathVariable Integer id) {
     final ProductModel deleted = writerIP.delete(id);
 
-    final var response = new ProductActionResponse(deleted.getId(), "product saved");
+    final var response = new ProductActionResponse(deleted.getId(), "product deleted");
     return response;
   }
 
