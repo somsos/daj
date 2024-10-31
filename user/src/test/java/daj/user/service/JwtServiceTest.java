@@ -7,12 +7,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import daj.user.port.in.IJwtService;
 import daj.user.port.in.dto.UserDto;
 
 @ExtendWith(MockitoExtension.class)
 public class JwtServiceTest {
 
-  private JwtService jwtService;
+  private IJwtService jwtService;
 
   @BeforeEach
   void setUp() throws Exception {

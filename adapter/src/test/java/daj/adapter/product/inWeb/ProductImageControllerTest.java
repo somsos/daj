@@ -18,33 +18,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import daj.adapter.user.config.AuthConfig;
-import daj.adapter.user.config.AuthJwtFilter;
 import daj.product.port.in.IProductImageInputPort;
 import daj.product.port.in.dto.ProductImageModel;
-import daj.user.port.out.IUserReaderOutputPort;
-import daj.user.service.JwtService;
 
-
-@WebMvcTest({
-  ProductImageController.class,
-  AuthConfig.class, AuthJwtFilter.class, JwtService.class // for auth checks
-})
+@ActiveProfiles("test")
+@WebMvcTest({ ProductImageController.class, AuthConfig.class })
 public class ProductImageControllerTest {
-
-  @MockBean
-  IUserReaderOutputPort userDbReader; // to mock auth flow
 
   @MockBean
   private IProductImageInputPort imageIP;
 
   @Autowired
-  private MockMvc mvc;
-
-  
+  private MockMvc mvc;  
 
   //####### upload image ########
 

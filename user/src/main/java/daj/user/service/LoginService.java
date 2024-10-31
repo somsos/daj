@@ -3,6 +3,8 @@ package daj.user.service;
 import org.springframework.stereotype.Service;
 
 import daj.common.error.ErrorResponse;
+import daj.user.port.in.IHasher;
+import daj.user.port.in.IJwtService;
 import daj.user.port.in.ILoginInputPort;
 import daj.user.port.in.dto.UserDto;
 import daj.user.port.out.IUserReaderOutputPort;
@@ -14,7 +16,7 @@ public class LoginService implements ILoginInputPort {
   
   private final IUserReaderOutputPort userReader;
 
-  private final JwtService jwtService;
+  private final IJwtService jwtService;
 
   private final IHasher hasher;
 

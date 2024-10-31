@@ -3,6 +3,8 @@ package daj.user.service;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import daj.user.port.in.IHasher;
+
 @Profile("test")
 @Component
 public class HasherTest implements IHasher {

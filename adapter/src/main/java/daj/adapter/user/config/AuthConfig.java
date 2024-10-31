@@ -1,9 +1,12 @@
 package daj.adapter.user.config;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -31,8 +34,11 @@ public class AuthConfig {
     public UserDetailsService authService;
 */
 
-    @Autowired
+    @Autowired(required = false)
     AuthJwtFilter jwtAuthFilter;
+
+    @Autowired
+    Environment env;
 
     /* 
     @Bean
@@ -92,7 +98,15 @@ public class AuthConfig {
             )
 //            .authenticationProvider(authenticationProvider())
 //            .addFilterBefore(new FilterErrorHandler(), UsernamePasswordAuthenticationFilter.class)
-            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+            ;
+
+        final boolean isTest = Arrays.asList(env.getActiveProfiles()).contains("test");
+        if(isTest == false) {
+            if(jwtAuthFilter == null) {
+                throw new Exception("jwt filter required");
+            }
+            http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+        }
 
         return http.build();
     }

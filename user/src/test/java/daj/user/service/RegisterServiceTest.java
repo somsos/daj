@@ -11,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import daj.user.port.in.IHasher;
 import daj.user.port.in.dto.UserDto;
 import daj.user.port.in.dto.UserRoleDto;
 import daj.user.port.out.IUserWriterOutputPort;

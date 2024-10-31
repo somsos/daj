@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import daj.user.service.IHasher;
+import daj.user.port.in.IHasher;
 
 @Primary
 @Component

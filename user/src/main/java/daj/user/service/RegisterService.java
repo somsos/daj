@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.springframework.stereotype.Service;
 
+import daj.user.port.in.IHasher;
 import daj.user.port.in.IRegisterInputPort;
 import daj.user.port.in.dto.UserDto;
 import daj.user.port.in.dto.UserRoleDto;

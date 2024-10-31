@@ -21,29 +21,20 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-import daj.adapter.product.outDB.ProductReaderDbAdapter;
 import daj.adapter.product.utils.ProductConstants;
 import daj.adapter.product.utils.ProductUtilBeans;
 import daj.adapter.user.config.AuthConfig;
-import daj.adapter.user.config.AuthJwtFilter;
 import daj.product.port.in.IProductReadInputPort;
 import daj.product.port.in.dto.ProductImageModel;
 import daj.product.port.in.dto.ProductModel;
 import daj.product.port.out.IProductReaderOutputPort;
-import daj.product.service.ProductReaderService;
-import daj.user.port.out.IUserReaderOutputPort;
-import daj.user.service.JwtService;
 
 @WebMvcTest({
-  ProductReaderController.class, AuthConfig.class, AuthJwtFilter.class,
-  JwtService.class, ProductReaderService.class, ProductReaderDbAdapter.class,
-  ProductUtilBeans.class
+  ProductReaderController.class, ProductUtilBeans.class,
+  AuthConfig.class,
 })
 @ActiveProfiles("test")
 public class ProductReaderControllerIntegrationTest {
-
-  @MockBean
-  IUserReaderOutputPort userDbReader; // to mock auth flow
 
   @MockBean
   IProductReaderOutputPort repo;
@@ -90,6 +81,10 @@ public class ProductReaderControllerIntegrationTest {
       .andExpect(jsonPath("$.message", is(ProductConstants.NOT_FOUND)));
   }
 
+
+
+
+
   @Test
   void testFindByPage() throws Exception {
     // Mock the product response
@@ -121,6 +116,10 @@ public class ProductReaderControllerIntegrationTest {
     ;
   }
 
+
+
+
+  
   //See image product
   @Test
   void test_uploadImage_mustFail_imageNotFound() throws Exception {

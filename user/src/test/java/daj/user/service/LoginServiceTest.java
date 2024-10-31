@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import daj.user.port.in.IHasher;
 import daj.user.port.in.dto.UserDto;
 import daj.user.port.out.IUserReaderOutputPort;
 import daj.common.error.ErrorResponse;

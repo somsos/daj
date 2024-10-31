@@ -1,4 +1,4 @@
-package daj.user.service;
+package daj.user.port.in;
 
 public interface IHasher {
 

@@ -7,6 +7,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static daj.adapter.common.AuthConstants.ROLE_REGISTERED;
@@ -31,13 +32,12 @@ import daj.adapter.product.inWeb.reqAndResp.ProductSaveRequest;
 import daj.adapter.product.inWeb.reqAndResp.ProductUpdateRequest;
 import daj.adapter.product.utils.ProductUtilBeans;
 import daj.adapter.user.config.AuthConfig;
-import daj.adapter.user.config.AuthJwtFilter;
 import daj.product.port.in.IProductWriteInputPort;
 import daj.product.port.in.dto.ProductModel;
 import daj.user.port.out.IUserReaderOutputPort;
-import daj.user.service.JwtService;
 
-@WebMvcTest({ ProductWriterController.class, AuthConfig.class, AuthJwtFilter.class, JwtService.class, ProductUtilBeans.class })
+@WebMvcTest({ ProductWriterController.class, ProductUtilBeans.class, AuthConfig.class })
+@ActiveProfiles("test")
 public class ProductWriterControllerTest {
 
   @MockBean
@@ -104,11 +104,11 @@ public class ProductWriterControllerTest {
       .andExpect(status().isBadRequest())
       .andExpect(jsonPath("$.causes", hasSize(3)))
       
-      .andExpect(jsonPath("$.causes[0].path", is("name")))
-      .andExpect(jsonPath("$.causes[0].message", is("length must be between 4 and 64")))
-
       .andExpect(jsonPath("$.causes[1].path", is("name")))
-      .andExpect(jsonPath("$.causes[1].message", is("must not be blank")))
+      .andExpect(jsonPath("$.causes[1].message", is("length must be between 4 and 64")))
+
+      .andExpect(jsonPath("$.causes[0].path", is("name")))
+      .andExpect(jsonPath("$.causes[0].message", is("must not be blank")))
       
       .andExpect(jsonPath("$.causes[2].path", is("price")))
       .andExpect(jsonPath("$.causes[2].message", is("must be between 10 and 100000")))

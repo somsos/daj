@@ -21,7 +21,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import daj.adapter.user.config.AuthConfig;
-import daj.adapter.user.config.AuthJwtFilter;
 import daj.adapter.user.inWeb.reqAndResp.LoginRequest;
 import daj.adapter.user.inWeb.reqAndResp.RegisterRequest;
 import daj.adapter.user.outDB.utils.UserUtilBeans;
@@ -29,7 +28,6 @@ import daj.user.port.in.ILoginInputPort;
 import daj.user.port.in.IRegisterInputPort;
 import daj.user.port.in.dto.UserDto;
 import daj.user.port.out.IUserReaderOutputPort;
-import daj.user.service.JwtService;
 
 import static daj.adapter.common.AuthConstants.ROLE_REGISTERED;
 import static org.hamcrest.core.Is.is;
@@ -39,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 //import jakarta.security.auth.message.config.AuthConfig;
 
 //@Import({AuthConfig.class})
-@WebMvcTest({AuthConfig.class, AuthJwtFilter.class, JwtService.class, AuthController.class, UserUtilBeans.class})
+@WebMvcTest({AuthConfig.class, AuthController.class, UserUtilBeans.class})
 @ActiveProfiles("test")
 public class AuthControllerTest {
 

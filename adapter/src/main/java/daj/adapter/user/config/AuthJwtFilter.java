@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,16 +29,17 @@ import daj.adapter.user.outDB.entity.RoleEntity;
 import daj.common.error.ErrorResponse;
 import daj.user.port.in.dto.UserDto;
 import daj.user.port.out.IUserReaderOutputPort;
-import daj.user.service.JwtService;
+import daj.user.port.in.IJwtService;
 
 import java.io.IOException;
 
 @Component
 @Log4j2
+@Profile("default")
 public class AuthJwtFilter implements Filter {
 
     @Autowired
-    private JwtService jwtService;
+    private IJwtService jwtService;
 
     @Autowired
     private IUserReaderOutputPort userReadings;
@@ -46,7 +48,7 @@ public class AuthJwtFilter implements Filter {
     public void init(FilterConfig filterConfig) {
         this.jwtService = WebApplicationContextUtils
                 .getRequiredWebApplicationContext(filterConfig.getServletContext())
-                .getBean(JwtService.class);
+                .getBean(IJwtService.class);
 
         this.userReadings = WebApplicationContextUtils
                 .getRequiredWebApplicationContext(filterConfig.getServletContext())

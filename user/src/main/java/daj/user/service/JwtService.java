@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import daj.common.error.ErrorResponse;
+import daj.user.port.in.IJwtService;
 import daj.user.port.in.dto.UserDto;
 
 import java.security.Key;
@@ -21,7 +22,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Component
-public class JwtService {
+public class JwtService implements IJwtService {
 
     // Replace this with a secure key in a real application, ideally fetched from
     // environment variables
@@ -31,11 +32,13 @@ public class JwtService {
     private int EXPIRATION_MIN = 5;
 
     // Generate token with given user name
+    @Override
     public String generateToken(Integer idUser) {
         Map<String, Object> claims = new HashMap<>();
         return createToken(claims, idUser);
     }
 
+    @Override
     public String extractUsername(String token) {
         try {
             return extractClaim(token, Claims::getSubject);
@@ -45,6 +48,7 @@ public class JwtService {
         
     }
 
+    @Override
     public Boolean validateToken(String token, UserDto userDetails) {
         try {
             final String username = extractUsername(token);
