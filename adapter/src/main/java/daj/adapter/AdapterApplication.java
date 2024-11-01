@@ -5,12 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(
 	scanBasePackages = {
+		"daj.product",
+		"daj.user",
 		"daj.adapter.product",
 		"daj.adapter.common",
-		"daj.product.service",
-		"daj.user.service",
 		"daj.adapter.user",
-		"daj.adapter.errorHandler"
+		"daj.adapter.errorHandler",
 	}
 )
 public class AdapterApplication {

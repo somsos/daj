@@ -2,6 +2,8 @@ package daj.adapter.common.errorHandler;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
@@ -44,9 +46,7 @@ public class ErrorControllerAdvice extends ResponseEntityExceptionHandler {
   @ExceptionHandler(ConstraintViolationException.class)
   ResponseEntity<ErrorResponseBody> handleConstraintViolation(ConstraintViolationException e) {
     List<Cause> causes = new ArrayList<>();
-    e.getConstraintViolations().forEach(cv ->
-      causes.add(new Cause(cv.getPropertyPath().toString(), cv.getMessage()))
-    );
+    e.getConstraintViolations().forEach(cv -> causes.add(new Cause(cv.getPropertyPath().toString(), cv.getMessage())));
 
     final var body = new ErrorResponseBody(ERROR_MSG_INVALID_INPUT, causes);
     var headers = new HttpHeaders();
@@ -67,19 +67,38 @@ public class ErrorControllerAdvice extends ResponseEntityExceptionHandler {
 
   @Override
   @SuppressWarnings("null")
-  protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers,
-      HttpStatusCode status, WebRequest request) {
-    
+  protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+    final List<Cause> causes = _getCausesList(ex);
+    final var body = new ErrorResponseBody(ERROR_MSG_INVALID_INPUT, causes);
+    return new ResponseEntity<Object>(body, HttpStatus.BAD_REQUEST);
+  }
+
+
+
+  
+  private List<Cause> _getCausesList(MethodArgumentNotValidException ex) {
     final List<Cause> causes = new ArrayList<>();
     ex.getBindingResult().getAllErrors().forEach((error) -> {
       String fieldName = ((FieldError) error).getField();
       String message = error.getDefaultMessage();
       causes.add(new Cause(fieldName, message));
     });
-    
-    final var body = new ErrorResponseBody(ERROR_MSG_INVALID_INPUT, causes);
 
-    return new ResponseEntity<Object>(body, HttpStatus.BAD_REQUEST);
+    Collections.sort(causes, new Comparator<Cause>() {
+      public int compare(Cause o1, Cause o2) {
+        // compare two instance of `Score` and return `int` as result.
+        return o2.getMessage().compareTo(o1.getMessage());
+      }
+    });
+    
+    Collections.sort(causes, new Comparator<Cause>() {
+      public int compare(Cause o1, Cause o2) {
+        // compare two instance of `Score` and return `int` as result.
+        return o2.getPath().compareTo(o1.getPath());
+      }
+    });
+
+    return causes;
   }
 
 }

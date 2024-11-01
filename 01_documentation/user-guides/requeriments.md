@@ -21,3 +21,11 @@ To check if the instance was created we can connect to it using.
 ```shell
 psql -h 127.0.0.1 -p 5001 -U jab_db_user -d jab_db_test
 ```
+
+## Start project
+
+Inside of adapter folder run.
+
+```shell
+mvn spring-boot:run
+```

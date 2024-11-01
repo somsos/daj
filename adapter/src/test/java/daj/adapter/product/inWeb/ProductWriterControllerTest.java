@@ -104,15 +104,15 @@ public class ProductWriterControllerTest {
     mvc.perform(request)
       .andExpect(status().isBadRequest())
       .andExpect(jsonPath("$.causes", hasSize(3)))
+
+      .andExpect(jsonPath("$.causes[0].path", is("price")))
+      .andExpect(jsonPath("$.causes[0].message", is("must be between 10 and 100000")))
       
       .andExpect(jsonPath("$.causes[1].path", is("name")))
-      .andExpect(jsonPath("$.causes[1].message", is("length must be between 4 and 64")))
-
-      .andExpect(jsonPath("$.causes[0].path", is("name")))
-      .andExpect(jsonPath("$.causes[0].message", is("must not be blank")))
+      .andExpect(jsonPath("$.causes[1].message", is("must not be blank")))
       
-      .andExpect(jsonPath("$.causes[2].path", is("price")))
-      .andExpect(jsonPath("$.causes[2].message", is("must be between 10 and 100000")))
+      .andExpect(jsonPath("$.causes[2].path", is("name")))
+      .andExpect(jsonPath("$.causes[2].message", is("length must be between 4 and 64")))
 
     ;
   }

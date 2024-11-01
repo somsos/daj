@@ -7,6 +7,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -76,13 +77,20 @@ public class ProductImageControllerTest {
 
 
   //####### get image ########
-
+  @Test
+  void test_getImage_mustFail_imageNotFound() throws Exception {
+    final var endpoint = IProductConstants.POINT_PRODUCTS_IMAGE_ID.replace("{id}", "777");
+    mvc.perform(get(endpoint).contentType(MediaType.APPLICATION_JSON))
+      .andExpect(status().isNotFound())
+      .andExpect(jsonPath("$.message", is(IProductConstants.ERROR_IMAGE_NOT_FOUND)))
+    ;
+  }
 
 
   
   
   
-  //####### upload image ########
+  //####### delete ########
   @Test
   void testDelete_mustBeProtected_FromAnonymousUsers() throws Exception {
     final var endpoint = IProductConstants.POINT_PRODUCTS_IMAGE_ID.replace("{id}", "1");

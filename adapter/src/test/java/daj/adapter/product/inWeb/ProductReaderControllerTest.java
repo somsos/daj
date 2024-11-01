@@ -34,7 +34,7 @@ import daj.product.visible.port.out.IProductReaderOutputPort;
   AuthConfig.class,
 })
 @ActiveProfiles("test")
-public class ProductReaderControllerIntegrationTest {
+public class ProductReaderControllerTest {
 
   @MockBean
   IProductReaderOutputPort repo;
@@ -116,19 +116,6 @@ public class ProductReaderControllerIntegrationTest {
     ;
   }
 
-
-
-
-  
-  //See image product
-  @Test
-  void test_uploadImage_mustFail_imageNotFound() throws Exception {
-    final var endpoint = IProductConstants.POINT_PRODUCTS_IMAGE_ID.replace("{id}", "777");
-    mvc.perform(get(endpoint).contentType(MediaType.APPLICATION_JSON))
-      .andExpect(status().isNotFound())
-      .andExpect(jsonPath("$.message", is(IProductConstants.ERROR_IMAGE_NOT_FOUND)))
-    ;
-  }
   
 
 }
