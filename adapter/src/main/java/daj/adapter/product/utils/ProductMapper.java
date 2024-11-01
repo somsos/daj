@@ -10,30 +10,30 @@ import daj.adapter.product.inWeb.reqAndResp.ProductDetailsResponse;
 import daj.adapter.product.inWeb.reqAndResp.ProductSaveRequest;
 import daj.adapter.product.inWeb.reqAndResp.ProductUpdateRequest;
 import daj.adapter.product.outDB.entity.ProductEntity;
-import daj.product.port.in.dto.ProductImageModel;
-import daj.product.port.in.dto.ProductModel;
+import daj.product.visible.port.dto.ProductDto;
+import daj.product.visible.port.dto.ProductImageDto;
 
 
 @Mapper
 public interface ProductMapper {
 
   @Mapping(ignore = true, target = "images")
-  ProductModel entityToModel(ProductEntity source);
+  ProductDto entityToModel(ProductEntity source);
 
   @Mapping(ignore = true, target = "images")
-  ProductEntity modelToEntity(ProductModel entitySource);
+  ProductEntity modelToEntity(ProductDto entitySource);
 
   //user input
-  ProductModel saveRequestToEntity(ProductSaveRequest source);
+  ProductDto saveRequestToEntity(ProductSaveRequest source);
 
-  ProductModel updateRequestToEntity(ProductUpdateRequest source);
+  ProductDto updateRequestToEntity(ProductUpdateRequest source);
 
   //user output
-  ProductDetailsResponse modelToDetails(ProductModel m);
+  ProductDetailsResponse modelToDetails(ProductDto m);
 
-  List<ProductDetailsResponse> listModelsToDetails(List<ProductModel> source);
+  List<ProductDetailsResponse> listModelsToDetails(List<ProductDto> source);
 
-  default List<Integer> mapImages(List<ProductImageModel> images) {
+  default List<Integer> mapImages(List<ProductImageDto> images) {
     if(images == null) {
       return new ArrayList<Integer>();
     }
@@ -42,7 +42,7 @@ public interface ProductMapper {
     return listIdImages;
   }  
 
-  List<ProductModel> listEntitiesToModels(List<ProductEntity> content);
+  List<ProductDto> listEntitiesToModels(List<ProductEntity> content);
   
 
 }

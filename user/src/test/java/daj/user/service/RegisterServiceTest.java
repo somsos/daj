@@ -11,10 +11,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import daj.user.port.in.IHasher;
-import daj.user.port.in.dto.UserDto;
-import daj.user.port.in.dto.UserRoleDto;
-import daj.user.port.out.IUserWriterOutputPort;
+import daj.user.internal.service.RegisterService;
+import daj.user.visible.port.dto.UserDto;
+import daj.user.visible.port.dto.UserRoleDto;
+import daj.user.visible.port.in.IHasher;
+import daj.user.visible.port.out.IUserWriterOutputPort;
 
 @ExtendWith(MockitoExtension.class)
 public class RegisterServiceTest {

@@ -2,7 +2,7 @@ package daj.adapter.user.inWeb.reqAndResp;
 
 import java.util.List;
 
-import daj.user.port.in.dto.UserRoleDto;
+import daj.user.visible.port.dto.UserRoleDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

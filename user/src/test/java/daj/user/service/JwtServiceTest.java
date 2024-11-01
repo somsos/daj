@@ -7,8 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import daj.user.port.in.IJwtService;
-import daj.user.port.in.dto.UserDto;
+import daj.user.internal.service.JwtService;
+import daj.user.visible.port.dto.UserDto;
+import daj.user.visible.port.in.IJwtService;
 
 @ExtendWith(MockitoExtension.class)
 public class JwtServiceTest {

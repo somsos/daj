@@ -9,9 +9,9 @@ import daj.adapter.user.outDB.entity.RoleEntity;
 import daj.adapter.user.outDB.repository.RoleRepository;
 import daj.adapter.user.outDB.repository.UserRepository;
 import daj.adapter.user.outDB.utils.IUserMapper;
-import daj.user.port.in.dto.UserDto;
-import daj.user.port.in.dto.UserRoleDto;
-import daj.user.port.out.IUserWriterOutputPort;
+import daj.user.visible.port.dto.UserDto;
+import daj.user.visible.port.dto.UserRoleDto;
+import daj.user.visible.port.out.IUserWriterOutputPort;
 import lombok.AllArgsConstructor;
 
 @Primary

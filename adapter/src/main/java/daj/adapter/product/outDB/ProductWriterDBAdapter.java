@@ -2,11 +2,11 @@ package daj.adapter.product.outDB;
 
 import org.springframework.stereotype.Component;
 
-import daj.product.port.in.dto.ProductModel;
 import daj.adapter.product.outDB.entity.ProductEntity;
 import daj.adapter.product.outDB.repository.ProductRepository;
 import daj.adapter.product.utils.ProductMapper;
-import daj.product.port.out.IProductWriterOutputPort;
+import daj.product.visible.port.dto.ProductDto;
+import daj.product.visible.port.out.IProductWriterOutputPort;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -20,7 +20,7 @@ public class ProductWriterDBAdapter implements IProductWriterOutputPort {
   private final ProductReaderDbAdapter reader;
 
   @Override
-  public ProductModel save(ProductModel input) {
+  public ProductDto save(ProductDto input) {
     final ProductEntity casted = mapper.modelToEntity(input);
     final var saved = this.repo.save(casted);
     final var output = mapper.entityToModel(saved);
@@ -28,20 +28,20 @@ public class ProductWriterDBAdapter implements IProductWriterOutputPort {
   }
 
   @Override
-  public ProductModel delete(Integer toDel) {
+  public ProductDto delete(Integer toDel) {
     reader.findByIdOrThrow(toDel);
     this.repo.deleteById(toDel);
-    final var output = new ProductModel(1, null, null, null, null, null, null, null);
+    final var output = new ProductDto(1, null, null, null, null, null, null);
     return output;
   }
 
   @Override
-  public ProductModel update(Integer id, ProductModel newInfo) {
+  public ProductDto update(Integer id, ProductDto newInfo) {
     final var inDB = reader.findByIdOrThrow(id);
     final var merged = inDB.overwrite(newInfo);
 
     final ProductEntity updated = this.repo.save(merged);
-    final ProductModel output = mapper.entityToModel(updated);
+    final ProductDto output = mapper.entityToModel(updated);
     return output;
   }
 

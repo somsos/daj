@@ -3,10 +3,10 @@ package daj.adapter.product.inWeb;
 import org.springframework.web.bind.annotation.RestController;
 
 import daj.adapter.product.inWeb.reqAndResp.ProductDetailsResponse;
-import daj.adapter.product.utils.ProductConstants;
 import daj.adapter.product.utils.ProductMapper;
 import daj.common.error.ErrorResponse;
-import daj.product.port.in.IProductReadInputPort;
+import daj.product.visible.config.IProductConstants;
+import daj.product.visible.port.in.IProductReadInputPort;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
@@ -24,11 +24,11 @@ public class ProductReaderController {
 
   private final ProductMapper mapper;
   
-  @GetMapping(ProductWebConstants.POINT_PRODUCTS_ID)
+  @GetMapping(IProductConstants.POINT_PRODUCTS_ID)
   public ProductDetailsResponse findDetailsById(@PathVariable("id") Integer id) {
     final var found = readerIP.findDetailsById(id);
     if(found == null) {
-      throw new ErrorResponse(ProductConstants.NOT_FOUND, 404, "not_found");
+      throw new ErrorResponse(IProductConstants.NOT_FOUND, 404, "not_found");
     }
 
     final var details = mapper.modelToDetails(found);
@@ -36,7 +36,7 @@ public class ProductReaderController {
   }
   
 
-  @GetMapping(ProductWebConstants.POINT_PRODUCTS_BY_PAGE)
+  @GetMapping(IProductConstants.POINT_PRODUCTS_BY_PAGE)
   public Page<ProductDetailsResponse> findByPage(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
     final var pageFound = readerIP.findByPage(page, size);
 

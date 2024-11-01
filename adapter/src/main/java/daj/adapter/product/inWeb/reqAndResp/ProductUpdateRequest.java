@@ -1,18 +1,16 @@
 package daj.adapter.product.inWeb.reqAndResp;
 
+import static daj.product.visible.config.IProductConstants.DATA_AMOUNT_RANGE_MAX;
+import static daj.product.visible.config.IProductConstants.DATA_AMOUNT_RANGE_MIN;
+import static daj.product.visible.config.IProductConstants.DATA_DESCRIPTION_LENGTH_MAX;
+import static daj.product.visible.config.IProductConstants.DATA_DESCRIPTION_LENGTH_MIN;
+import static daj.product.visible.config.IProductConstants.DATA_NAME_LENGTH_MAX;
+import static daj.product.visible.config.IProductConstants.DATA_NAME_LENGTH_MIN;
+import static daj.product.visible.config.IProductConstants.DATA_PRICE_MAX;
+import static daj.product.visible.config.IProductConstants.DATA_PRICE_MIN;
+
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
-
-import daj.product.port.in.dto.ProductModelSource;
-
-import static daj.product.IProductConstants.DATA_AMOUNT_RANGE_MIN;
-import static daj.product.IProductConstants.DATA_AMOUNT_RANGE_MAX;
-import static daj.product.IProductConstants.DATA_DESCRIPTION_LENGTH_MIN;
-import static daj.product.IProductConstants.DATA_DESCRIPTION_LENGTH_MAX;
-import static daj.product.IProductConstants.DATA_PRICE_MIN;
-import static daj.product.IProductConstants.DATA_PRICE_MAX;
-import static daj.product.IProductConstants.DATA_NAME_LENGTH_MIN;
-import static daj.product.IProductConstants.DATA_NAME_LENGTH_MAX;
 
 import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
@@ -42,7 +40,5 @@ public class ProductUpdateRequest {
   @Nullable
   @Length(min = DATA_DESCRIPTION_LENGTH_MIN, max = DATA_DESCRIPTION_LENGTH_MAX)
   private String description;
-
-  public final ProductModelSource source = ProductModelSource.UPDATE;
 
 }

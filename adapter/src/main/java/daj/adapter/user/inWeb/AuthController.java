@@ -12,9 +12,9 @@ import daj.adapter.user.inWeb.reqAndResp.LoginResponse;
 import daj.adapter.user.inWeb.reqAndResp.RegisterRequest;
 import daj.adapter.user.inWeb.reqAndResp.RegisterResponse;
 import daj.adapter.user.outDB.utils.IUserMapper;
-import daj.user.port.in.ILoginInputPort;
-import daj.user.port.in.IRegisterInputPort;
-import daj.user.port.in.dto.UserDto;
+import daj.user.visible.port.dto.UserDto;
+import daj.user.visible.port.in.ILoginInputPort;
+import daj.user.visible.port.in.IRegisterInputPort;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 

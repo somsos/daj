@@ -14,11 +14,11 @@ import org.springframework.test.context.jdbc.Sql;
 
 import daj.adapter.product.outDB.entity.ProductEntity;
 import daj.adapter.product.outDB.repository.ProductRepository;
-import daj.adapter.product.utils.ProductConstants;
 import daj.adapter.product.utils.ProductUtilBeans;
 import daj.common.error.ErrorResponse;
-import daj.product.port.in.dto.ProductModel;
-import daj.product.port.out.IProductWriterOutputPort;
+import daj.product.visible.config.IProductConstants;
+import daj.product.visible.port.dto.ProductDto;
+import daj.product.visible.port.out.IProductWriterOutputPort;
 
 @ActiveProfiles("test")
 @DataJpaTest
@@ -33,7 +33,7 @@ public class ProductWriterDbAdapterTest {
   
   @Test
   void testSave() {
-    var input = new ProductModel(null, "trompo1", 10.10f, 10, "description1", null, null, null);
+    var input = new ProductDto(null, "trompo1", 10.10f, 10, "description1", null, null);
     productDBAdapter.save(input);
     final ProductEntity found = repo.findByName(input.getName());
     assertNotNull(found.getCreatedAt());
@@ -43,7 +43,7 @@ public class ProductWriterDbAdapterTest {
   @Sql("test_createProduct.sql")
   void testDelete() {
     Integer toDel = 1;
-    ProductModel deleted = productDBAdapter.delete(toDel);
+    ProductDto deleted = productDBAdapter.delete(toDel);
     assertEquals(toDel, deleted.getId());
 
     final ProductEntity found = repo.findById(toDel).orElse(null);
@@ -57,7 +57,7 @@ public class ProductWriterDbAdapterTest {
            () -> productDBAdapter.delete(1),
            "Not found exception expected"
     );
-    assertEquals(ProductConstants.NOT_FOUND, ex.getMessage());
+    assertEquals(IProductConstants.NOT_FOUND, ex.getMessage());
   }
 
 
@@ -65,7 +65,7 @@ public class ProductWriterDbAdapterTest {
   @Test
   @Sql("test_createProduct.sql")
   void testUpdate() {
-    var newInfo = new ProductModel(null, "someName1", 10.10f, 10, null, null, null, null);
+    var newInfo = new ProductDto(null, "someName1", 10.10f, 10, null, null, null);
     Integer id = 1;
     productDBAdapter.update(id, newInfo);
 

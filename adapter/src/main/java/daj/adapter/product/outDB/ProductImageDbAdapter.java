@@ -8,9 +8,9 @@ import daj.adapter.product.outDB.entity.ProductImageEntity;
 import daj.adapter.product.outDB.repository.ImageProductRepository;
 import daj.adapter.product.utils.ProductImageMapper;
 import daj.adapter.product.utils.ProductMapper;
-import daj.product.port.in.dto.ProductImageModel;
-import daj.product.port.out.IProductImageOutputPort;
-import daj.product.port.in.dto.ProductModel;
+import daj.product.visible.port.dto.ProductDto;
+import daj.product.visible.port.dto.ProductImageDto;
+import daj.product.visible.port.out.IProductImageOutputPort;
 
 
 @Component
@@ -26,29 +26,29 @@ public class ProductImageDbAdapter implements IProductImageOutputPort {
   private final ProductMapper mapper;
 
   @Override
-  public ProductImageModel saveImage(ProductImageModel rProductImage) {
+  public ProductImageDto saveImage(ProductImageDto rProductImage) {
     //Check if exists
     final ProductEntity productInDB = reader.findByIdOrThrow(rProductImage.getProduct().getId());
 
     // save
-    final ProductModel pm = mapper.entityToModel(productInDB);
+    final ProductDto pm = mapper.entityToModel(productInDB);
     rProductImage.setProduct(pm);
 
     final ProductImageEntity toSave = imageMapper.modelToEntity(rProductImage);
     final ProductImageEntity saved = imageRepo.save(toSave);
-    final ProductImageModel output = imageMapper.entityToModel(saved);
+    final ProductImageDto output = imageMapper.entityToModel(saved);
     return output;
   }
 
   @Override
-  public ProductImageModel findImageById(Integer id) {
+  public ProductImageDto findImageById(Integer id) {
     final ProductImageEntity found = imageRepo.findById(id).orElse(null);
-    final ProductImageModel output = imageMapper.entityToModel(found);
+    final ProductImageDto output = imageMapper.entityToModel(found);
     return output;
   }
 
   @Override
-  public ProductImageModel delete(Integer id) {
+  public ProductImageDto delete(Integer id) {
     final ProductImageEntity found = imageRepo.findById(id).orElse(null);
     if(found == null) {
       return null;

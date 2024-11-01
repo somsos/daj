@@ -12,9 +12,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
 import daj.adapter.product.outDB.repository.ProductRepository;
-import daj.adapter.product.utils.ProductConstants;
 import daj.adapter.product.utils.ProductUtilBeans;
 import daj.common.error.ErrorResponse;
+import daj.product.visible.config.IProductConstants;
 
 @ActiveProfiles("test")
 @DataJpaTest
@@ -72,7 +72,7 @@ public class ProductReaderDbAdapterTest {
       () -> productReader.findByIdOrThrow(1),
       "Not found exception expected"
     );
-    assertEquals(ProductConstants.NOT_FOUND, ex.getMessage());
+    assertEquals(IProductConstants.NOT_FOUND, ex.getMessage());
   }
 
   @Test

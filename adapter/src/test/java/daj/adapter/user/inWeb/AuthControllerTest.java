@@ -20,14 +20,14 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import daj.adapter.user.config.AuthConfig;
+import daj.adapter.common.authConfig.AuthConfig;
 import daj.adapter.user.inWeb.reqAndResp.LoginRequest;
 import daj.adapter.user.inWeb.reqAndResp.RegisterRequest;
 import daj.adapter.user.outDB.utils.UserUtilBeans;
-import daj.user.port.in.ILoginInputPort;
-import daj.user.port.in.IRegisterInputPort;
-import daj.user.port.in.dto.UserDto;
-import daj.user.port.out.IUserReaderOutputPort;
+import daj.user.visible.port.dto.UserDto;
+import daj.user.visible.port.in.ILoginInputPort;
+import daj.user.visible.port.in.IRegisterInputPort;
+import daj.user.visible.port.out.IUserReaderOutputPort;
 
 import static daj.adapter.common.AuthConstants.ROLE_REGISTERED;
 import static org.hamcrest.core.Is.is;

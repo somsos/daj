@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import daj.user.port.in.dto.UserDto;
-import daj.user.port.in.dto.UserRoleDto;
-import daj.user.port.out.IUserWriterOutputPort;
+import daj.user.visible.port.dto.UserDto;
+import daj.user.visible.port.dto.UserRoleDto;
+import daj.user.visible.port.out.IUserWriterOutputPort;
 
 @Profile("test")
 @Component

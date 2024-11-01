@@ -12,7 +12,7 @@ import org.springframework.test.context.jdbc.Sql;
 
 import daj.adapter.user.outDB.repository.UserRepository;
 import daj.adapter.user.outDB.utils.UserUtilBeans;
-import daj.user.port.in.dto.UserDto;
+import daj.user.visible.port.dto.UserDto;
 import jakarta.persistence.EntityManager;
 
 import static org.junit.jupiter.api.Assertions.*;

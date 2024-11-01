@@ -3,8 +3,8 @@ package daj.user.testComponents;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import daj.user.port.in.dto.UserDto;
-import daj.user.port.out.IUserReaderOutputPort;
+import daj.user.visible.port.dto.UserDto;
+import daj.user.visible.port.out.IUserReaderOutputPort;
 
 
 /*This class is just to temporally satisfy Components when this module, is

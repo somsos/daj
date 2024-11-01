@@ -23,8 +23,8 @@ import org.testcontainers.junit.jupiter.Container;
 import daj.adapter.user.outDB.entity.RoleEntity;
 import daj.adapter.user.outDB.repository.UserRepository;
 import daj.adapter.user.outDB.utils.ErrorConstrainToUserMsg;
-import daj.user.port.in.dto.UserDto;
-import daj.user.port.in.dto.UserRoleDto;
+import daj.user.visible.port.dto.UserDto;
+import daj.user.visible.port.dto.UserRoleDto;
 
 @DataJpaTest
 @Import({UserWriterDbAdapter.class, RoleEntity.class})

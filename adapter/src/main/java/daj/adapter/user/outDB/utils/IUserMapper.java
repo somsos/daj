@@ -7,7 +7,7 @@ import daj.adapter.user.inWeb.reqAndResp.LoginResponse;
 import daj.adapter.user.inWeb.reqAndResp.RegisterRequest;
 import daj.adapter.user.inWeb.reqAndResp.RegisterResponse;
 import daj.adapter.user.outDB.entity.UserEntity;
-import daj.user.port.in.dto.UserDto;
+import daj.user.visible.port.dto.UserDto;
 import jakarta.validation.Valid;
 
 @Mapper

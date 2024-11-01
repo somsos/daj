@@ -1,29 +1,28 @@
 # README
 
 - [README](#readme)
+  - [Documentation guide](#documentation-guide)
   - [ToDo](#todo)
-  - [Object Naming guiding](#object-naming-guiding)
-  - [Database](#database)
-  - [Errors](#errors)
-    - [Don't use Interfaces in Controllers or repositories](#dont-use-interfaces-in-controllers-or-repositories)
-  - [API](#api)
-    - [Auth](#auth)
-      - [Login](#login)
-      - [Register](#register)
-      - [is-logged](#is-logged)
-      - [check-user-role](#check-user-role)
-      - [check-product-role](#check-product-role)
-    - [Products](#products)
-      - [Save](#save)
-      - [Find by id](#find-by-id)
-      - [Delete by id](#delete-by-id)
-      - [Update by id](#update-by-id)
-    - [Product image](#product-image)
-      - [Find by page](#find-by-page)
-      - [Upload image](#upload-image)
-      - [See image](#see-image)
-      - [delete image](#delete-image)
-  - [Quick notes](#quick-notes)
+
+## Documentation guide
+
+I'm using:
+
+- Hexagonal architecture
+- Web API Restful Json
+- Multi Modules-Jars
+- Spring boot
+- Postgres
+- Spring jpa
+- Spring security
+- JWT (Stateless)
+- Saving boilerplate code with (lombok, mapstruct, hibernate-validator)
+- TDD (Mockito, WebMvcTest, DataJpaTest)
+- E2E test (SpringBootTest and TestContainers)
+
+To know about how to setup and/or use the application, see *01_documentation/user-guides*.
+
+To understand how the application works so you can make some modifications, see *01_documentation/guidelines*.
 
 ## ToDo
 
@@ -41,7 +40,7 @@ Users
 - [X] Pass Hashing to user module so the check happen inside this module
 
 - [ ] Fixes
-  - [ ] Show error to user when hit with two slashes ex. 'http://localhost:8080//products'
+  - [ ] Show error to user when hit with two slashes ex. '<http://localhost:8080//products>'
 
 - [current] Add module products
   - [X] Add product
@@ -62,10 +61,12 @@ Users
 - [Current] Documentation
   - [X] Include Architecture diagram to repository
   - [Current] Sincronice Diagram with project folder structure
-    - [Current] Separate Request/Response objects and keep just DTO in user domain module
-    - [ ] In domain modules make changes to see clear what part is public and what one is private
+    - [X] Separate Request/Response objects and keep just DTO in user domain module
+    - [X] In domain modules make changes to see clear what part is public and what one is private
+    - [X] remove dependencies of adapter.user to anything outside of user.port
+    - [X] Export diagram from .drawio to .png (and that it looks fine)
+    - [Current] Sync diagram architecture and code.
     - [ ] **IMPORTANT** Add ArchUnit tests, to check that the adapter just access to the public part of the domain module
-    - [ ] Export diagram from .drawio to .png (and that it looks fine)
     - [ ] Check what other diagrams should be useful
 
 - [ ] Create template from this project
@@ -79,87 +80,7 @@ Users
 - [ ] Frontend
   - [ ] Create angular project
 
-<!--
-
-########################################################################
-########################################################################
-########################################################################
-
--->
 ____
-
-<!--
-
-########################################################################
-########################################################################
-########################################################################
-
--->
-
-## Object Naming guiding
-
-For Input ports, In this case objects which come or go in the *web* layer
-
-- RDto (Request Data Transfer Object)
-- RrODto (Request Response Data Transfer object)
-
-For Output ports, In this case objects which come or go in the *database* layer
-
-- QDto (Query Data Transfer Object)
-- QrDto (Query Response Data Transfer Object)
-
-____
-
-<!--
-
-########################################################################
-########################################################################
-########################################################################
-
--->
-
-## Database
-
-Crear contenedor
-
-```shell
-#postgres:14-alpine3.16
-
-docker run --name jab_db --rm \
-  -p 5001:5432 \
-  -e POSTGRES_DB=jab_db_test \
-  -e POSTGRES_USER=jab_db_user \
-  -e POSTGRES_PASSWORD=jab_db_pass \
-  -d postgres:14-alpine3.16
-```
-
-Conectar a db
-
-```shell
-psql -h 127.0.0.1 -p 5001 -U jab_db_user -d jab_db_test
-```
-
-____
-
-<!--
-
-########################################################################
-########################################################################
-########################################################################
-
--->
-
-## Errors
-
-### Don't use Interfaces in Controllers or repositories
-
-Spring use default classes (created with no-args-constructor) for its internals,
-so if we use interfaces and can'r create the Request/Response/Entity will throw
-this error.
-
-```r
-Could not resolve parameter [1] in public daj.product.port.in.dto.ProductModel daj.adapter.product.inWeb.ProductWriterController.update(java.lang.Integer,daj.product.port.in.dto.ProductModel): Type definition error: [simple type, class daj.product.port.in.dto.ProductModel]
-```
 
 <!--
 
@@ -171,135 +92,6 @@ Could not resolve parameter [1] in public daj.product.port.in.dto.ProductModel d
 
 ____
 
-## API
-
-### Auth
-
-#### Login
-
-```bash
-curl -X POST -i \
-  --header "Content-Type: application/json" \
-  --data '{"username":"mario2","password":"mario2p"}' \
-  http://localhost:8080/auth/create-token
-```
-
-#### Register
-
-```bash
-curl -X POST -i \
-  --header "Content-Type: application/json" \
-  --data '{"username":"mario3","password":"mario3p", "email":"mario3@email.com"}' \
-  http://localhost:8080/auth/register
-```
-
-#### is-logged
-
-With this route we can check if the user is logged, any registered and with
-valid token user should get an 200 response, and with no token or invalid
-token should get a 403
-
-```bash
-curl -X GET -i \
-  --header "Content-Type: application/json" \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAzMzEzNDYsImV4cCI6MTczMDMzMjU0Nn0.PpD7b6-8iwOCWNzgBw1-TCItZ6uKqgOXFGq2zCBEVhs" \
-  http://localhost:8080/auth/is-logged
-```
-
-#### check-user-role
-
-```bash
-curl -X GET -i \
-  --header "Content-Type: application/json" \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAzMzEzNDYsImV4cCI6MTczMDMzMjU0Nn0.PpD7b6-8iwOCWNzgBw1-TCItZ6uKqgOXFGq2zCBEVhs" \
-  http://localhost:8080/auth/check-user-role
-```
-
-#### check-product-role
-
-```bash
-curl -X GET -i \
-  --header "Content-Type: application/json" \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAzMzEzNDYsImV4cCI6MTczMDMzMjU0Nn0.PpD7b6-8iwOCWNzgBw1-TCItZ6uKqgOXFGq2zCBEVhs" \
-  http://localhost:8080/auth/check-product-role
-```
-
-____
-
-### Products
-
-#### Save
-
-```bash
-curl -X POST -i \
-  --header "Content-Type: application/json" \
-  --data '{"name":"trompo1","price":10.10, "amount": 10, "description": "Trompo numero 1" }' \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAzMzEzNDYsImV4cCI6MTczMDMzMjU0Nn0.PpD7b6-8iwOCWNzgBw1-TCItZ6uKqgOXFGq2zCBEVhs" \
-  http://localhost:8080/products
-```
-
-#### Find by id
-
-```bash
-curl -i -X GET \
-  --header "Content-Type: application/json" \
-  http://localhost:8080/products/1
-```
-
-#### Delete by id
-
-```bash
-curl -X DELETE -i \
-  --header "Content-Type: application/json" \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAzMzEzNDYsImV4cCI6MTczMDMzMjU0Nn0.PpD7b6-8iwOCWNzgBw1-TCItZ6uKqgOXFGq2zCBEVhs" \
-  http://localhost:8080/products/1
-```
-
-#### Update by id
-
-```bash
-curl -X PUT -i \
-  --header "Content-Type: application/json" \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAzMzEzNDYsImV4cCI6MTczMDMzMjU0Nn0.PpD7b6-8iwOCWNzgBw1-TCItZ6uKqgOXFGq2zCBEVhs" \
-  --data '{ "description": "Trompo numero 1111" }' \
-  http://localhost:8080/products/1
-```
-
-### Product image
-
-#### Find by page
-
-```shell
-curl -X GET -i \
-  --header "Content-Type: application/json" \
-  "http://localhost:8080/products/page?page=1&size=5"
-```
-
-#### Upload image
-
-```shell
-curl -v \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAzMzEzNDYsImV4cCI6MTczMDMzMjU0Nn0.PpD7b6-8iwOCWNzgBw1-TCItZ6uKqgOXFGq2zCBEVhs" \
-  -F image=@./temporal/small_blue.png  \
-  http://localhost:8080/products/1/image
-```
-
-#### See image
-
-```shell
-curl -i -X GET http://localhost:8080/products/image/1
-```
-
-#### delete image
-
-```shell
-curl -i -X DELETE \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAzMzEzNDYsImV4cCI6MTczMDMzMjU0Nn0.PpD7b6-8iwOCWNzgBw1-TCItZ6uKqgOXFGq2zCBEVhs" \
-  http://localhost:8080/products/image/1
-```
-
-____
-
 <!--
 
 ########################################################################
@@ -307,10 +99,3 @@ ____
 ########################################################################
 
 -->
-
-## Quick notes
-
-Change from Model to DTO, because since the point of view of Domain the object that
-comes and goes to the adapter is just to transport the info, what it goes more
-with the definition od DTO, and it keeps things more simple to understand
-(check the `Figure 9.3` of `Get Your Hands Dirty on Clean Architecture`)

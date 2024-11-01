@@ -9,7 +9,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.validator.constraints.Range;
 
-import daj.product.port.in.dto.ProductModel;
+import daj.product.visible.port.dto.ProductDto;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -65,7 +65,7 @@ public class ProductEntity {
   @Temporal(TemporalType.DATE)
   private Date deletedAt;
 
-  public ProductEntity overwrite(ProductModel newInfo) {
+  public ProductEntity overwrite(ProductDto newInfo) {
     final var merged = new ProductEntity(this.id, this.name, this.price, this.amount, this.description, this.createdAt, this.images, this.deletedAt);
 
     if (newInfo.getAmount() != null) {

@@ -3,7 +3,7 @@ package daj.user.service;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import daj.user.port.in.IHasher;
+import daj.user.visible.port.in.IHasher;
 
 @Profile("test")
 @Component

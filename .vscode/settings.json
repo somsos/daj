@@ -2,10 +2,14 @@
   "java.configuration.updateBuildConfiguration": "interactive",
   "cSpell.words": [
     "datasource",
+    "drawio",
     "hasher",
     "Hasher",
+    "jdbc",
+    "lombok",
     "mapstruct",
     "postgres",
+    "psql",
     "Replacethiswithasecurekeyinarealapplicationideallyfetchedfromenvironmentvariable",
     "sess"
   ],

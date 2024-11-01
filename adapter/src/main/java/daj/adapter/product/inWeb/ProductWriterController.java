@@ -6,8 +6,9 @@ import daj.adapter.product.inWeb.reqAndResp.ProductActionResponse;
 import daj.adapter.product.inWeb.reqAndResp.ProductSaveRequest;
 import daj.adapter.product.inWeb.reqAndResp.ProductUpdateRequest;
 import daj.adapter.product.utils.ProductMapper;
-import daj.product.port.in.IProductWriteInputPort;
-import daj.product.port.in.dto.ProductModel;
+import daj.product.visible.config.IProductConstants;
+import daj.product.visible.port.dto.ProductDto;
+import daj.product.visible.port.in.IProductWriteInputPort;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -32,26 +33,26 @@ public class ProductWriterController {
   @PostMapping("/products")
   @ResponseStatus(HttpStatus.CREATED)
   public ProductActionResponse save(@Valid @RequestBody ProductSaveRequest input) {
-    final ProductModel mapped = mapper.saveRequestToEntity(input);
+    final ProductDto mapped = mapper.saveRequestToEntity(input);
     final var saved = writerIP.save(mapped);
     final var response = new ProductActionResponse(saved.getId(), "product saved");
     return response;
   }
 
-  @DeleteMapping(ProductWebConstants.POINT_PRODUCTS_ID)
+  @DeleteMapping(IProductConstants.POINT_PRODUCTS_ID)
   @ResponseStatus(HttpStatus.ACCEPTED)
   public ProductActionResponse delete(@PathVariable Integer id) {
-    final ProductModel deleted = writerIP.delete(id);
+    final ProductDto deleted = writerIP.delete(id);
 
     final var response = new ProductActionResponse(deleted.getId(), "product deleted");
     return response;
   }
 
-  @PutMapping(ProductWebConstants.POINT_PRODUCTS_ID)
+  @PutMapping(IProductConstants.POINT_PRODUCTS_ID)
   @ResponseStatus(HttpStatus.ACCEPTED)
-  public ProductModel update(@PathVariable("id") Integer id, @Valid @RequestBody ProductUpdateRequest input) {
-    final ProductModel mapped = mapper.updateRequestToEntity(input);
-    final ProductModel newInfo = writerIP.update(id, mapped);
+  public ProductDto update(@PathVariable("id") Integer id, @Valid @RequestBody ProductUpdateRequest input) {
+    final ProductDto mapped = mapper.updateRequestToEntity(input);
+    final ProductDto newInfo = writerIP.update(id, mapped);
     return newInfo;
   }
 

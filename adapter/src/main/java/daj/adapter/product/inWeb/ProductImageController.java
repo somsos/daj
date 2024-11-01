@@ -17,9 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 import daj.adapter.product.inWeb.reqAndResp.ProductActionResponse;
 import daj.common.error.ErrorResponse;
 import daj.common.utils.ImageUtility;
-import daj.product.port.in.IProductImageInputPort;
-import daj.product.port.in.dto.ProductImageModel;
-import daj.product.port.in.dto.ProductModel;
+import daj.product.visible.config.IProductConstants;
+import daj.product.visible.port.dto.ProductDto;
+import daj.product.visible.port.dto.ProductImageDto;
+import daj.product.visible.port.in.IProductImageInputPort;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -28,7 +29,7 @@ public class ProductImageController {
 
   private final IProductImageInputPort imageIP;
 
-  @PostMapping(ProductWebConstants.POINT_PRODUCTS_IMAGE)
+  @PostMapping(IProductConstants.POINT_PRODUCTS_IMAGE)
   @ResponseStatus(HttpStatus.CREATED)
   public ProductActionResponse uploadImage(@PathVariable("id") Integer id, @RequestParam("image") MultipartFile file) throws IOException {
     final var imageFile = ImageUtility.compressImage(file.getBytes());
@@ -38,16 +39,16 @@ public class ProductImageController {
       imageName = file.getOriginalFilename();
     }
     
-    final var imageEntity = new ProductImageModel();
+    final var imageEntity = new ProductImageDto();
     imageEntity.setName(imageName);
     imageEntity.setType(file.getContentType());
     imageEntity.setImage(imageFile);
     
-    final var product = new ProductModel();
+    final var product = new ProductDto();
     product.setId(id);
     imageEntity.setProduct(product);
 
-    final ProductImageModel imageSaved = imageIP.saveImage(imageEntity);
+    final ProductImageDto imageSaved = imageIP.saveImage(imageEntity);
 
     final var response = new ProductActionResponse(imageSaved.getId(), "product image saved");
 
@@ -58,13 +59,13 @@ public class ProductImageController {
 
 
 
-  @GetMapping(ProductWebConstants.POINT_PRODUCTS_IMAGE_ID)
+  @GetMapping(IProductConstants.POINT_PRODUCTS_IMAGE_ID)
   public ResponseEntity<byte[]> getImage(@PathVariable Integer id) throws IOException {
 
-    final ProductImageModel image = imageIP.findImageById(id);
+    final ProductImageDto image = imageIP.findImageById(id);
 
     if(image == null) {
-      throw new ErrorResponse(ProductWebConstants.ERROR_IMAGE_NOT_FOUND, 404, "not_found");
+      throw new ErrorResponse(IProductConstants.ERROR_IMAGE_NOT_FOUND, 404, "not_found");
     }
 
     return ResponseEntity
@@ -76,13 +77,13 @@ public class ProductImageController {
 
 
 
-  @DeleteMapping(ProductWebConstants.POINT_PRODUCTS_IMAGE_ID)
+  @DeleteMapping(IProductConstants.POINT_PRODUCTS_IMAGE_ID)
   @ResponseStatus(HttpStatus.ACCEPTED)
   public ProductActionResponse delete(@PathVariable Integer id) {
-    final ProductImageModel deleted = imageIP.delete(id);
+    final ProductImageDto deleted = imageIP.delete(id);
 
     if(deleted == null) {
-      throw new ErrorResponse(ProductWebConstants.ERROR_IMAGE_NOT_FOUND, 404, "not_found");
+      throw new ErrorResponse(IProductConstants.ERROR_IMAGE_NOT_FOUND, 404, "not_found");
     }
 
     final var response = new ProductActionResponse(deleted.getId(), "product image deleted");
