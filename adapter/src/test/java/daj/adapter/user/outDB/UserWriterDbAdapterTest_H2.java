@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
 import daj.adapter.user.outDB.repository.UserRepository;
-import daj.adapter.user.outDB.utils.UserUtilBeans;
+import daj.adapter.user.utils.UserUtilBeans;
 
 @DataJpaTest
 @Import({UserWriterDbAdapter.class, UserUtilBeans.class})

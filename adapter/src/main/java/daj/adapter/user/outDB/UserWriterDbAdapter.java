@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import daj.adapter.user.outDB.entity.RoleEntity;
 import daj.adapter.user.outDB.repository.RoleRepository;
 import daj.adapter.user.outDB.repository.UserRepository;
-import daj.adapter.user.outDB.utils.IUserMapper;
+import daj.adapter.user.utils.IUserMapper;
 import daj.user.visible.port.dto.UserDto;
 import daj.user.visible.port.dto.UserRoleDto;
 import daj.user.visible.port.out.IUserWriterOutputPort;

@@ -22,7 +22,7 @@ import org.testcontainers.junit.jupiter.Container;
 
 import daj.adapter.user.outDB.entity.RoleEntity;
 import daj.adapter.user.outDB.repository.UserRepository;
-import daj.adapter.user.outDB.utils.ErrorConstrainToUserMsg;
+import daj.adapter.user.utils.ErrorConstrainToUserMsg;
 import daj.user.visible.port.dto.UserDto;
 import daj.user.visible.port.dto.UserRoleDto;
 

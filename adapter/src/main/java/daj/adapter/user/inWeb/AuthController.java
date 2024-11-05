@@ -11,7 +11,7 @@ import daj.adapter.user.inWeb.reqAndResp.LoginRequest;
 import daj.adapter.user.inWeb.reqAndResp.LoginResponse;
 import daj.adapter.user.inWeb.reqAndResp.RegisterRequest;
 import daj.adapter.user.inWeb.reqAndResp.RegisterResponse;
-import daj.adapter.user.outDB.utils.IUserMapper;
+import daj.adapter.user.utils.IUserMapper;
 import daj.user.visible.port.dto.UserDto;
 import daj.user.visible.port.in.ILoginInputPort;
 import daj.user.visible.port.in.IRegisterInputPort;

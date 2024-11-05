@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import daj.adapter.common.authConfig.AuthConfig;
 import daj.adapter.user.inWeb.reqAndResp.LoginRequest;
 import daj.adapter.user.inWeb.reqAndResp.RegisterRequest;
-import daj.adapter.user.outDB.utils.UserUtilBeans;
+import daj.adapter.user.utils.UserUtilBeans;
 import daj.user.visible.port.dto.UserDto;
 import daj.user.visible.port.in.ILoginInputPort;
 import daj.user.visible.port.in.IRegisterInputPort;

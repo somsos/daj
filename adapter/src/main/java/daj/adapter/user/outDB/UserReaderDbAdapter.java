@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 import daj.adapter.user.outDB.entity.UserEntity;
 import daj.adapter.user.outDB.repository.UserRepository;
-import daj.adapter.user.outDB.utils.IUserMapper;
+import daj.adapter.user.utils.IUserMapper;
 import daj.user.visible.port.dto.UserDto;
 import daj.user.visible.port.out.IUserReaderOutputPort;
 import lombok.AllArgsConstructor;

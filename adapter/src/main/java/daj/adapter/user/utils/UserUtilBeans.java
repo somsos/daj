@@ -1,4 +1,4 @@
-package daj.adapter.user.outDB.utils;
+package daj.adapter.user.utils;
 
 import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Bean;

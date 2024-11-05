@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import daj.adapter.user.outDB.utils.ErrorConstrainToUserMsg;
+import daj.adapter.user.utils.ErrorConstrainToUserMsg;
 import daj.common.error.Cause;
 import daj.common.error.ErrorResponse;
 import daj.common.error.ErrorResponseBody;

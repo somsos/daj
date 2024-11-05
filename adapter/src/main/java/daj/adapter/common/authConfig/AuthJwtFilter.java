@@ -116,15 +116,13 @@ public class AuthJwtFilter implements Filter {
     }
 
     private UsernamePasswordAuthenticationToken fromAuthInfoToAuthToken(UserDto authInfo) {
-
       final var auths = authInfo.getRoles().stream()
         .map(r -> new RoleEntity(r.getId(), r.getAuthority(), null))
-        .toList();
+        .toList()
+      ;
 
-      final var userDetails = new UsernamePasswordAuthenticationToken(
-        authInfo, null, auths);
-      
-        return userDetails;
+      final var userDetails = new UsernamePasswordAuthenticationToken(authInfo, null, auths);
+      return userDetails;
     
     }
 

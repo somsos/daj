@@ -11,7 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
 import daj.adapter.user.outDB.repository.UserRepository;
-import daj.adapter.user.outDB.utils.UserUtilBeans;
+import daj.adapter.user.utils.UserUtilBeans;
 import daj.user.visible.port.dto.UserDto;
 import jakarta.persistence.EntityManager;
 
