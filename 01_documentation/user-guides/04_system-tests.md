@@ -1,5 +1,8 @@
 # System tests
 
+These tests are implemented in test/java/daj/e2e, and imitate an normal use
+session of a user.
+
 ## Check authentication functionality
 
 We use these 3 endpoints

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import daj.adapter.product.outDB.entity.ProductImageEntity;
 import daj.product.visible.port.dto.ProductImageDto;
@@ -12,9 +13,10 @@ import daj.product.visible.port.dto.ProductImageDto;
 @Mapper
 public interface ProductImageMapper {
 
+  @Mapping(ignore = true, target = "product.owner")
   ProductImageEntity modelToEntity(ProductImageDto source);
 
-  //@Mapping(ignore = true, target = "image")
+  @Mapping(ignore = true, target = "product.owner")
   ProductImageDto entityToModel(ProductImageEntity source);
   
   //make a recoursion error

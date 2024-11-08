@@ -51,7 +51,7 @@ public class LoginServiceTest {
 
     final var tokenToGenerate = "some-token";
 
-    when(this.userReader.getAuthInfoByUsername( any() )).thenReturn(userInDb);
+    when(this.userReader.findByUsername( any() )).thenReturn(userInDb);
     when(this.jwtService.generateToken(any())).thenReturn(tokenToGenerate);
     
     final UserDto output = this.loginService.login(userInput);
@@ -68,7 +68,7 @@ public class LoginServiceTest {
     userInput.setUsername("mario1");
     userInput.setPassword("mario1p");
 
-    when(this.userReader.getAuthInfoByUsername( any() )).thenReturn(null);
+    when(this.userReader.findByUsername( any() )).thenReturn(null);
 
     try {
       this.loginService.login(userInput);  
@@ -91,7 +91,7 @@ public class LoginServiceTest {
     userInput.setUsername("mario1");
     userInput.setPassword("mario1p");
 
-    when(this.userReader.getAuthInfoByUsername( any() )).thenReturn(userInDb);
+    when(this.userReader.findByUsername( any() )).thenReturn(userInDb);
 
     try {
       this.loginService.login(userInput);  

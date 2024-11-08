@@ -1,6 +1,4 @@
-# Requirements
-
-Here will see how to setup previos things to be able to run the project.
+# How to start the project
 
 ## Database
 

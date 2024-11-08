@@ -28,5 +28,6 @@ public interface IProductConstants {
 
   String ERROR_IMAGE_NOT_FOUND = "Image not found";
   String NOT_FOUND = "Product not found";
+  String ERROR_OWNER_NOT_FOUND = "Owner product not found";
 
 }

@@ -20,7 +20,7 @@ public class UserReaderDbAdapter implements IUserReaderOutputPort {
   private final IUserMapper mapper;
 
   @Override
-  public UserDto getAuthInfoByUsername(String username) {
+  public UserDto findByUsername(String username) {
     final UserEntity found = repo.findByUsername(username);
   
     final UserDto foundMapped = mapper.entityToDto(found);
@@ -28,7 +28,7 @@ public class UserReaderDbAdapter implements IUserReaderOutputPort {
   }
 
   @Override
-  public UserDto findAuthById(Integer userId) {
+  public UserDto findById(Integer userId) {
     final UserEntity found = repo.findById(userId).orElse(null);
     
     final UserDto foundMapped = mapper.entityToDto(found);

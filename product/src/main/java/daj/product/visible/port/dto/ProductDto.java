@@ -3,7 +3,9 @@ package daj.product.visible.port.dto;
 import java.util.Date;
 import java.util.List;
 
+import daj.common.depends.user.UserMDto;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@Builder
 @AllArgsConstructor
 public class ProductDto {
 
@@ -27,5 +30,7 @@ public class ProductDto {
   private Date createdAt;
 
   private List<ProductImageDto> images;
+
+  private UserMDto owner;
   
 }

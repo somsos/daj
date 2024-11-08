@@ -4,8 +4,8 @@ import daj.user.visible.port.dto.UserDto;
 
 public interface IUserReaderOutputPort {
   
-  UserDto getAuthInfoByUsername(String username);
+  UserDto findByUsername(String username);
 
-  UserDto findAuthById(Integer userId);
+  UserDto findById(Integer userId);
 
 }

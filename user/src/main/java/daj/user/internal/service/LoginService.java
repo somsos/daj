@@ -22,7 +22,7 @@ public class LoginService implements ILoginInputPort {
 
   @Override
   public UserDto login(UserDto input) {
-    final var userAuthInfoFound = userReader.getAuthInfoByUsername(input.getUsername());
+    final var userAuthInfoFound = userReader.findByUsername(input.getUsername());
 
     if(userAuthInfoFound == null) {
       throw new ErrorResponse("bad credentials", 400, "une");

@@ -16,12 +16,12 @@ import daj.user.visible.port.out.IUserReaderOutputPort;
 public class StuffToNotFail implements IUserReaderOutputPort {
 
   @Override
-  public UserDto getAuthInfoByUsername(String username) {
+  public UserDto findByUsername(String username) {
     throw new UnsupportedOperationException("Unimplemented method 'getAuthInfoByUsername'");
   }
 
   @Override
-  public UserDto findAuthById(Integer userId) {
+  public UserDto findById(Integer userId) {
     throw new UnsupportedOperationException("Unimplemented method 'findAuthById'");
   }
 

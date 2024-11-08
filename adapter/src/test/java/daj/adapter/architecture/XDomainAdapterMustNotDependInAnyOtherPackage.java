@@ -57,6 +57,8 @@ public class XDomainAdapterMustNotDependInAnyOtherPackage {
           "daj.adapter.user.outDB..",
           "daj.adapter.user.utils..",
           //TODO: Watchout little violation here ) think it should access to dto not to entity but I should repeat code
+          "daj.adapter.product.outDB.entity..",
+          "daj.adapter.product.utils",
           "daj.adapter.common.."
         );
       

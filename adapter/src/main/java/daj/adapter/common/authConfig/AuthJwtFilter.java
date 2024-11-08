@@ -11,7 +11,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.log4j.Log4j2;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import daj.adapter.user.outDB.entity.RoleEntity;
+import daj.common.depends.user.UserMDto;
 import daj.common.error.ErrorResponse;
 import daj.user.visible.port.dto.UserDto;
 import daj.user.visible.port.in.IJwtService;
@@ -98,7 +101,7 @@ public class AuthJwtFilter implements Filter {
                 throw new ErrorResponse("invalid token", 400, "expected sub as integer");
             }
 
-            UserDto authInfoFound = userReadings.findAuthById(idUser);
+            UserDto authInfoFound = userReadings.findById(idUser);
 
             // Validate token and set authentication
             boolean validToken = jwtService.validateToken(token, authInfoFound);
@@ -121,7 +124,13 @@ public class AuthJwtFilter implements Filter {
         .toList()
       ;
 
-      final var userDetails = new UsernamePasswordAuthenticationToken(authInfo, null, auths);
+      List<String> roles = new ArrayList<>();
+      if(authInfo.getRoles() != null) {
+        roles = authInfo.getRoles().stream().map(rDto -> rDto.getAuthority()).toList();
+      }
+
+      final var userInfo = new UserMDto(authInfo.getId(), roles);
+      final var userDetails = new UsernamePasswordAuthenticationToken(userInfo, null, auths);
       return userDetails;
     
     }

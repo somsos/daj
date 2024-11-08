@@ -1,7 +1,9 @@
 package daj.user.visible.port.dto;
 
 import java.util.List;
+import java.util.ArrayList;
 
+import daj.common.depends.user.UserMDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,5 +26,16 @@ public class UserDto {
   private String token;
 
  private List<UserRoleDto> roles;
+
+
+ public UserMDto toMDto() {
+    List<String> roles = new ArrayList<>();
+    if(this.getRoles() != null) {
+      roles = this.getRoles().stream().map(r -> r.getAuthority()).toList();
+    }
+    
+    final var mapped = new UserMDto(this.getId(), roles);
+    return mapped;
+ }
   
 }

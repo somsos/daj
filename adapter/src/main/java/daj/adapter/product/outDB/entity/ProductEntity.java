@@ -9,6 +9,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.validator.constraints.Range;
 
+import daj.adapter.user.outDB.entity.UserEntity;
 import daj.product.visible.port.dto.ProductDto;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -16,6 +17,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -65,8 +68,12 @@ public class ProductEntity {
   @Temporal(TemporalType.DATE)
   private Date deletedAt;
 
+  @ManyToOne
+  @JoinColumn(name = "id_owner", nullable = true)
+  private UserEntity owner;
+
   public ProductEntity overwrite(ProductDto newInfo) {
-    final var merged = new ProductEntity(this.id, this.name, this.price, this.amount, this.description, this.createdAt, this.images, this.deletedAt);
+    final var merged = new ProductEntity(id, name, price, amount, description, createdAt, images, deletedAt, owner);
 
     if (newInfo.getAmount() != null) {
       merged.setAmount(newInfo.getAmount());

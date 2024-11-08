@@ -121,7 +121,7 @@ public class AuthControllerTest {
     final var request = post(AuthController.LOGIN_PATH).contentType(MediaType.APPLICATION_JSON)
     .content(objectMapper.writeValueAsString(input));
 
-    when(userDbReader.findAuthById(any())).thenReturn(userInDb);
+    when(userDbReader.findById(any())).thenReturn(userInDb);
     when(loginInputPort.login(any())).thenReturn(output);
     
     //test

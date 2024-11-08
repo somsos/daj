@@ -10,6 +10,8 @@ import daj.adapter.product.inWeb.reqAndResp.ProductDetailsResponse;
 import daj.adapter.product.inWeb.reqAndResp.ProductSaveRequest;
 import daj.adapter.product.inWeb.reqAndResp.ProductUpdateRequest;
 import daj.adapter.product.outDB.entity.ProductEntity;
+import daj.adapter.user.outDB.entity.UserEntity;
+import daj.common.depends.user.UserMDto;
 import daj.product.visible.port.dto.ProductDto;
 import daj.product.visible.port.dto.ProductImageDto;
 
@@ -19,12 +21,31 @@ public interface ProductMapper {
 
   @Mapping(ignore = true, target = "images")
   ProductDto entityToModel(ProductEntity source);
+  default UserMDto mapOwner(UserEntity s) {
+    List<String> roles = new ArrayList<>();
+    if(s.getRoles() != null) {
+      roles = s.getRoles().stream().map(re -> re.getAuthority()).toList();
+    }
+    final var mapped = new UserMDto(s.getId(), roles);
+    return mapped;
+  }
+
 
   @Mapping(ignore = true, target = "images")
   ProductEntity modelToEntity(ProductDto entitySource);
+  default UserEntity mapOwner(UserMDto s) {
+    final var m = new UserEntity();
+    m.setId(s.getId());
+    return m;
+  }
+
 
   //user input
   ProductDto saveRequestToEntity(ProductSaveRequest source);
+  default UserMDto mapOwner(Integer s) {
+    final var m = new UserMDto(s, null);
+    return m;
+  }
 
   ProductDto updateRequestToEntity(ProductUpdateRequest source);
 

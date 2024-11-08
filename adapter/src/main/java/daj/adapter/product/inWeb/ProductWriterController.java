@@ -6,13 +6,17 @@ import daj.adapter.product.inWeb.reqAndResp.ProductActionResponse;
 import daj.adapter.product.inWeb.reqAndResp.ProductSaveRequest;
 import daj.adapter.product.inWeb.reqAndResp.ProductUpdateRequest;
 import daj.adapter.product.utils.ProductMapper;
+import daj.common.depends.user.UserMDto;
 import daj.product.visible.config.IProductConstants;
 import daj.product.visible.port.dto.ProductDto;
 import daj.product.visible.port.in.IProductWriteInputPort;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
+
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,8 +36,11 @@ public class ProductWriterController {
   
   @PostMapping("/products")
   @ResponseStatus(HttpStatus.CREATED)
-  public ProductActionResponse save(@Valid @RequestBody ProductSaveRequest input) {
+  public ProductActionResponse save(@Valid @RequestBody ProductSaveRequest input, Authentication auth) {
     final ProductDto mapped = mapper.saveRequestToEntity(input);
+    final var authUser =  (UserMDto)auth.getPrincipal();
+    mapped.setOwner(authUser);
+
     final var saved = writerIP.save(mapped);
     final var response = new ProductActionResponse(saved.getId(), "product saved");
     return response;

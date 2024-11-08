@@ -31,7 +31,7 @@ public class ProductWriterDBAdapter implements IProductWriterOutputPort {
   public ProductDto delete(Integer toDel) {
     reader.findByIdOrThrow(toDel);
     this.repo.deleteById(toDel);
-    final var output = new ProductDto(1, null, null, null, null, null, null);
+    final var output = new ProductDto(1, null, null, null, null, null, null, null);
     return output;
   }
 

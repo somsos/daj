@@ -7,7 +7,7 @@
     - [is-logged](#is-logged)
     - [check-user-role](#check-user-role)
     - [check-product-role](#check-product-role)
-    - [Products](#products)
+  - [Products](#products)
     - [Save](#save)
     - [Find by id](#find-by-id)
     - [Delete by id](#delete-by-id)
@@ -48,7 +48,7 @@ token should get a 403
 ```bash
 curl -X GET -i \
   --header "Content-Type: application/json" \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAzMzEzNDYsImV4cCI6MTczMDMzMjU0Nn0.PpD7b6-8iwOCWNzgBw1-TCItZ6uKqgOXFGq2zCBEVhs" \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzA4NTM2NTEsImV4cCI6MTczMDg1NDg1MX0.WB-C4OCFNAKKzT8MO6Yi1glm2iBR_vZ_p_aQoP57o-k" \
   http://localhost:8080/auth/is-logged
 ```
 
@@ -57,7 +57,7 @@ curl -X GET -i \
 ```bash
 curl -X GET -i \
   --header "Content-Type: application/json" \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAzMzEzNDYsImV4cCI6MTczMDMzMjU0Nn0.PpD7b6-8iwOCWNzgBw1-TCItZ6uKqgOXFGq2zCBEVhs" \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzA4NTM2NTEsImV4cCI6MTczMDg1NDg1MX0.WB-C4OCFNAKKzT8MO6Yi1glm2iBR_vZ_p_aQoP57o-k" \
   http://localhost:8080/auth/check-user-role
 ```
 
@@ -66,21 +66,21 @@ curl -X GET -i \
 ```bash
 curl -X GET -i \
   --header "Content-Type: application/json" \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAzMzEzNDYsImV4cCI6MTczMDMzMjU0Nn0.PpD7b6-8iwOCWNzgBw1-TCItZ6uKqgOXFGq2zCBEVhs" \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzA4NTM2NTEsImV4cCI6MTczMDg1NDg1MX0.WB-C4OCFNAKKzT8MO6Yi1glm2iBR_vZ_p_aQoP57o-k" \
   http://localhost:8080/auth/check-product-role
 ```
 
 ____
 
-### Products
+## Products
 
 ### Save
 
 ```bash
 curl -X POST -i \
   --header "Content-Type: application/json" \
-  --data '{"name":"trompo1","price":10.10, "amount": 10, "description": "Trompo numero 1" }' \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAzMzEzNDYsImV4cCI6MTczMDMzMjU0Nn0.PpD7b6-8iwOCWNzgBw1-TCItZ6uKqgOXFGq2zCBEVhs" \
+  --data '{"name":"trompo1","price":10.10, "amount": 10, "description": "Trompo numero 1", "idOwner": -99}' \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzA4NTM2NTEsImV4cCI6MTczMDg1NDg1MX0.WB-C4OCFNAKKzT8MO6Yi1glm2iBR_vZ_p_aQoP57o-k" \
   http://localhost:8080/products
 ```
 
@@ -97,7 +97,7 @@ curl -i -X GET \
 ```bash
 curl -X DELETE -i \
   --header "Content-Type: application/json" \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAzMzEzNDYsImV4cCI6MTczMDMzMjU0Nn0.PpD7b6-8iwOCWNzgBw1-TCItZ6uKqgOXFGq2zCBEVhs" \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzA4NTM2NTEsImV4cCI6MTczMDg1NDg1MX0.WB-C4OCFNAKKzT8MO6Yi1glm2iBR_vZ_p_aQoP57o-k" \
   http://localhost:8080/products/1
 ```
 
@@ -106,7 +106,7 @@ curl -X DELETE -i \
 ```bash
 curl -X PUT -i \
   --header "Content-Type: application/json" \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAzMzEzNDYsImV4cCI6MTczMDMzMjU0Nn0.PpD7b6-8iwOCWNzgBw1-TCItZ6uKqgOXFGq2zCBEVhs" \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzA4NTM2NTEsImV4cCI6MTczMDg1NDg1MX0.WB-C4OCFNAKKzT8MO6Yi1glm2iBR_vZ_p_aQoP57o-k" \
   --data '{ "description": "Trompo numero 1111" }' \
   http://localhost:8080/products/1
 ```
@@ -125,7 +125,7 @@ curl -X GET -i \
 
 ```shell
 curl -v \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAzMzEzNDYsImV4cCI6MTczMDMzMjU0Nn0.PpD7b6-8iwOCWNzgBw1-TCItZ6uKqgOXFGq2zCBEVhs" \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzA4NTM2NTEsImV4cCI6MTczMDg1NDg1MX0.WB-C4OCFNAKKzT8MO6Yi1glm2iBR_vZ_p_aQoP57o-k" \
   -F image=@./temporal/small_blue.png  \
   http://localhost:8080/products/1/image
 ```
@@ -140,7 +140,7 @@ curl -i -X GET http://localhost:8080/products/image/1
 
 ```shell
 curl -i -X DELETE \
-  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzAzMzEzNDYsImV4cCI6MTczMDMzMjU0Nn0.PpD7b6-8iwOCWNzgBw1-TCItZ6uKqgOXFGq2zCBEVhs" \
+  --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzA4NTM2NTEsImV4cCI6MTczMDg1NDg1MX0.WB-C4OCFNAKKzT8MO6Yi1glm2iBR_vZ_p_aQoP57o-k" \
   http://localhost:8080/products/image/1
 ```
 

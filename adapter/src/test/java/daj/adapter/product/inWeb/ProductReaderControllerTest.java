@@ -47,7 +47,7 @@ public class ProductReaderControllerTest {
 
   @Test
   void testFindById_success() throws Exception {
-    final var output = new ProductDto(1, "Product 1", 10.0f, 100, "Description 1", new Date(), null);
+    final var output = new ProductDto(1, "Product 1", 10.0f, 100, "Description 1", new Date(), null, null);
     final var image1P1 = new ProductImageDto(1, null, null, null, null);
     final var image2P1 = new ProductImageDto(2, null, null, null, null);
     List<ProductImageDto> product1Images = Arrays.asList(image1P1, image2P1);
@@ -88,13 +88,13 @@ public class ProductReaderControllerTest {
   @Test
   void testFindByPage() throws Exception {
     // Mock the product response
-    final var product1 = new ProductDto(1, "Product 1", 10.0f, 100, "Description 1", new Date(), null);
+    final var product1 = new ProductDto(1, "Product 1", 10.0f, 100, "Description 1", new Date(), null, null);
     final var image1P1 = new ProductImageDto(1, null, null, null, null);
     final var image2P1 = new ProductImageDto(2, null, null, null, null);
     List<ProductImageDto> product1Images = Arrays.asList(image1P1, image2P1);
     product1.setImages(product1Images);
 
-    final var product2 = new ProductDto(2, "Product 2", 20.0f, 200, "Description 2", new Date(), null);
+    final var product2 = new ProductDto(2, "Product 2", 20.0f, 200, "Description 2", new Date(), null, null);
     List<ProductDto> products = Arrays.asList(product1, product2);
 
     // Mock the behavior of the service

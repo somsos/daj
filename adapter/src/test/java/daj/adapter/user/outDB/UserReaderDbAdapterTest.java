@@ -48,15 +48,15 @@ public class UserReaderDbAdapterTest {
   }
 
   @Test
-  @Sql("zzz_test_createUserWithRoles.sql")
+  @Sql("classpath:sql-tests/zzz_test_createUserWithRoles.sql")
   void check_start_import_script() {
-    final UserDto found = userReaderDao.findAuthById(-100);
+    final UserDto found = userReaderDao.findById(-100);
 
     assertNotNull(found);
     assertEquals(2, found.getRoles().size());
 
 
-    final UserDto found2 = userReaderDao.findAuthById(-99);
+    final UserDto found2 = userReaderDao.findById(-99);
     assertEquals(1, found2.getRoles().size());
   }
 

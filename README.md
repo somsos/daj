@@ -1,101 +1,92 @@
 # README
 
 - [README](#readme)
-  - [Documentation guide](#documentation-guide)
-  - [ToDo](#todo)
+  - [How to use this spring, multi-module, hexagonal project template](#how-to-use-this-spring-multi-module-hexagonal-project-template)
+    - [Steps](#steps)
+  - [How to use the documentation](#how-to-use-the-documentation)
+  - [Quick Note](#quick-note)
 
-## Documentation guide
+## How to use this spring, multi-module, hexagonal project template
 
-I'm using:
+The intention of this file is to explain how to use the file *hexagonal_project.zip*
+to create a new project
 
-- Hexagonal architecture
-- Web API Restful Json
-- Multi Modules-Jars
-- Spring boot
-- Postgres
-- Spring jpa
-- Spring security
-- JWT (Stateless)
-- Saving boilerplate code with (lombok, mapstruct, hibernate-validator)
-- TDD (Mockito, WebMvcTest, DataJpaTest)
-- E2E test (SpringBootTest and TestContainers)
+To know about the general features and decisions of the project check
+*01_documentation/guidelines/general-descriptions.md*
 
-To know about how to setup and/or use the application, see *01_documentation/user-guides*.
+### Steps
+
+1, Download and decompress the file *hexagonal_project.zip* in an working directory
+
+1, If is not required the features of product, delete:
+----module product
+----packages
+------package adapter.product
+------dependencies in adapter->pom.xml
+------test.adapter.product
+------fix compilation error in adapter.common.authConfig.AuthConfig (they must be
+--------only because IProductConstants is missing)
+------In AdapterApplication remove the lines to scan in module and adapter.product
+
+1, change the groupID in (use a IDE with automatic refactor renaming) search for
+the last groupId and remplace for the new one, using the IDE multi file searcher,
+and ensure that the change is in.
+
+--common->packages
+--common->pom.xml
+--test.common
+
+--user->packages
+--user->pom.xml
+--test.user
+
+--adapter->packages
+--adapter->pom.xml
+--test.adapter
+
+2, inside each submodule run the below command in the below order
+--2,2, Order: common, user, adapter
+--2,1, Command: mvn dependency:resolve clean install
+--Note: it should run the tests and it should pass all of them.
+
+3, Open the project with the IDE and instantiate an postgres, in the file
+*01_documentation/user-guides/requirements.md* explain how. (docker container)
+
+4, To get familiarized with the code and architecture read the documentation,
+below is explained how to use it.
+
+____
+
+<!--
+
+########################################################################
+########################################################################
+########################################################################
+
+-->
+
+____
+
+<!--
+
+########################################################################
+########################################################################
+########################################################################
+
+-->
+
+## How to use the documentation
+
+To know a general description of the project please see *01_documentation/guidelines/general-descriptions.md*
+
+To know about how to run and/or use the application, see *01_documentation/user-guides*.
 
 To understand how the application works so you can make some modifications, see *01_documentation/guidelines*.
 
-## ToDo
-
-Users
-
-- [X] Add roles
-  - [X] Adding test to check import.sql and Entity models are working as expected
-
-- [X] Add register
-  - [X] Search roles in JWTFilter
-  - [X] Check protection by different roles, for example /add-product, /auth/users/all
-
-- [X] use docker Postgres containers for tests
-
-- [X] Pass Hashing to user module so the check happen inside this module
-
-- [ ] Fixes
-  - [ ] Show error to user when hit with two slashes ex. '<http://localhost:8080//products>'
-
-- [current] Add module products
-  - [X] Add product
-  - [X] Get by ID
-  - [X] Delete
-  - [X] Update
-  - [X] Get products by page
-  - [X] Product images
-    - [X] Upload
-    - [X] Show image by id image
-    - [X] Get images by product id
-    - [X] delete image by id
-    - [X] check delete images when product is deleted
-  - [X] don't delete, mark as deleted
-
-- [X] Understand mapping and find out if there is a simpler way.
-
-- [Current] Documentation
-  - [X] Include Architecture diagram to repository
-  - [Current] Sincronice Diagram with project folder structure
-    - [X] Separate Request/Response objects and keep just DTO in user domain module
-    - [X] In domain modules make changes to see clear what part is public and what one is private
-    - [X] remove dependencies of adapter.user to anything outside of user.port
-    - [X] Export diagram from .drawio to .png (and that it looks fine)
-    - [Current] Sync diagram architecture and code.
-    - [ ] **IMPORTANT** Add ArchUnit tests, to check that the adapter just access to the public part of the domain module
-    - [ ] Check what other diagrams should be useful
-
-- [ ] Create template from this project
-  - [ ] Create essay
-    - [ ] Explain Architecture
-    - [ ] Explain how it works
-    - [ ] Explain what is required
-    - [ ] Explain how to use
-    - [ ] Start a new project using this template following the steps of 'how to use'
-
-- [ ] Frontend
-  - [ ] Create angular project
-
 ____
 
-<!--
+## Quick Note
 
-########################################################################
-########################################################################
-########################################################################
+In AuthConfig separate the conf by domain, so when the product folder is deleted,
+don't be dificult or sensible to delete the product auth config.
 
--->
-
-____
-
-<!--
-
-########################################################################
-########################################################################
-########################################################################
-
--->

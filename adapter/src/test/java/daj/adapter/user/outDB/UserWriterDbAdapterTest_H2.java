@@ -28,7 +28,7 @@ public class UserWriterDbAdapterTest_H2 {
   private JdbcTemplate jdbcTemplate;
 
   @Test
-  @Sql("zzz_test_createUser.sql")
+  @Sql("classpath:sql-tests/zzz_test_createUser.sql")
   void testDelete_mustJustMarkTheUserAsDeleted() {
     var mustExist = repo.findById(1).orElse(null);
     assertEquals(1, mustExist.getId());
