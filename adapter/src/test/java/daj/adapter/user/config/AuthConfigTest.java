@@ -13,7 +13,8 @@ public class AuthConfigTest {
   @Test
   void testPasswordEncoder() {
     final var encoder = new BCryptPasswordEncoder();
-    final String hash = encoder.encode("mario2p");
-    log.info("mario2p = " + hash);
+    final var toEncode = "mario3p";
+    final String hash = encoder.encode(toEncode);
+    log.info(toEncode + " = " + hash);
   }
 }

@@ -18,7 +18,7 @@ Users
   - [ ] Show error to user when hit with two slashes ex. '<http://localhost:8080//products>'
   - [ ] Separate in AuthConfig by adapter.domain.
 
-- [current] Add module products
+- [ ] Add module products
   - [X] Add product
   - [X] Get by ID
   - [X] Delete
@@ -31,22 +31,23 @@ Users
     - [X] delete image by id
     - [X] check delete images when product is deleted
   - [X] don't delete, mark as deleted
-  - [Current] Add owner to product
+  - [X] Add owner to product
   - [ ] Convert from ProductDto constructor to builder
 
 - [X] Understand mapping and find out if there is a simpler way.
 
-- [Current] Documentation
+- [ ] Documentation
   - [X] Include Architecture diagram to repository
-  - [Current] Sincronice Diagram with project folder structure
+  - [ ] Sincronice Diagram with project folder structure
     - [X] Separate Request/Response objects and keep just DTO in user domain module
     - [X] In domain modules make changes to see clear what part is public and what one is private
     - [X] remove dependencies of adapter.user to anything outside of user.port
     - [X] Export diagram from .drawio to .png (and that it looks fine)
     - [X] Sync diagram architecture and code.
     - [X] **IMPORTANT** Add ArchUnit tests, to check that the adapter just access to the public part of the domain module
-    - [Current] Check what other diagrams should be useful
+    - [ ] Check what other diagrams should be useful
       - [ ] Onion diagram
+    - [ ] Left clear
 
 - [X] Create template from this project
   - [X] Create essay
@@ -59,5 +60,5 @@ Users
 - [ ] Testing
   - [ ] Create e2e tests using @SpringBootTest and test-containers
 
-- [ ] Frontend
+- [current] Frontend
   - [ ] Create angular project

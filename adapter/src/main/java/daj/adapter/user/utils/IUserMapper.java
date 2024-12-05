@@ -3,7 +3,6 @@ package daj.adapter.user.utils;
 import org.mapstruct.Mapper;
 
 import daj.adapter.user.inWeb.reqAndResp.LoginRequest;
-import daj.adapter.user.inWeb.reqAndResp.LoginResponse;
 import daj.adapter.user.inWeb.reqAndResp.RegisterRequest;
 import daj.adapter.user.inWeb.reqAndResp.RegisterResponse;
 import daj.adapter.user.outDB.entity.UserEntity;
@@ -19,8 +18,6 @@ public interface IUserMapper {
   UserEntity dtoToEntity(UserDto source);
 
   UserDto loginRequestToDto(LoginRequest input);
-
-  LoginResponse dtoToLoginResponse(UserDto logged);
 
   UserDto registerRequestToDto(@Valid RegisterRequest input);
 

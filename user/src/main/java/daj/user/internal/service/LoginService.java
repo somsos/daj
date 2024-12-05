@@ -36,6 +36,8 @@ public class LoginService implements ILoginInputPort {
 
     final var output = new UserDto();
     output.setId(userAuthInfoFound.getId());
+    output.setRoles(userAuthInfoFound.getRoles());
+    output.setUsername(userAuthInfoFound.getUsername());
     output.setToken(token);
     return output;
   }

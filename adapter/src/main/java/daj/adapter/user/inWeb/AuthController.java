@@ -12,6 +12,7 @@ import daj.adapter.user.inWeb.reqAndResp.LoginResponse;
 import daj.adapter.user.inWeb.reqAndResp.RegisterRequest;
 import daj.adapter.user.inWeb.reqAndResp.RegisterResponse;
 import daj.adapter.user.utils.IUserMapper;
+import daj.adapter.user.utils.ManualUserMapper;
 import daj.user.visible.port.dto.UserDto;
 import daj.user.visible.port.in.ILoginInputPort;
 import daj.user.visible.port.in.IRegisterInputPort;
@@ -40,7 +41,7 @@ public class AuthController {
   public LoginResponse login(@Valid @RequestBody LoginRequest input) {
     final UserDto inputMapped = mapper.loginRequestToDto(input);
     final UserDto logged = loginPortInput.login(inputMapped);
-    final LoginResponse output = mapper.dtoToLoginResponse(logged);
+    final LoginResponse output = ManualUserMapper.dtoToLoginResponse(logged);
     return output;
   }
 

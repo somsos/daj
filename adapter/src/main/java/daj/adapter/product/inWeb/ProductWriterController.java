@@ -13,8 +13,6 @@ import daj.product.visible.port.in.IProductWriteInputPort;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
