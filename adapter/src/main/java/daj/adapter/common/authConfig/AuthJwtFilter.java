@@ -65,6 +65,11 @@ public class AuthJwtFilter implements Filter {
     public void doFilter(ServletRequest requestArg, ServletResponse responseArg, FilterChain filterChain) throws IOException, ServletException {
         final var request = (HttpServletRequest) requestArg;
         final var response = (HttpServletResponse) responseArg;
+        final var method = request.getMethod();
+        if(method.equals("OPTIONS")) {
+          filterChain.doFilter(request, response);
+          return ;
+        }
         
         try {
             this.jwtValidation(request, response, filterChain);

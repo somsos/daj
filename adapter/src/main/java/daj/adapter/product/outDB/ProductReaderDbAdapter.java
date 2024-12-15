@@ -2,8 +2,6 @@ package daj.adapter.product.outDB;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +12,7 @@ import daj.adapter.product.outDB.repository.ProductRepository;
 import daj.adapter.product.utils.ProductImageMapper;
 import daj.adapter.product.utils.ProductMapper;
 import daj.common.error.ErrorResponse;
+import daj.common.types.AppPage;
 import daj.product.visible.config.IProductConstants;
 import daj.product.visible.port.dto.ProductDto;
 import daj.product.visible.port.dto.ProductImageDto;
@@ -53,7 +52,7 @@ public class ProductReaderDbAdapter implements IProductReaderOutputPort {
   }
 
   @Override
-  public Page<ProductDto> findByPage(int page, int size) {
+  public AppPage<ProductDto> findByPage(final int page, final int size) {
     final var pageFound = repo.findAll(PageRequest.of(page, size));
     final List<ProductDto> contentMapped = mapper.listEntitiesToModels(pageFound.getContent());
 
@@ -65,9 +64,13 @@ public class ProductReaderDbAdapter implements IProductReaderOutputPort {
       }
     });
     
-    
-    final var pageMapped = new PageImpl<>(contentMapped, pageFound.getPageable(), pageFound.getSize());
+    final var total = getTotalProducts();
+    final var pageMapped = new AppPage<ProductDto>(contentMapped, total, page);
     return pageMapped;
+  }
+
+  private int getTotalProducts() {
+    return this.repo.findAll().size();
   }
 
 }

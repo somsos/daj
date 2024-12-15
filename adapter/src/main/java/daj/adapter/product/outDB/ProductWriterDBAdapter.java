@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 import daj.adapter.product.outDB.entity.ProductEntity;
 import daj.adapter.product.outDB.repository.ProductRepository;
 import daj.adapter.product.utils.ProductMapper;
+import daj.common.error.ErrorResponse;
+import daj.product.visible.config.IProductConstants;
 import daj.product.visible.port.dto.ProductDto;
 import daj.product.visible.port.out.IProductWriterOutputPort;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +31,11 @@ public class ProductWriterDBAdapter implements IProductWriterOutputPort {
 
   @Override
   public ProductDto delete(Integer toDel) {
-    reader.findByIdOrThrow(toDel);
-    this.repo.deleteById(toDel);
+    final var found = repo.findIfExistsById(toDel);
+    if(found == null) {
+      throw new ErrorResponse(IProductConstants.NOT_FOUND, 404, "not_found");
+    }
+    this.repo.deleteById(found);
     final var output = new ProductDto(1, null, null, null, null, null, null, null);
     return output;
   }

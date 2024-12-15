@@ -64,7 +64,9 @@ public class AuthConfig {
                     AuthController.REGISTER_PATH,
                     AuthController.LOGIN_PATH
                     ).permitAll()
-                
+
+                .requestMatchers(HttpMethod.OPTIONS, "**").permitAll()
+
                 .requestMatchers(HttpMethod.GET,
                         IProductConstants.POINT_PRODUCTS_IMAGE_ID,
                         IProductConstants.POINT_PRODUCTS_ID,

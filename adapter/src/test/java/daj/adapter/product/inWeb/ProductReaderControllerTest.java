@@ -15,14 +15,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import daj.adapter.common.authConfig.AuthConfig;
 import daj.adapter.product.utils.ProductUtilBeans;
+import daj.common.types.AppPage;
 import daj.product.visible.config.IProductConstants;
 import daj.product.visible.port.dto.ProductDto;
 import daj.product.visible.port.dto.ProductImageDto;
@@ -98,7 +97,7 @@ public class ProductReaderControllerTest {
     List<ProductDto> products = Arrays.asList(product1, product2);
 
     // Mock the behavior of the service
-    final Page<ProductDto> pageFound = new PageImpl<>(products);
+    final var pageFound = new AppPage<ProductDto>(products, 10, 0);
     when(productReaderInputPort.findByPage(0, 10)).thenReturn(pageFound);
 
     // Perform the GET request

@@ -1,6 +1,7 @@
 package daj.adapter.product.outDB.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import daj.adapter.product.outDB.entity.ProductEntity;
@@ -10,5 +11,8 @@ import daj.adapter.product.outDB.entity.ProductEntity;
 public interface ProductRepository extends JpaRepository<ProductEntity, Integer> {
 
   ProductEntity findByName(String name);
+
+  @Query("select p.id from ProductEntity p where p.id = ?1")
+  Integer findIfExistsById(Integer id);
   
 }

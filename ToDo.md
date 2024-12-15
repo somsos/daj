@@ -61,4 +61,9 @@ Users
   - [ ] Create e2e tests using @SpringBootTest and test-containers
 
 - [current] Frontend
-  - [ ] Create angular project
+  - Check ToDo of frontend
+
+- [Bugs]
+  - [X] Fix error on images product cascade on product delete
+  - [X] Avoid check token when the request have method OPTIONS (for cors)
+  - 

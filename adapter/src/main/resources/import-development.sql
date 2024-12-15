@@ -3,9 +3,9 @@
 
 --Roles
 INSERT INTO roles(id, authority) VALUES(-53, 'ROLE_registered');
-INSERT INTO roles(id, authority) VALUES(-55, 'ROLE_users');
-INSERT INTO roles(id, authority) VALUES(-56, 'ROLE_products');
-INSERT INTO roles(id, authority) VALUES(-57, 'ROLE_cashier');
+INSERT INTO roles(id, authority) VALUES(-55, 'ROLE_admin_users');
+INSERT INTO roles(id, authority) VALUES(-56, 'ROLE_admin_products');
+INSERT INTO roles(id, authority) VALUES(-57, 'ROLE_admin_sells');
 
 
 --Mario1

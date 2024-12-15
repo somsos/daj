@@ -22,7 +22,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "product_images")
-@SQLDelete(sql = "UPDATE products SET deleted_at = now() WHERE id=?")
+@SQLDelete(sql = "UPDATE product_images SET deleted_at = now() WHERE id=?")
 @SQLRestriction("deleted_at IS NULL")
 @NoArgsConstructor
 @AllArgsConstructor

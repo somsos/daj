@@ -61,3 +61,41 @@ domain doesn't depend of outside layers.
 **Save boilerplate** using libraries in my case `mapstruct` is easy to use and
 I try to don't make it do complex things as map lists inside od the object to map,
 for this the library give us the option to implement it ourselves.
+
+#### org.springframework.data.jpa.repository.Query and @Entity
+
+I had an error
+
+```java
+
+org.hibernate.query.sqm.UnknownEntityException: 
+//Could not resolve root entity 'UserEntity' JPA and Spring Boot
+
+//In this line
+@Query("select p.id from ProductEntity p where p.id = ?1")
+
+// trying to use this entity
+@Entity(name = "products")      // <- here is the error
+@Table()                        // <- here is the error
+public class ProductEntity { ... }
+
+```
+
+this because it is different to use name in @Entity or @Table.
+
+when is used it in @Entity as above change the name to look in the HQL so in the
+case of above should be `@Query("... products ...")`.
+
+when is used it in @Table change the name in the DB motor.
+
+Solution: be careful where we use the parameter name.
+
+```java
+@Entity() // <- remove name, so keeps the same name of the class on the HQL
+@Table(name = "products") 
+public class ProductEntity { ... }
+
+-----
+
+@Query("select p.id from ProductEntity p where p.id = ?1")
+```

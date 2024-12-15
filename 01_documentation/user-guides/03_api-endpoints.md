@@ -12,8 +12,8 @@
     - [Find by id](#find-by-id)
     - [Delete by id](#delete-by-id)
     - [Update by id](#update-by-id)
-    - [Product image](#product-image)
     - [Find by page](#find-by-page)
+    - [Product image](#product-image)
     - [Upload image](#upload-image)
     - [See image](#see-image)
     - [delete image](#delete-image)
@@ -99,6 +99,12 @@ curl -X DELETE -i \
   --header "Content-Type: application/json" \
   --header "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItOTkiLCJpYXQiOjE3MzA4NTM2NTEsImV4cCI6MTczMDg1NDg1MX0.WB-C4OCFNAKKzT8MO6Yi1glm2iBR_vZ_p_aQoP57o-k" \
   http://localhost:8080/products/1
+
+
+curl 'http://localhost:8080/products/1' -i \
+  -X 'DELETE' \
+  -H 'Accept: application/json, text/plain, */*' \
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiItMTAwIiwiaWF0IjoxNzM0MTM0MTg0LCJleHAiOjE3MzQxMzUzODR9.vKHxcd3Qoffm7uw0ba0MUHG303gcCQdsps0BZMjwAf0'
 ```
 
 ### Update by id
@@ -110,16 +116,86 @@ curl -X PUT -i \
   --data '{ "description": "Trompo numero 1111" }' \
   http://localhost:8080/products/1
 ```
-
-### Product image
-
 ### Find by page
+
+Request
 
 ```shell
 curl -X GET -i \
   --header "Content-Type: application/json" \
-  "http://localhost:8080/products/page?page=1&size=5"
+  "http://localhost:8080/products/page?page=0&size=5"
 ```
+
+Response
+
+```json
+{
+   "content" : [
+      {
+         "amount" : 25,
+         "id" : 6,
+         "images" : [],
+         "name" : "Wireless Earbuds",
+         "price" : 49.99
+      },
+      {
+         "amount" : 100,
+         "id" : 7,
+         "images" : [],
+         "name" : "Backpack",
+         "price" : 39.99
+      },
+      {
+         "amount" : 35,
+         "id" : 8,
+         "images" : [],
+         "name" : "LED Desk Lamp",
+         "price" : 34.99
+      },
+      {
+         "amount" : 60,
+         "id" : 9,
+         "images" : [],
+         "name" : "Notebooks Set",
+         "price" : 12.5
+      },
+      {
+         "amount" : 15,
+         "id" : 10,
+         "images" : [],
+         "name" : "Cooking Utensils Set",
+         "price" : 19.99
+      }
+   ],
+   "empty" : false,
+   "first" : false,
+   "last" : true,
+   "number" : 1,
+   "numberOfElements" : 5,
+   "pageable" : {
+      "offset" : 5,
+      "pageNumber" : 1,
+      "pageSize" : 5,
+      "paged" : true,
+      "sort" : {
+         "empty" : true,
+         "sorted" : false,
+         "unsorted" : true
+      },
+      "unpaged" : false
+   },
+   "size" : 5,
+   "sort" : {
+      "empty" : true,
+      "sorted" : false,
+      "unsorted" : true
+   },
+   "totalElements" : 10,
+   "totalPages" : 2
+}
+```
+
+### Product image
 
 ### Upload image
 

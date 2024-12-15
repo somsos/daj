@@ -5,12 +5,11 @@ import org.springframework.web.bind.annotation.RestController;
 import daj.adapter.product.inWeb.reqAndResp.ProductDetailsResponse;
 import daj.adapter.product.utils.ProductMapper;
 import daj.common.error.ErrorResponse;
+import daj.common.types.AppPage;
 import daj.product.visible.config.IProductConstants;
 import daj.product.visible.port.in.IProductReadInputPort;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,12 +36,13 @@ public class ProductReaderController {
   
 
   @GetMapping(IProductConstants.POINT_PRODUCTS_BY_PAGE)
-  public Page<ProductDetailsResponse> findByPage(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+  public AppPage<ProductDetailsResponse> findByPage(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
     final var pageFound = readerIP.findByPage(page, size);
 
     //create response
     final var contentMapped = mapper.listModelsToDetails(pageFound.getContent());
-    final var pageResponse = new PageImpl<ProductDetailsResponse>(contentMapped, pageFound.getPageable(), pageFound.getSize());
+    //final var pageResponse = new PageImpl<ProductDetailsResponse>(contentMapped, pageFound.getPageable(), pageFound.getSize());
+    final var pageResponse = new AppPage<>(contentMapped, pageFound.getTotalElements(), pageFound.getNumber());
     return pageResponse;
   }
 

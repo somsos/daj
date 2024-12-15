@@ -22,6 +22,10 @@ public interface ProductMapper {
   @Mapping(ignore = true, target = "images")
   ProductDto entityToModel(ProductEntity source);
   default UserMDto mapOwner(UserEntity s) {
+    if(s == null) {
+      return null;
+    }
+    
     List<String> roles = new ArrayList<>();
     if(s.getRoles() != null) {
       roles = s.getRoles().stream().map(re -> re.getAuthority()).toList();
