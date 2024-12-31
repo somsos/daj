@@ -1,5 +1,14 @@
 # WHAT DID I LEARNED
 
+- [WHAT DID I LEARNED](#what-did-i-learned)
+  - [Mapping](#mapping)
+    - [Why I choose Two ways mapping](#why-i-choose-two-ways-mapping)
+    - [Pitfalls for mapping objects](#pitfalls-for-mapping-objects)
+  - [Errors](#errors)
+    - [org.springframework.data.jpa.repository.Query and @Entity](#orgspringframeworkdatajparepositoryquery-and-entity)
+  - [Considerations to start a project](#considerations-to-start-a-project)
+    - [Don't use Dates, use Timestamps](#dont-use-dates-use-timestamps)
+
 ## Mapping
 
 Whe have several ways to manage our objects to transport and work with our data,
@@ -45,7 +54,7 @@ to understand the whole is easier for us.
 
 [Diagram of two ways]
 
-### Pitfalls
+### Pitfalls for mapping objects
 
 Caution It could be tempting to inherent from the DTO, but this is not a good
 idea, because **ProductSaveRequest is not a ProductDTO**, the first one is to get the
@@ -62,7 +71,9 @@ domain doesn't depend of outside layers.
 I try to don't make it do complex things as map lists inside od the object to map,
 for this the library give us the option to implement it ourselves.
 
-#### org.springframework.data.jpa.repository.Query and @Entity
+## Errors
+
+### org.springframework.data.jpa.repository.Query and @Entity
 
 I had an error
 
@@ -99,3 +110,13 @@ public class ProductEntity { ... }
 
 @Query("select p.id from ProductEntity p where p.id = ?1")
 ```
+
+## Considerations to start a project
+
+### Don't use Dates, use Timestamps
+
+When you add a Date to save in a database, in my case the field created_at, i had
+the problem od when I started to order them by creating_date, they didn't change
+the order as I wanted because they had been created the same day.
+
+And the recommended way is to save the timestamp that includes

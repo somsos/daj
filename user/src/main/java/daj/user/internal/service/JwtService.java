@@ -103,14 +103,14 @@ public class JwtService implements IJwtService {
 
     private ErrorResponse castException(Exception ex) {
         if(ex instanceof ExpiredJwtException) {
-            return new ErrorResponse("invalid token", 400, "expired");
+            return new ErrorResponse("Sesion expirada, reinicie su sesion ", 400, "expired");
         }
 
         if(ex instanceof SignatureException) {
-            return new ErrorResponse("invalid token", 400, "signature"); 
+            return new ErrorResponse("Error inesperado, trate reiniciar su sesion", 400, "invalid token, signature");
         }
         
-        return new ErrorResponse("invalid token", 400, "unknown");
+        return new ErrorResponse("invalid token, trate reiniciar su sesion", 400, "unknown error token");
     }
 
 }

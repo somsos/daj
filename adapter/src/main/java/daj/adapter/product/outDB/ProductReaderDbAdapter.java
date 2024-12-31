@@ -42,8 +42,9 @@ public class ProductReaderDbAdapter implements IProductReaderOutputPort {
 
   @Override
   public ProductDto findDetailsById(Integer id) {
-    ProductEntity found = this.findByIdOrThrow(id);
-    List<ProductImageEntity> images = imageRepo.findByProductId(found.getId());
+    final var found = this.findByIdOrThrow(id);
+    final var images = imageRepo.findByProductId(found.getId());
+    ProductImageEntity.orderImagesNewerFirst(images);
 
     final ProductDto output = mapper.entityToModel(found);
     List<ProductImageDto> imagesOut = images.stream().map(e -> imageMapper.entityToModel(e)).toList();
@@ -52,10 +53,10 @@ public class ProductReaderDbAdapter implements IProductReaderOutputPort {
   }
 
   @Override
-  public AppPage<ProductDto> findByPage(final int page, final int size) {
-    final var pageFound = repo.findAll(PageRequest.of(page, size));
+  public AppPage<ProductDto> findByPage(final int page, final int itemsPerPage) {
+    final var pageFound = repo.findAllByOrderByIdAsc(PageRequest.of(page, itemsPerPage));
+    ProductImageEntity.orderProductsImages(pageFound.getContent());
     final List<ProductDto> contentMapped = mapper.listEntitiesToModels(pageFound.getContent());
-
     contentMapped.forEach(pm -> {
       final var pe = pageFound.getContent().stream().filter(e -> e.getId() == pm.getId()).findFirst().orElse(null);
       if(pe != null) {
@@ -65,7 +66,7 @@ public class ProductReaderDbAdapter implements IProductReaderOutputPort {
     });
     
     final var total = getTotalProducts();
-    final var pageMapped = new AppPage<ProductDto>(contentMapped, total, page);
+    final var pageMapped = new AppPage<ProductDto>(contentMapped, total, page, itemsPerPage);
     return pageMapped;
   }
 

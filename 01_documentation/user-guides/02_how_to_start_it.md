@@ -11,7 +11,7 @@ docker run --name jab_db --rm \
   -e POSTGRES_DB=jab_db_test \
   -e POSTGRES_USER=jab_db_user \
   -e POSTGRES_PASSWORD=jab_db_pass \
-  -d postgres:14-alpine3.16
+  postgres:17.2-alpine3.21
 ```
 
 To check if the instance was created we can connect to it using.
@@ -25,5 +25,6 @@ psql -h 127.0.0.1 -p 5001 -U jab_db_user -d jab_db_test
 Inside of adapter folder run.
 
 ```shell
+cd adapter/
 mvn spring-boot:run
 ```

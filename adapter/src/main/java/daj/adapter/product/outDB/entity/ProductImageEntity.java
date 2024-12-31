@@ -1,7 +1,10 @@
 package daj.adapter.product.outDB.entity;
 
-import java.util.Date;
+import java.util.List;
+import java.util.Collections;
+import java.util.Comparator;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -48,8 +51,30 @@ public class ProductImageEntity {
   @JoinColumn(name = "id_product", nullable = false)
   private ProductEntity product;
 
-  @Column(name="deleted_at", nullable = true)
-  @Temporal(TemporalType.DATE)
-  private Date deletedAt;
+  @Column(
+    name="created_at",
+    nullable = false,
+    updatable = false
+  )
+  @Temporal(TemporalType.TIMESTAMP)
+  @CreationTimestamp
+  private java.sql.Timestamp createdAt;
+
+  @Column(name="deleted_at", nullable = true, updatable = false)
+  @Temporal(TemporalType.TIMESTAMP)
+  private java.sql.Timestamp deletedAt;
+
+  public static void orderImagesNewerFirst(List<ProductImageEntity> images) {
+      Collections.sort(images, new Comparator<ProductImageEntity>() {
+        @Override
+        public int compare(ProductImageEntity o1, ProductImageEntity o2) {
+          return o2.getCreatedAt().compareTo(o1.getCreatedAt());
+        }
+      });
+  }
+
+  public static void orderProductsImages(List<ProductEntity> products) {
+    products.forEach(p -> orderImagesNewerFirst(p.getImages()));
+  }
   
 }

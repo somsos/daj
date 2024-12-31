@@ -9,7 +9,7 @@ import daj.product.visible.port.out.IProductReaderOutputPort;
 
 @Profile("test")
 @Component
-public class ProductReaderOutputPort implements IProductReaderOutputPort {
+public class ProductReaderOutputPortMock implements IProductReaderOutputPort {
 
   @Override
   public ProductDto findDetailsById(Integer input) {

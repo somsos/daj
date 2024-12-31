@@ -97,7 +97,7 @@ public class ProductReaderControllerTest {
     List<ProductDto> products = Arrays.asList(product1, product2);
 
     // Mock the behavior of the service
-    final var pageFound = new AppPage<ProductDto>(products, 10, 0);
+    final var pageFound = new AppPage<ProductDto>(products, 10, 0, 10);
     when(productReaderInputPort.findByPage(0, 10)).thenReturn(pageFound);
 
     // Perform the GET request
